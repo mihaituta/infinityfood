@@ -40,7 +40,6 @@
                 </v-flex>
             </v-layout>
         </v-container>
-
 </template>
 
 <script>
@@ -88,9 +87,6 @@
                 this.$store.dispatch('login',formData)
             }
         },
-        components: {
-            authHeader
-        }
     }
 </script>
 

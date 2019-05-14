@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from './axios-auth'
-import router from './router'
+import axios from '../axios-auth'
+import router from '../router'
+import menusStore from './menusStore'
 
 Vue.use(Vuex)
 
@@ -9,16 +10,22 @@ export default new Vuex.Store({
     state: {
         token: null,
         user: {
+            name: null,
+            email: null,
             role_id: null
         }
     },
     mutations: {
         authUser(state, userData) {
             state.token = userData.token
+            state.user.name = userData.name
+            state.user.email = userData.email
             state.user.role_id = userData.role_id
         },
         clearAuthData(state) {
             state.token = null
+            state.user.name = null
+            state.user.email = null
             state.user.role_id = null
         }
     },
@@ -27,7 +34,6 @@ export default new Vuex.Store({
             axios.post('/login', {
                 email: authData.email,
                 password: authData.password,
-                returnSecureToken: true
             })
                 .then(res => {
                     console.log(res)
@@ -58,7 +64,9 @@ export default new Vuex.Store({
             }
             axios.get('/user').then(res => {
                 commit('authUser', {
-                    token,
+                    token: token,
+                    name: res.data.data.name,
+                    email: res.data.data.email,
                     role_id: res.data.data.role_id
                 })
             }).catch(error => console.log(error))
@@ -74,6 +82,9 @@ export default new Vuex.Store({
         isAuthenticated(state) {
             return state.token !== null
         }
+    },
+    modules: {
+        menusStore
     }
 })
 

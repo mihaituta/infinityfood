@@ -1,11 +1,8 @@
 <template>
   <div class="home">
-    <div id="nav">
       <router-link to="/">Home</router-link>
       <router-link to="/login">Login</router-link>
       <router-view/>
-    </div>
-    <img alt="Vue logo" src="../assets/logo.png">
   </div>
 </template>
 
