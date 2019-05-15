@@ -5,7 +5,9 @@ import store from './store/store'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import Vuelidate from 'vuelidate'
+import notification from './components/utils/notifications'
 
+Vue.component('notification',notification);
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(Vuelidate)

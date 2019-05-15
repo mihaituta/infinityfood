@@ -7,6 +7,7 @@ import Stores from './components/admin/stores'
 import Menus from './components/staff/menus'
 import Store from './components/staff/store'
 import store from './store/store'
+import axios from "axios";
 
 Vue.use(Router)
 
@@ -46,6 +47,9 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     if (to.meta.requiresAuth) {
         const token = localStorage.getItem('token')
+        if (token) {
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
+        }
         if (!token) next({name: 'login'})
         else if (to.meta.adminAuth) {
             if (store.getters.role_id === null) {

@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import axios from '../axios-auth'
 import router from '../router'
 import menusStore from './menusStore'
-
 Vue.use(Vuex)
 
 export default new Vuex.Store({
