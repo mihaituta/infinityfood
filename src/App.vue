@@ -30,5 +30,7 @@
 </script>
 
 <style>
-
+    button{
+        text-transform: none;
+    }
 </style>

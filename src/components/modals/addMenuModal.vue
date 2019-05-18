@@ -24,41 +24,41 @@
         <!--                <v-icon size="21px">close</v-icon>-->
         <!--            </v-btn>-->
         <!--        </v-snackbar>-->
-        <notification text="Menu added successfully!" color="rgb(76, 175, 80, 0.9)"
+        <notification text="Meniul a fost adăugat cu succes!" color="rgb(76, 175, 80, 0.9)"
                       :showNotification="show"></notification>
         <v-btn
                 color="primary"
                 dark
                 @click="dialog = true"
         >
-            <v-icon left>library_add</v-icon>
-            Add menu
+            <v-icon class="pr-2">library_add</v-icon>
+            Adaugă meniu
 
         </v-btn>
 
         <v-dialog
                 v-model="dialog"
                 max-width="25%"
-                transition="slide-y-transition"
+                transition="scale-transition"
         >
             <v-card>
-                <v-card-title class="pb-2">
+                <v-card-title class="pb-2 pt-4">
                     <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
                         <div class="title">
                             <v-icon>fastfood</v-icon>
-                            Add Menu
+                            Adaugă meniu
                         </div>
                     </v-flex>
                 </v-card-title>
                 <v-form ref="form">
                     <v-card-text class="pt-0 pb-0">
-                        <v-container>
+                        <v-container class="pl-3 pr-3 pb-2">
                             <v-layout column>
                                 <v-flex xs12>
                                     <v-text-field
                                             prepend-icon="create"
                                             v-model="menu.name"
-                                            label="Name"
+                                            label="Nume"
                                             :error-messages="nameErrors"
                                             required
                                             @input="$v.menu.name.$touch()"
@@ -69,7 +69,7 @@
                                     <v-text-field
                                             prepend-icon="description"
                                             v-model="menu.description"
-                                            label="Description"
+                                            label="Descriere"
                                             :error-messages="descriptionErrors"
                                             required
                                             @input="$v.menu.description.$touch()"
@@ -81,7 +81,7 @@
                                             prepend-icon="attach_money"
                                             v-model="menu.price"
                                             type="number"
-                                            label="Price"
+                                            label="Preț"
                                             min="0"
                                             oninput="this.value = Math.abs(this.value)"
                                             :error-messages="priceErrors"
@@ -90,12 +90,11 @@
                                             @blur="$v.menu.price.$touch()"
                                     ></v-text-field>
                                 </v-flex>
-
                                 <v-flex xs12>
                                     <v-select
                                             prepend-icon="restaurant_menu"
                                             :items=types
-                                            label="Type"
+                                            label="Tip mâncare"
                                             v-model="menu.type"
                                             :error-messages="typeErrors"
                                             required
@@ -103,35 +102,40 @@
                                             @blur="$v.menu.type.$touch()"
                                     ></v-select>
                                 </v-flex>
-
                                 <input
                                         type="file"
                                         style="display:none"
                                         ref="image"
                                         accept="image/*"
-                                        @change="onFilePicked"
+                                        @change="onFileChanged"
                                         required
                                 >
-                                <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center mt-3">
-                                    <v-btn @click="pickFile" color="primary" style="margin:0">
-                                        upload image
+                                <v-flex xs12
+                                        class="text-xs-center text-sm-center text-md-center text-lg-center mt-2">
+                                    <v-btn @click="pickFile" color="primary" class="ma-0">
+                                       Încarcă imagine
                                         <v-icon right dark>cloud_upload</v-icon>
                                     </v-btn>
+                                    <div v-if="imageTooBig" style="color:red;"
+                                         class="subheading font-weight-light mt-3">
+<!--                                        Image is too big, resolution must be 1920x1080 or lower.-->
+                                        Imaginea este prea mare, rezoluția trebuie să fie 1920x1080 sau mai mică.
+                                    </div>
                                 </v-flex>
 
-                                <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center mt-1">
+                                <v-flex xs12
+                                        class="text-xs-center text-sm-center text-md-center text-lg-center mt-3">
                                     <img :src="imageUrl" height="120" v-if="imageUrl"/>
                                 </v-flex>
                                 <v-flex class="text-xs-center text-sm-center text-md-center text-lg-center">
-
                                     <div v-if="imageName" class="subheading font-weight-light">{{imageName}}</div>
                                 </v-flex>
                             </v-layout>
                         </v-container>
                         <v-card-actions class="pb-3">
                             <v-spacer></v-spacer>
-                            <v-btn color="error" @click="dialog = false">Close</v-btn>
-                            <v-btn color="primary" @click.prevent="submit">Add menu</v-btn>
+                            <v-btn color="error" @click="dialog = false">Închide</v-btn>
+                            <v-btn color="primary" @click.prevent="onSubmit">Adaugă</v-btn>
                         </v-card-actions>
                     </v-card-text>
                 </v-form>
@@ -142,13 +146,13 @@
 
 <script>
     import {required, minValue} from 'vuelidate/lib/validators';
-
     export default {
         data() {
             return {
                 dialog: false,
                 imageUrl: '',
                 imageName: '',
+                imageTooBig: false,
                 types: ['Starter', 'Main', 'Dessert', 'Drink', 'Pizza', 'Fastfood'],
                 menu: {
                     name: '',
@@ -180,62 +184,65 @@
                 this.menu.image = null;
                 this.imageUrl = '';
                 this.imageName = '';
+                this.imageTooBig = false;
             }
         },
         computed: {
             nameErrors() {
                 const errors = [];
                 if (!this.$v.menu.name.$dirty) return errors;
-                !this.$v.menu.name.required && errors.push('Name is required');
+                !this.$v.menu.name.required && errors.push('Numele este obligatoriu');
                 return errors;
             },
             descriptionErrors() {
                 const errors = [];
                 if (!this.$v.menu.description.$dirty) return errors;
-                !this.$v.menu.description.required && errors.push('Description is required');
+                !this.$v.menu.description.required && errors.push('Descrierea este obligatorie');
                 return errors;
             },
             priceErrors() {
                 const errors = [];
                 if (!this.$v.menu.price.$dirty) return errors;
-                !this.$v.menu.price.required && errors.push('Price is required');
-                !this.$v.menu.price.minValue && errors.push('Price cannot be negative');
+                !this.$v.menu.price.required && errors.push('Prețul este obligatoriu');
+                !this.$v.menu.price.minValue && errors.push('Prețul nu poate fi negativ');
                 return errors;
             },
             typeErrors() {
                 const errors = [];
                 if (!this.$v.menu.type.$dirty) return errors;
-                !this.$v.menu.type.required && errors.push('Type is required');
-                return errors;
-            },
-            imageErrors() {
-                const errors = [];
-                if (!this.$v.menu.image.$dirty) return errors;
-                !this.$v.menu.image.required && errors.push('Image is required');
+                !this.$v.menu.type.required && errors.push('Tipul mâncării este obligatoriu');
                 return errors;
             }
-
         },
         methods: {
             addNotification() {
                 this.show = false;
                 setTimeout(() => {
                     this.show = true;
-
                 }, 100);
             },
             pickFile() {
                 this.$refs.image.click();
             },
-            onFilePicked(e) {
+            onFileChanged(e) {
                 const file = e.target.files[0];
+                if (file && file.size > 1920 * 1080) {
+                    this.imageTooBig = true;
+                    this.menu.image = null;
+                    this.imageName = '';
+                    this.imageUrl = '';
+                    return;
+                }
                 if (file !== undefined) {
                     this.imageName = file.name;
+                } else {
+                    return;
                 }
+                this.imageTooBig = false;
                 this.menu.image = file;
                 this.imageUrl = URL.createObjectURL(file);
             },
-            submit() {
+            onSubmit() {
                 this.$v.$touch();
                 if (this.$v.$pending || this.$v.$error) return;
 
@@ -247,11 +254,14 @@
                 formData.append('price', menuData.price);
                 formData.append('image', menuData.image);
                 formData.append('type', menuData.type);
-                this.$store.dispatch('addMenu', formData);
-                this.dialog = false;
-                this.addNotification();
-            }
 
+                this.$store.dispatch('addMenu', formData).then((res) => {
+                    if (res.responseType === 'success') {
+                        this.dialog = false;
+                        this.addNotification();
+                    }
+                });
+            }
         }
     };
 </script>

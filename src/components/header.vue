@@ -4,19 +4,19 @@
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
             <v-btn flat to="/admin/stores">
-                <v-icon left>restaurant</v-icon>
-                Home
+                <v-icon class="pr-2">restaurant</v-icon>
+                Acasă
             </v-btn>
             <v-btn flat to="/admin/users">
-                <v-icon left>people</v-icon>
-                Menus
+                <v-icon class="pr-2">people</v-icon>
+                Meniuri
             </v-btn>
             <v-btn flat to="/staff/store">
-                <v-icon left>restaurant</v-icon>
-                About
+                <v-icon class="pr-2">restaurant</v-icon>
+                Despre noi
             </v-btn>
             <v-btn flat to="/staff/menus">
-                <v-icon left>fastfood</v-icon>
+                <v-icon class="pr-2">fastfood</v-icon>
                 Contact
             </v-btn>
         </v-toolbar-items>

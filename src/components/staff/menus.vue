@@ -1,10 +1,6 @@
 <template>
     <v-container fluid style="width:80%">
-        <!--        <v-btn color="primary" dark>-->
-        <!--            ADD MENU-->
-        <!--            <v-icon right>add</v-icon>-->
-        <!--        </v-btn>-->
-        <notification text="Menu deleted successfully!" color="rgb(255, 82, 82, 0.9)"
+        <notification text="Meniul a fost șters cu succes!" color="rgb(255, 82, 82, 0.9)"
                       :showNotification="bool"></notification>
         <add-modal/>
         <v-tabs fixed-tabs color="transparent" centered>
@@ -15,22 +11,22 @@
                 <v-container fluid grid-list-sm class="pa-2 mt-2">
                     <v-layout class="text-xs-center">
                         <v-flex xs1>
-                            <div>Image</div>
+                            <div>Imagine</div>
                         </v-flex>
                         <v-flex xs2>
-                            <div>Name</div>
+                            <div>Nume</div>
                         </v-flex>
                         <v-flex xs4>
-                            <div>Description</div>
+                            <div>Descriere</div>
                         </v-flex>
                         <v-flex xs1>
-                            <div>Price</div>
+                            <div>Preț</div>
                         </v-flex>
                         <v-flex xs1>
-                            <div>Type</div>
+                            <div>Tip</div>
                         </v-flex>
                         <v-flex xs3>
-                            <div>Actions</div>
+                            <div>Acțiuni</div>
                         </v-flex>
                     </v-layout>
                 </v-container>
@@ -63,14 +59,13 @@
 
                                 <v-flex xs3>
                                     <v-layout align-center justify-center row fill-height>
-
                                         <v-btn dark color="success">
-                                            <v-icon left>edit</v-icon>
-                                            EDIT
+                                            <v-icon class="pr-2" size="20">edit</v-icon>
+                                            Modifică
                                         </v-btn>
                                         <v-btn @click="deleteMenu(menu.id)" dark color="error">
-                                            <v-icon left>delete</v-icon>
-                                            DELETE
+                                            <v-icon class="pr-1" size="22">delete</v-icon>
+                                            Șterge
                                         </v-btn>
                                     </v-layout>
                                 </v-flex>
@@ -103,9 +98,11 @@
         },
         methods: {
             deleteMenu(id) {
-                console.log(id);
-                this.$store.dispatch('deleteMenu', id);
-                this.addNotification();
+                this.$store.dispatch('deleteMenu', id).then((res) => {
+                    if (res.responseType === 'success') {
+                        this.addNotification();
+                    }
+                });
             },
             addNotification() {
                 this.bool = false;

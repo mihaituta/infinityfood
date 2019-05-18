@@ -2,7 +2,8 @@ import axios from '../axios-auth';
 
 const state = {
     menus: [],
-    menuTypes: []
+    menuTypes: [],
+    menuError: false
 };
 
 const mutations = {
@@ -10,7 +11,7 @@ const mutations = {
         state.menus = payload.menus;
     },
     deleteMenu(state, menu) {
-        state.menus.splice(menu,1);
+        state.menus.splice(menu, 1);
     }
 };
 
@@ -35,19 +36,24 @@ const actions = {
             })
             .catch(error => console.log(error));
     },
-    addMenu({commit, state}, payload) {
-        axios.post('/staff/menu/add', payload)
+    addMenu({commit}, payload) {
+       return axios.post('/staff/menu/add', payload)
             .then(res => {
-                this.dispatch('getMenus');
+                if(res.data.responseType === 'success')
+                    this.dispatch('getMenus');
+               return res.data
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                console.log(error);
+            });
     },
     deleteMenu({commit}, id) {
-        axios.delete('/staff/menu/' + id)
+        return axios.delete('/staff/menu/' + id)
             .then(res => {
                 console.log(res);
                 commit('deleteMenu', id);
                 this.dispatch('getMenus');
+                return res.data
             });
     }
 };
@@ -58,6 +64,9 @@ const getters = {
     },
     menuTypes(state) {
         return state.menuTypes;
+    },
+    menuError(state) {
+        return state.menuError;
     }
 };
 

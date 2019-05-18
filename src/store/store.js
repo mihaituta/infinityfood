@@ -45,7 +45,7 @@ export default new Vuex.Store({
                         router.replace('/admin/stores')
 
                     if (state.user.role_id === 2)
-                        router.replace('/staff/store')
+                        router.replace('/staff/menus')
                 })
                 .catch(error => console.log(error))
         },
