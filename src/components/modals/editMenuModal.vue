@@ -1,43 +1,9 @@
 <template>
-    <v-layout>
-        <!--        <v-btn-->
-        <!--                block-->
-        <!--                color="primary"-->
-        <!--                dark-->
-        <!--                @click="snackbar = true"-->
-        <!--        >-->
-        <!--            Show Snackbar-->
-        <!--        </v-btn>-->
-        <!--        <v-snackbar-->
-        <!--                v-model="snackbar"-->
-        <!--                :timeout="5000"-->
-        <!--                top-->
-        <!--                right-->
-        <!--                dark-->
-        <!--                multi-line-->
-        <!--                :color="notification.color"-->
-        <!--                style="font-size: 18px"-->
-        <!--                class="font-weight-light"-->
-        <!--        >-->
-        <!--            {{notification.text}}-->
-        <!--            <v-btn flat @click="snackbar = false">-->
-        <!--                <v-icon size="21px">close</v-icon>-->
-        <!--            </v-btn>-->
-        <!--        </v-snackbar>-->
-        <notification text="Meniul a fost adăugat cu succes!" color="rgb(76, 175, 80, 0.9)"
-                      :showNotification="show"></notification>
-        <v-btn
-                color="primary"
-                dark
-                @click="dialog = true"
-        >
-            <v-icon class="pr-2">library_add</v-icon>
-            Adaugă meniu
-
-        </v-btn>
-
+    <v-layout class="pa-0 ma-0" max-width="25%">
+        <notification text="Meniul a fost modificat cu succes!" color="rgb(76, 175, 80, 0.9)"
+                      :showNotification="showNotification"></notification>
         <v-dialog
-                v-model="dialog"
+                v-model="show"
                 max-width="25%"
                 transition="scale-transition"
         >
@@ -46,7 +12,7 @@
                     <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
                         <div class="title">
                             <v-icon>fastfood</v-icon>
-                            Adaugă meniu
+                            Modifică meniu
                         </div>
                     </v-flex>
                 </v-card-title>
@@ -57,37 +23,25 @@
                                 <v-flex xs12>
                                     <v-text-field
                                             prepend-icon="create"
-                                            v-model="menu.name"
+                                            v-model="items.name"
                                             label="Nume"
-                                            :error-messages="nameErrors"
-                                            required
-                                            @input="$v.menu.name.$touch()"
-                                            @blur="$v.menu.name.$touch()"
                                     ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-textarea
                                             prepend-icon="description"
-                                            v-model="menu.description"
+                                            v-model="items.description"
                                             label="Descriere"
-                                            :error-messages="descriptionErrors"
-                                            required
-                                            @input="$v.menu.description.$touch()"
-                                            @blur="$v.menu.description.$touch()"
                                     ></v-textarea>
                                 </v-flex>
                                 <v-flex>
                                     <v-text-field
                                             prepend-icon="attach_money"
-                                            v-model="menu.price"
+                                            v-model="items.price"
                                             type="number"
                                             label="Preț"
                                             min="0"
                                             oninput="this.value = Math.abs(this.value)"
-                                            :error-messages="priceErrors"
-                                            required
-                                            @input="$v.menu.price.$touch()"
-                                            @blur="$v.menu.price.$touch()"
                                     ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12>
@@ -95,11 +49,7 @@
                                             prepend-icon="restaurant_menu"
                                             :items=types
                                             label="Tip mâncare"
-                                            v-model="menu.type"
-                                            :error-messages="typeErrors"
-                                            required
-                                            @change="$v.menu.type.$touch()"
-                                            @blur="$v.menu.type.$touch()"
+                                            v-model="items.type"
                                     ></v-select>
                                 </v-flex>
                                 <input
@@ -108,17 +58,16 @@
                                         ref="image"
                                         accept="image/*"
                                         @change="onFileChanged"
-                                        required
                                 >
                                 <v-flex xs12
                                         class="text-xs-center text-sm-center text-md-center text-lg-center mt-2">
                                     <v-btn @click="pickFile" color="primary" class="ma-0">
-                                       Încarcă imagine
+                                        Încarcă imagine
                                         <v-icon right dark>cloud_upload</v-icon>
                                     </v-btn>
                                     <div v-if="imageTooBig" style="color:red;"
                                          class="subheading font-weight-light mt-3">
-<!--                                        Image is too big, resolution must be 1920x1080 or lower.-->
+                                        <!--                                        Image is too big, resolution must be 1920x1080 or lower.-->
                                         Imaginea este prea mare, rezoluția trebuie să fie 1920x1080 sau mai mică.
                                     </div>
                                 </v-flex>
@@ -126,6 +75,7 @@
                                 <v-flex xs12
                                         class="text-xs-center text-sm-center text-md-center text-lg-center mt-3">
                                     <img :src="imageUrl" height="120" v-if="imageUrl"/>
+                                    <img :src="path+items.image" height="120" v-else-if="items.image"/>
                                 </v-flex>
                                 <v-flex class="text-xs-center text-sm-center text-md-center text-lg-center">
                                     <div v-if="imageName" class="subheading font-weight-light">{{imageName}}</div>
@@ -134,8 +84,8 @@
                         </v-container>
                         <v-card-actions class="pb-3">
                             <v-spacer></v-spacer>
-                            <v-btn color="error" @click="dialog = false">Închide</v-btn>
-                            <v-btn color="primary" @click.prevent="onSubmit">Adaugă</v-btn>
+                            <v-btn color="error" @click.stop="show=false">Închide</v-btn>
+                            <v-btn color="primary" @click.prevent="onSubmit">Modifică</v-btn>
                         </v-card-actions>
                     </v-card-text>
                 </v-form>
@@ -145,37 +95,44 @@
 </template>
 
 <script>
-    import {required, minValue} from 'vuelidate/lib/validators';
     export default {
+        props: {
+            value: Boolean,
+            id: Number
+        },
         data() {
             return {
                 dialog: false,
                 imageUrl: '',
+                path: 'http://food/storage/menu-images/',
                 imageName: '',
                 imageTooBig: false,
-                types: ['Starter', 'Main', 'Dessert', 'Drink', 'Pizza', 'Fastfood'],
-                menu: {
-                    name: '',
-                    description: '',
-                    price: '',
-                    type: '',
-                    image: ''
-                },
-                show: false
+                types: ['starter', 'main', 'dessert', 'drink', 'pizza', 'fastfood'],
+                menu: {},
+                items: [
+                    {id: ''},
+                    {menu: ''},
+                    {description: ''},
+                    {price: ''},
+                    {type: ''},
+                    {image: ''},
+                    {store_id: ''}
+                ],
+                showNotification: false
             };
         },
-        validations: {
-            menu: {
-                name: {required},
-                description: {required},
-                price: {required, minValue: minValue(0)},
-                type: {required},
-                image: {required}
-            }
+       beforeMount() {
+            this.menu = this.$store.getters.getMenuById(this.id);
+            this.items.id = this.menu.id;
+            this.items.name = this.menu.name;
+            this.items.description = this.menu.description;
+            this.items.price = this.menu.price;
+            this.items.type = this.menu.type;
+            this.items.image = this.menu.image;
+            this.items.store_id = this.menu.store_id;
         },
         watch: {
-            dialog() {
-                this.$v.$reset();
+            show() {
                 this.$refs.image.value = '';
                 this.menu.name = '';
                 this.menu.description = '';
@@ -188,37 +145,23 @@
             }
         },
         computed: {
-            nameErrors() {
-                const errors = [];
-                if (!this.$v.menu.name.$dirty) return errors;
-                !this.$v.menu.name.required && errors.push('Numele este obligatoriu');
-                return errors;
-            },
-            descriptionErrors() {
-                const errors = [];
-                if (!this.$v.menu.description.$dirty) return errors;
-                !this.$v.menu.description.required && errors.push('Descrierea este obligatorie');
-                return errors;
-            },
-            priceErrors() {
-                const errors = [];
-                if (!this.$v.menu.price.$dirty) return errors;
-                !this.$v.menu.price.required && errors.push('Prețul este obligatoriu');
-                !this.$v.menu.price.minValue && errors.push('Prețul nu poate fi negativ');
-                return errors;
-            },
-            typeErrors() {
-                const errors = [];
-                if (!this.$v.menu.type.$dirty) return errors;
-                !this.$v.menu.type.required && errors.push('Tipul mâncării este obligatoriu');
-                return errors;
+            // menu() {
+            //     return this.$store.getters.getMenuById(121);
+            // },
+            show: {
+                get() {
+                    return this.value;
+                },
+                set(value) {
+                    this.$emit('input', value);
+                }
             }
         },
         methods: {
             addNotification() {
-                this.show = false;
+                this.showNotification = false;
                 setTimeout(() => {
-                    this.show = true;
+                    this.showNotification = true;
                 }, 100);
             },
             pickFile() {
@@ -228,7 +171,7 @@
                 const file = e.target.files[0];
                 if (file && file.size > 1920 * 1080) {
                     this.imageTooBig = true;
-                    this.menu.image = null;
+                    this.items.image = null;
                     this.imageName = '';
                     this.imageUrl = '';
                     return;
@@ -239,25 +182,26 @@
                     return;
                 }
                 this.imageTooBig = false;
-                this.menu.image = file;
+                this.items.image = file;
                 this.imageUrl = URL.createObjectURL(file);
             },
             onSubmit() {
-                this.$v.$touch();
-                if (this.$v.$pending || this.$v.$error) return;
-
                 const formData = new FormData();
-                const menuData = this.menu;
-                menuData.type = menuData.type.toLowerCase();
-                formData.append('name', menuData.name);
-                formData.append('description', menuData.description);
-                formData.append('price', menuData.price);
-                formData.append('image', menuData.image);
-                formData.append('type', menuData.type);
+                let data = this.items;
+                if (data.type !== null)
+                    data.type = data.type.toLowerCase();
 
-                this.$store.dispatch('addMenu', formData).then((res) => {
+                formData.append('id', data.id);
+                formData.append('name', data.name);
+                formData.append('description', data.description);
+                formData.append('price', data.price);
+                formData.append('image', data.image);
+                formData.append('type', data.type);
+                formData.append('_method', 'patch');
+
+                this.$store.dispatch('editMenu', {data: formData, id: data.id}).then((res) => {
                     if (res.responseType === 'success') {
-                        this.dialog = false;
+                        this.show = false;
                         this.addNotification();
                     }
                 });

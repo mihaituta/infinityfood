@@ -3,6 +3,7 @@
         <notification text="Meniul a fost șters cu succes!" color="rgb(255, 82, 82, 0.9)"
                       :showNotification="bool"></notification>
         <add-modal/>
+        <edit-modal v-if="openEditModal" v-model="openEditModal" :id='menuId'/>
         <v-tabs fixed-tabs color="transparent" centered>
             <v-tab v-for="type in types" :key="type.id">
                 {{type}}
@@ -31,6 +32,7 @@
                     </v-layout>
                 </v-container>
                 <v-hover v-for="menu in menus" :key="menu.id" v-if="menu.type === type">
+
                     <v-card slot-scope="{ hover }"
                             :class="`elevation-${hover ? 8 : 2}`">
                         <v-container fluid grid-list-sm class="mb-2 mt-2 pa-1">
@@ -59,10 +61,12 @@
 
                                 <v-flex xs3>
                                     <v-layout align-center justify-center row fill-height>
-                                        <v-btn dark color="success">
+
+                                        <v-btn dark color="success" @click.stop="menuById(menu.id)">
                                             <v-icon class="pr-2" size="20">edit</v-icon>
                                             Modifică
                                         </v-btn>
+
                                         <v-btn @click="deleteMenu(menu.id)" dark color="error">
                                             <v-icon class="pr-1" size="22">delete</v-icon>
                                             Șterge
@@ -80,11 +84,15 @@
 
 <script>
     import addModal from '../modals/addMenuModal';
+    import editModal from '../modals/editMenuModal';
 
     export default {
         data: function () {
             return {
                 bool: false,
+                openEditModal: false,
+                menuId: null,
+                menuObject: {},
                 path: 'http://food/storage/menu-images/'
             };
         },
@@ -97,6 +105,10 @@
             }
         },
         methods: {
+            menuById(id) {
+                this.openEditModal = true;
+                this.menuId = id;
+            },
             deleteMenu(id) {
                 this.$store.dispatch('deleteMenu', id).then((res) => {
                     if (res.responseType === 'success') {
@@ -111,11 +123,12 @@
                 }, 200);
             }
         },
-        created: function () {
+        created() {
             this.$store.dispatch('getMenus');
         },
         components: {
-            'add-modal': addModal
+            'add-modal': addModal,
+            'edit-modal': editModal
         }
     };
 </script>
@@ -124,5 +137,4 @@
     div {
         font-size: 18px;
     }
-
 </style>

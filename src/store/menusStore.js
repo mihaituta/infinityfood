@@ -1,14 +1,23 @@
 import axios from '../axios-auth';
 
 const state = {
-    menus: [],
-    menuTypes: [],
-    menuError: false
+    menus: [
+        {
+            id: null,
+            name: null,
+            description: null,
+            price: null,
+            type: null,
+            image: null,
+            store_id: null
+        }
+    ],
+    menuTypes: []
 };
 
 const mutations = {
     getMenus(state, payload) {
-        state.menus = payload.menus;
+        state.menus = payload;
     },
     deleteMenu(state, menu) {
         state.menus.splice(menu, 1);
@@ -20,28 +29,49 @@ const actions = {
         axios.get('/staff/menus')
             .then(res => {
                 console.log(res);
-                commit('getMenus', {
-                    menus: res.data.data
+                let menus = [];
+                let response = res.data.data;
+                response.forEach((menu) => {
+                    const temp = {
+                        id: menu.id,
+                        name: menu.name,
+                        description: menu.description,
+                        price: menu.price,
+                        type: menu.type,
+                        image: menu.image,
+                        store_id: menu.store_id
+                    };
+                    menus.push(temp);
                 });
+                commit('getMenus', menus);
                 const distinct = (value, index, self) => {
                     return self.indexOf(value) === index;
                 };
                 let type = [];
-                for (let i = 0; i < state.menus.length; i++) {
-                    type[i] = state.menus[i].type;
+                for (let i = 0; i < menus.length; i++) {
+                    type[i] = menus[i].type;
                 }
-
                 state.menuTypes = type.filter(distinct);
-
             })
             .catch(error => console.log(error));
     },
     addMenu({commit}, payload) {
-       return axios.post('/staff/menu/add', payload)
+        return axios.post('/staff/menu/add', payload)
             .then(res => {
-                if(res.data.responseType === 'success')
+                if (res.data.responseType === 'success')
                     this.dispatch('getMenus');
-               return res.data
+                return res.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    },
+    editMenu({commit}, payload) {
+        return axios.post('/staff/menu/' + payload.id, payload.data)
+            .then(res => {
+                if (res.data.responseType === 'success')
+                    this.dispatch('getMenus');
+                return res.data;
             })
             .catch(error => {
                 console.log(error);
@@ -53,7 +83,7 @@ const actions = {
                 console.log(res);
                 commit('deleteMenu', id);
                 this.dispatch('getMenus');
-                return res.data
+                return res.data;
             });
     }
 };
@@ -62,11 +92,12 @@ const getters = {
     menus(state) {
         return state.menus;
     },
+    getMenuById: (state) => (id) => {
+        const sms3 = state.menus.find(menu => menu.id === id);
+        return sms3;
+    },
     menuTypes(state) {
         return state.menuTypes;
-    },
-    menuError(state) {
-        return state.menuError;
     }
 };
 
