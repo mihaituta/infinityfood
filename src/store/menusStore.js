@@ -21,6 +21,10 @@ const mutations = {
     },
     deleteMenu(state, menu) {
         state.menus.splice(menu, 1);
+    },
+    clearMenus(state) {
+        state.menus = null;
+        state.menuTypes = null;
     }
 };
 
@@ -93,8 +97,7 @@ const getters = {
         return state.menus;
     },
     getMenuById: (state) => (id) => {
-        const sms3 = state.menus.find(menu => menu.id === id);
-        return sms3;
+        return state.menus.find(menu => menu.id === id);
     },
     menuTypes(state) {
         return state.menuTypes;

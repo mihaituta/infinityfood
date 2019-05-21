@@ -1,9 +1,14 @@
 <template>
     <v-container fluid style="width:80%">
         <notification text="Meniul a fost șters cu succes!" color="rgb(255, 82, 82, 0.9)"
-                      :showNotification="bool"></notification>
+                      :showNotification="menuDeletedNotif"></notification>
+        <notification text="Meniul a fost modificat cu succes!" color="rgb(76, 175, 80, 0.9)"
+                      :showNotification="menuUpdatedNotif"></notification>
         <add-modal/>
+
         <edit-modal v-if="openEditModal" v-model="openEditModal" :id='menuId'/>
+        <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest meniu?"
+                      :id='menuId'/>
         <v-tabs fixed-tabs color="transparent" centered>
             <v-tab v-for="type in types" :key="type.id">
                 {{type}}
@@ -37,14 +42,19 @@
                             :class="`elevation-${hover ? 8 : 2}`">
                         <v-container fluid grid-list-sm class="mb-2 mt-2 pa-1">
                             <v-layout align-center justify-center row wrap fill-height class="text-xs-center">
-
                                 <v-flex xs1>
-                                    <v-img :src="path+menu.image"
-                                           aspect-ratio="1"
-                                           height="90"
-                                           width="90"
-                                           contain
-                                    ></v-img>
+                                    <v-tooltip fixed right max-width="60%" color="white">
+                                        <template v-slot:activator="{ on }">
+                                            <v-img :src="path+menu.image"
+                                                   aspect-ratio="1"
+                                                   height="90"
+                                                   width="90"
+                                                   contain
+                                                   v-on="on"
+                                            ></v-img>
+                                        </template>
+                                        <img :src="path+menu.image" width="100%"/>
+                                    </v-tooltip>
                                 </v-flex>
                                 <v-flex xs2>
                                     <div>{{ menu.name}}</div>
@@ -67,7 +77,7 @@
                                             Modifică
                                         </v-btn>
 
-                                        <v-btn @click="deleteMenu(menu.id)" dark color="error">
+                                        <v-btn @click.stop="menuById2(menu.id)" dark color="error">
                                             <v-icon class="pr-1" size="22">delete</v-icon>
                                             Șterge
                                         </v-btn>
@@ -85,14 +95,17 @@
 <script>
     import addModal from '../modals/addMenuModal';
     import editModal from '../modals/editMenuModal';
+    import deleteModal from '../modals/deleteConfirmationModal';
 
     export default {
         data: function () {
             return {
-                bool: false,
+                menuDeletedNotif: false,
+                menuUpdatedNotif: false,
                 openEditModal: false,
+                openDeleteModal: false,
+                confirmDeletion: false,
                 menuId: null,
-                menuObject: {},
                 path: 'http://food/storage/menu-images/'
             };
         },
@@ -109,17 +122,31 @@
                 this.openEditModal = true;
                 this.menuId = id;
             },
-            deleteMenu(id) {
-                this.$store.dispatch('deleteMenu', id).then((res) => {
-                    if (res.responseType === 'success') {
-                        this.addNotification();
-                    }
-                });
+            menuById2(id) {
+                this.openDeleteModal = true;
+                this.menuId = id;
             },
-            addNotification() {
-                this.bool = false;
+            // deleteMenu(id) {
+            // this.openDeleteModal = true;
+            // if(this.confirmDeletion === false){
+            // return
+            // }
+            // this.$store.dispatch('deleteMenu', id).then((res) => {
+            // if (res.responseType === 'success') {
+            // this.addDeleteNotification();
+            // }
+            // });
+            // },
+            addDeleteNotification() {
+                this.menuDeletedNotif = false;
                 setTimeout(() => {
-                    this.bool = true;
+                    this.menuDeletedNotif = true;
+                }, 200);
+            },
+            addUpdateNotification() {
+                this.menuUpdatedNotif = false;
+                setTimeout(() => {
+                    this.menuUpdatedNotif = true;
                 }, 200);
             }
         },
@@ -128,13 +155,21 @@
         },
         components: {
             'add-modal': addModal,
-            'edit-modal': editModal
+            'edit-modal': editModal,
+            'delete-modal': deleteModal
         }
     };
 </script>
 
-<style scoped>
-    div {
-        font-size: 18px;
-    }
-</style>
+<
+style;
+scoped >
+div;
+{
+font - size;
+:
+18;
+px;
+}
+<
+/style>;

@@ -4,7 +4,7 @@
             <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons'
                   rel="stylesheet">
         </head>
-        <v-app dark>
+        <v-app>
             <auth-header v-if="logged"/>
             <app-header v-else/>
             <router-view/>
@@ -13,8 +13,8 @@
 </template>
 
 <script>
-    import authHeader from "./components/auth/authHeader";
-    import header from "./components/header";
+    import authHeader from './components/auth/authHeader';
+    import header from './components/header';
 
     export default {
         components: {
@@ -25,12 +25,12 @@
             logged() {
                 return this.$store.getters.isAuthenticated;
             }
-        },
-    }
+        }
+    };
 </script>
 
 <style>
-    button{
+    button {
         text-transform: none;
     }
 </style>

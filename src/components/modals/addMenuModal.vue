@@ -25,11 +25,11 @@
         <!--            </v-btn>-->
         <!--        </v-snackbar>-->
         <notification text="Meniul a fost adăugat cu succes!" color="rgb(76, 175, 80, 0.9)"
-                      :showNotification="show"></notification>
+                      :showNotification="showNotification"></notification>
         <v-btn
                 color="primary"
                 dark
-                @click="dialog = true"
+                @click.stop="openModal = true"
         >
             <v-icon class="pr-2">library_add</v-icon>
             Adaugă meniu
@@ -37,12 +37,17 @@
         </v-btn>
 
         <v-dialog
-                v-model="dialog"
+                v-model="openModal"
                 max-width="25%"
                 transition="scale-transition"
         >
             <v-card>
-                <v-card-title class="pb-2 pt-4">
+
+                <v-card-title class="pa-0">
+                    <v-spacer></v-spacer>
+                    <v-btn flat fab small @click="openModal = false">
+                        <v-icon size="25px">close</v-icon>
+                    </v-btn>
                     <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
                         <div class="title">
                             <v-icon>fastfood</v-icon>
@@ -74,6 +79,8 @@
                                             required
                                             @input="$v.menu.description.$touch()"
                                             @blur="$v.menu.description.$touch()"
+                                            rows="1"
+                                            auto-grow
                                     ></v-textarea>
                                 </v-flex>
                                 <v-flex>
@@ -113,28 +120,37 @@
                                 <v-flex xs12
                                         class="text-xs-center text-sm-center text-md-center text-lg-center mt-2">
                                     <v-btn @click="pickFile" color="primary" class="ma-0">
-                                       Încarcă imagine
+                                        Încarcă imagine
                                         <v-icon right dark>cloud_upload</v-icon>
                                     </v-btn>
                                     <div v-if="imageTooBig" style="color:red;"
                                          class="subheading font-weight-light mt-3">
-<!--                                        Image is too big, resolution must be 1920x1080 or lower.-->
+                                        <!--                                        Image is too big, resolution must be 1920x1080 or lower.-->
                                         Imaginea este prea mare, rezoluția trebuie să fie 1920x1080 sau mai mică.
                                     </div>
                                 </v-flex>
 
                                 <v-flex xs12
-                                        class="text-xs-center text-sm-center text-md-center text-lg-center mt-3">
-                                    <img :src="imageUrl" height="120" v-if="imageUrl"/>
+                                        class="text-xs-center text-sm-center text-md-center text-lg-center mt-2">
+                                    <v-tooltip v-if="imageUrl" top max-width="60%" color="white">
+                                        <template v-slot:activator="{ on }">
+                                            <img :src="imageUrl" v-on="on" width="50%" v-if="imageUrl"/>
+                                            <img :src="path+items.image" v-on="on" width="50%" v-else-if="items.image"/>
+                                        </template>
+                                        <img :src="imageUrl" width="100%" v-if="imageUrl"/>
+
+                                    </v-tooltip>
                                 </v-flex>
                                 <v-flex class="text-xs-center text-sm-center text-md-center text-lg-center">
                                     <div v-if="imageName" class="subheading font-weight-light">{{imageName}}</div>
                                 </v-flex>
+
+
                             </v-layout>
                         </v-container>
                         <v-card-actions class="pb-3">
                             <v-spacer></v-spacer>
-                            <v-btn color="error" @click="dialog = false">Închide</v-btn>
+                            <v-btn color="error" @click="openModal = false">Închide</v-btn>
                             <v-btn color="primary" @click.prevent="onSubmit">Adaugă</v-btn>
                         </v-card-actions>
                     </v-card-text>
@@ -146,10 +162,11 @@
 
 <script>
     import {required, minValue} from 'vuelidate/lib/validators';
+
     export default {
         data() {
             return {
-                dialog: false,
+                openModal: false,
                 imageUrl: '',
                 imageName: '',
                 imageTooBig: false,
@@ -161,7 +178,7 @@
                     type: '',
                     image: ''
                 },
-                show: false
+                showNotification: false
             };
         },
         validations: {
@@ -174,7 +191,7 @@
             }
         },
         watch: {
-            dialog() {
+            openModal() {
                 this.$v.$reset();
                 this.$refs.image.value = '';
                 this.menu.name = '';
@@ -216,9 +233,9 @@
         },
         methods: {
             addNotification() {
-                this.show = false;
+                this.showNotification = false;
                 setTimeout(() => {
-                    this.show = true;
+                    this.showNotification = true;
                 }, 100);
             },
             pickFile() {
@@ -257,7 +274,7 @@
 
                 this.$store.dispatch('addMenu', formData).then((res) => {
                     if (res.responseType === 'success') {
-                        this.dialog = false;
+                        this.openModal = false;
                         this.addNotification();
                     }
                 });
