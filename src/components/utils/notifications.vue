@@ -2,8 +2,10 @@
     <v-snackbar
             v-model="snackbar"
             :timeout="4000"
-            top
-            right
+            :top="top"
+            :right="right"
+            :bottom="bottom"
+            :left="left"
             dark
             multi-line
             :color="color"
@@ -22,7 +24,7 @@
         data: () => ({
             snackbar: false
         }),
-        props: ['color', 'text', 'showNotification'],
+        props: ['color', 'text', 'showNotification', 'top', 'right', 'bottom', 'left'],
         watch: {
             showNotification: function () {
                 this.snackbar = this.showNotification;

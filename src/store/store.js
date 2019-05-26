@@ -43,10 +43,10 @@ export default new Vuex.Store({
                         token: res.data.data.jwt,
                         role_id: res.data.data.role_id
                     });
-                    if (state.user.role_id === 1)
+                    if (state.user.role_id === 'Admin')
                         router.replace('/admin/stores');
 
-                    if (state.user.role_id === 2)
+                    if (state.user.role_id === 'Staff')
                         router.replace('/staff/menus');
                 })
                 .catch(error => console.log(error));

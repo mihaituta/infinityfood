@@ -1,11 +1,12 @@
 <template>
     <v-container fluid style="width:80%">
         <notification text="Meniul a fost șters cu succes!" color="rgb(255, 82, 82, 0.9)"
-                      :showNotification="menuDeletedNotif"></notification>
+                      :showNotification="menuDeletedNotif" :top=true :right=true></notification>
         <notification text="Meniul a fost modificat cu succes!" color="rgb(76, 175, 80, 0.9)"
-                      :showNotification="menuUpdatedNotif"></notification>
+                      :showNotification="menuUpdatedNotif" :top=true :right=true></notification>
+        <notification text="Există deja un meniu cu acest nume!" color="rgb(255, 82, 82, 0.9)"
+                      :showNotification="nameNotification" :top=true></notification>
         <add-modal/>
-
         <edit-modal v-if="openEditModal" v-model="openEditModal" :id='menuId'/>
         <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest meniu?"
                       :id='menuId'/>
@@ -95,7 +96,7 @@
 <script>
     import addModal from '../modals/addMenuModal';
     import editModal from '../modals/editMenuModal';
-    import deleteModal from '../modals/deleteConfirmationModal';
+    import deleteModal from '../modals/menuDeleteModal';
 
     export default {
         data: function () {
@@ -105,6 +106,7 @@
                 openEditModal: false,
                 openDeleteModal: false,
                 confirmDeletion: false,
+                nameNotification: false,
                 menuId: null,
                 path: 'http://food/storage/menu-images/'
             };
@@ -126,17 +128,6 @@
                 this.openDeleteModal = true;
                 this.menuId = id;
             },
-            // deleteMenu(id) {
-            // this.openDeleteModal = true;
-            // if(this.confirmDeletion === false){
-            // return
-            // }
-            // this.$store.dispatch('deleteMenu', id).then((res) => {
-            // if (res.responseType === 'success') {
-            // this.addDeleteNotification();
-            // }
-            // });
-            // },
             addDeleteNotification() {
                 this.menuDeletedNotif = false;
                 setTimeout(() => {
@@ -148,7 +139,13 @@
                 setTimeout(() => {
                     this.menuUpdatedNotif = true;
                 }, 200);
-            }
+            },
+            nameErrorNotification() {
+                this.nameNotification = false;
+                setTimeout(() => {
+                    this.nameNotification = true;
+                }, 200);
+            },
         },
         created() {
             this.$store.dispatch('getMenus');
@@ -161,15 +158,8 @@
     };
 </script>
 
-<
-style;
-scoped >
-div;
-{
-font - size;
-:
-18;
-px;
-}
-<
-/style>;
+<style scoped>
+    div {
+        font-size: 18px;
+    }
+</style>

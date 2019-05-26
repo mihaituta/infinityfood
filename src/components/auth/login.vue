@@ -64,13 +64,13 @@
                 const errors = [];
                 if (!this.$v.email.$dirty) return errors;
                 !this.$v.email.email && errors.push('Email-ul trebuie să fie valid');
-                !this.$v.email.required && errors.push('Email-ul este necesar');
+                !this.$v.email.required && errors.push('Email-ul este obligatoriu');
                 return errors;
             },
             passwordErrors() {
                 const errors = [];
                 if (!this.$v.password.$dirty) return errors;
-                !this.$v.password.required && errors.push('Parola este necesară');
+                !this.$v.password.required && errors.push('Parola este obligatorie');
                 !this.$v.password.minLength && errors.push('Parola trebuie să aibă cel puțin 6 caractere');
                 return errors;
             }

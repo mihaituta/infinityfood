@@ -1,31 +1,9 @@
 <template>
     <v-layout>
-        <!--        <v-btn-->
-        <!--                block-->
-        <!--                color="primary"-->
-        <!--                dark-->
-        <!--                @click="snackbar = true"-->
-        <!--        >-->
-        <!--            Show Snackbar-->
-        <!--        </v-btn>-->
-        <!--        <v-snackbar-->
-        <!--                v-model="snackbar"-->
-        <!--                :timeout="5000"-->
-        <!--                top-->
-        <!--                right-->
-        <!--                dark-->
-        <!--                multi-line-->
-        <!--                :color="notification.color"-->
-        <!--                style="font-size: 18px"-->
-        <!--                class="font-weight-light"-->
-        <!--        >-->
-        <!--            {{notification.text}}-->
-        <!--            <v-btn flat @click="snackbar = false">-->
-        <!--                <v-icon size="21px">close</v-icon>-->
-        <!--            </v-btn>-->
-        <!--        </v-snackbar>-->
         <notification text="Meniul a fost adăugat cu succes!" color="rgb(76, 175, 80, 0.9)"
-                      :showNotification="showNotification"></notification>
+                      :showNotification="addNotification" :top=true :right=true></notification>
+        <notification text="Există deja un meniu cu acest nume!" color="rgb(255, 82, 82, 0.9)"
+                      :showNotification="nameNotification" :top=true></notification>
         <v-btn
                 color="primary"
                 dark
@@ -39,7 +17,7 @@
         <v-dialog
                 v-model="openModal"
                 max-width="25%"
-                transition="scale-transition"
+                transition="slide-y-transition"
         >
             <v-card>
 
@@ -115,7 +93,6 @@
                                         ref="image"
                                         accept="image/*"
                                         @change="onFileChanged"
-                                        required
                                 >
                                 <v-flex xs12
                                         class="text-xs-center text-sm-center text-md-center text-lg-center mt-2">
@@ -128,6 +105,10 @@
                                         <!--                                        Image is too big, resolution must be 1920x1080 or lower.-->
                                         Imaginea este prea mare, rezoluția trebuie să fie 1920x1080 sau mai mică.
                                     </div>
+                                    <div v-else-if="imageError" style="color:red;"
+                                         class="subheading font-weight-light mt-3">
+                                        Imaginea este obligatorie
+                                    </div>
                                 </v-flex>
 
                                 <v-flex xs12
@@ -135,7 +116,6 @@
                                     <v-tooltip v-if="imageUrl" top max-width="60%" color="white">
                                         <template v-slot:activator="{ on }">
                                             <img :src="imageUrl" v-on="on" width="50%" v-if="imageUrl"/>
-                                            <img :src="path+items.image" v-on="on" width="50%" v-else-if="items.image"/>
                                         </template>
                                         <img :src="imageUrl" width="100%" v-if="imageUrl"/>
 
@@ -161,7 +141,7 @@
 </template>
 
 <script>
-    import {required, minValue} from 'vuelidate/lib/validators';
+    import {required, minValue, maxValue} from 'vuelidate/lib/validators';
 
     export default {
         data() {
@@ -178,16 +158,17 @@
                     type: '',
                     image: ''
                 },
-                showNotification: false
+                addNotification: false,
+                nameNotification: false,
+                imageError: false
             };
         },
         validations: {
             menu: {
                 name: {required},
                 description: {required},
-                price: {required, minValue: minValue(0)},
-                type: {required},
-                image: {required}
+                price: {required, minValue: minValue(0), maxValue: maxValue(999999.99)},
+                type: {required}
             }
         },
         watch: {
@@ -202,6 +183,8 @@
                 this.imageUrl = '';
                 this.imageName = '';
                 this.imageTooBig = false;
+                this.imageError = false;
+
             }
         },
         computed: {
@@ -222,6 +205,7 @@
                 if (!this.$v.menu.price.$dirty) return errors;
                 !this.$v.menu.price.required && errors.push('Prețul este obligatoriu');
                 !this.$v.menu.price.minValue && errors.push('Prețul nu poate fi negativ');
+                !this.$v.menu.price.maxValue && errors.push('Prețul este prea mare');
                 return errors;
             },
             typeErrors() {
@@ -232,10 +216,16 @@
             }
         },
         methods: {
-            addNotification() {
-                this.showNotification = false;
+            addedNotification() {
+                this.addNotification = false;
                 setTimeout(() => {
-                    this.showNotification = true;
+                    this.addNotification = true;
+                }, 100);
+            },
+            nameErrorNotification() {
+                this.nameNotification = false;
+                setTimeout(() => {
+                    this.nameNotification = true;
                 }, 100);
             },
             pickFile() {
@@ -255,6 +245,7 @@
                 } else {
                     return;
                 }
+                this.imageError = false;
                 this.imageTooBig = false;
                 this.menu.image = file;
                 this.imageUrl = URL.createObjectURL(file);
@@ -265,7 +256,10 @@
 
                 const formData = new FormData();
                 const menuData = this.menu;
-                menuData.type = menuData.type.toLowerCase();
+                if (!menuData.image) {
+                    this.imageError = true;
+                    return;
+                }
                 formData.append('name', menuData.name);
                 formData.append('description', menuData.description);
                 formData.append('price', menuData.price);
@@ -275,7 +269,9 @@
                 this.$store.dispatch('addMenu', formData).then((res) => {
                     if (res.responseType === 'success') {
                         this.openModal = false;
-                        this.addNotification();
+                        this.addedNotification();
+                    } else if (res.responseType === 'error' && res.errorMessage === 'nameTaken') {
+                        this.nameErrorNotification();
                     }
                 });
             }

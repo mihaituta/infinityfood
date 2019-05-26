@@ -13,13 +13,12 @@
                         <v-icon size="25px">close</v-icon>
                     </v-btn>
                 </v-card-title>
-                <v-card-text class="headline text-md-center ma-0 pt-0">
+                <v-card-text class="headline text-sm-center ma-0 pt-0">
                     {{text}}
                 </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="error" @click="showModal = false">Nu</v-btn>
-                    <v-btn color="primary" @click="onSubmit">Da</v-btn>
+                <v-card-actions class="justify-center pb-3">
+                     <v-btn color="error" @click="showModal = false">Nu</v-btn>
+                    <v-btn color="info" @click="onSubmit">Da</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>

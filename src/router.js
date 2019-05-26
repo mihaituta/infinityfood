@@ -55,19 +55,19 @@ router.beforeEach((to, from, next) => {
             if (store.getters.role_id === null) {
                 const watcher = store.watch(() => store.getters.role_id, role_id => {
                     watcher()
-                    if (role_id === 1) next()
+                    if (role_id === 'Admin') next()
                     else next('/login')
                 })
-            } else if (store.getters.role_id === 1) next();
+            } else if (store.getters.role_id === 'Admin') next();
             else next('/');
         } else if (to.meta.staffAuth) {
             if (store.getters.role_id === null) {
                 const watcher = store.watch(() => store.getters.role_id, role_id => {
                     watcher()
-                    if (role_id === 2) next()
+                    if (role_id === 'Staff') next()
                     else next('/login')
                 })
-            } else if (store.getters.role_id === 2) next();
+            } else if (store.getters.role_id === 'Staff') next();
             else next('/');
         }
     } else next()
