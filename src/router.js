@@ -6,8 +6,10 @@ import Users from './components/admin/users'
 import Stores from './components/admin/stores'
 import Menus from './components/staff/menus'
 import Store from './components/staff/store'
+import Error from './views/Error404'
 import store from './store/store'
 import axios from "axios";
+import StoresList from './views/StoresList';
 
 Vue.use(Router)
 
@@ -17,6 +19,11 @@ const router = new Router({
     routes: [
         {path: '/', name: 'home', component: Home},
         {path: '/login', name: 'login', component: Login},
+        {
+            path: '/stores',
+            name: 'storeslist',
+            component: StoresList,
+        },
         {
             path: '/admin/users',
             name: 'users',
@@ -41,6 +48,11 @@ const router = new Router({
             component: Store,
             meta: {requiresAuth: true, adminAuth: false, staffAuth: true}
         },
+        {
+            path: "*",
+            name: 'error',
+            component: Error,
+        }
     ]
 })
 

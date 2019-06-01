@@ -6,7 +6,7 @@
         </head>
         <v-app>
             <auth-header v-if="logged"/>
-            <app-header v-else/>
+<!--            <app-header v-else/>-->
             <router-view/>
         </v-app>
     </div>

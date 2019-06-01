@@ -4,6 +4,7 @@ import axios from '../axios-auth';
 import router from '../router';
 import menusStore from './menusStore';
 import usersStore from './usersStore';
+import storesStore from './storesStore';
 
 Vue.use(Vuex);
 
@@ -88,7 +89,8 @@ export default new Vuex.Store({
     },
     modules: {
         menusStore,
-        usersStore
+        usersStore,
+        storesStore,
     }
 });
 

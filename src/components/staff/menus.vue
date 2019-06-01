@@ -38,18 +38,17 @@
                     </v-layout>
                 </v-container>
                 <v-hover v-for="menu in menus" :key="menu.id" v-if="menu.type === type">
-
                     <v-card slot-scope="{ hover }"
                             :class="`elevation-${hover ? 8 : 2}`">
                         <v-container fluid grid-list-sm class="mb-2 mt-2 pa-1">
                             <v-layout align-center justify-center row wrap fill-height class="text-xs-center">
                                 <v-flex xs1>
-                                    <v-tooltip fixed right max-width="60%" color="white">
+                                    <v-tooltip fixed right max-width="35%" color="white">
                                         <template v-slot:activator="{ on }">
                                             <v-img :src="path+menu.image"
                                                    aspect-ratio="1"
-                                                   height="90"
-                                                   width="90"
+                                                   height="100"
+                                                   width="100"
                                                    contain
                                                    v-on="on"
                                             ></v-img>
@@ -145,7 +144,7 @@
                 setTimeout(() => {
                     this.nameNotification = true;
                 }, 200);
-            },
+            }
         },
         created() {
             this.$store.dispatch('getMenus');
