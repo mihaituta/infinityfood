@@ -9,7 +9,7 @@
         <add-modal/>
         <edit-modal v-if="openEditModal" v-model="openEditModal" :id='menuId'/>
         <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest meniu?"
-                      :id='menuId'/>
+                      :id='menuId' action="deleteMenu"/>
         <v-tabs fixed-tabs color="transparent" centered>
             <v-tab v-for="type in types" :key="type.id">
                 {{type}}
@@ -39,16 +39,16 @@
                 </v-container>
                 <v-hover v-for="menu in menus" :key="menu.id" v-if="menu.type === type">
                     <v-card slot-scope="{ hover }"
-                            :class="`elevation-${hover ? 8 : 2}`">
-                        <v-container fluid grid-list-sm class="mb-2 mt-2 pa-1">
-                            <v-layout align-center justify-center row wrap fill-height class="text-xs-center">
+                            :class="`elevation-${hover ? 10 : 3}`">
+                        <v-container fluid grid-list-sm class="mb-2 mt-3 pa-1">
+                            <v-layout align-center justify-center  class="text-sm-center">
                                 <v-flex xs1>
-                                    <v-tooltip fixed right max-width="35%" color="white">
+                                    <v-tooltip fixed right max-width="500px" color="white">
                                         <template v-slot:activator="{ on }">
                                             <v-img :src="path+menu.image"
                                                    aspect-ratio="1"
-                                                   height="100"
-                                                   width="100"
+                                                   height="90"
+                                                   width="90"
                                                    contain
                                                    v-on="on"
                                             ></v-img>
@@ -60,7 +60,7 @@
                                     <div>{{ menu.name}}</div>
                                 </v-flex>
                                 <v-flex xs4>
-                                    <div>{{ menu.description}}</div>
+                                    <div >{{menu.description}}</div>
                                 </v-flex>
                                 <v-flex xs1>
                                     <div>{{ menu.price}} ron</div>
@@ -72,12 +72,12 @@
                                 <v-flex xs3>
                                     <v-layout align-center justify-center row fill-height>
 
-                                        <v-btn dark color="success" @click.stop="menuById(menu.id)">
+                                        <v-btn dark color="success" @click.stop="editMenu(menu.id)">
                                             <v-icon class="pr-2" size="20">edit</v-icon>
                                             Modifică
                                         </v-btn>
 
-                                        <v-btn @click.stop="menuById2(menu.id)" dark color="error">
+                                        <v-btn @click.stop="deleteMenu(menu.id)" dark color="error">
                                             <v-icon class="pr-1" size="22">delete</v-icon>
                                             Șterge
                                         </v-btn>
@@ -95,7 +95,7 @@
 <script>
     import addModal from '../modals/addMenuModal';
     import editModal from '../modals/editMenuModal';
-    import deleteModal from '../modals/menuDeleteModal';
+    import deleteModal from '../modals/deleteModal';
 
     export default {
         data: function () {
@@ -107,7 +107,7 @@
                 confirmDeletion: false,
                 nameNotification: false,
                 menuId: null,
-                path: 'http://food/storage/menu-images/'
+                path: process.env.VUE_APP_MENU_IMAGES,
             };
         },
         computed: {
@@ -119,11 +119,11 @@
             }
         },
         methods: {
-            menuById(id) {
+            editMenu(id) {
                 this.openEditModal = true;
                 this.menuId = id;
             },
-            menuById2(id) {
+            deleteMenu(id) {
                 this.openDeleteModal = true;
                 this.menuId = id;
             },
@@ -160,5 +160,8 @@
 <style scoped>
     div {
         font-size: 18px;
+    }
+    .flex{
+        word-wrap:break-word;
     }
 </style>

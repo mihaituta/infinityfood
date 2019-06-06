@@ -32,17 +32,14 @@
                                             prepend-icon="person"
                                             v-model="userList.name"
                                             label="Nume"
-
                                     ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-text-field
                                             prepend-icon="email"
-                                            name="email"
                                             v-model="userList.email"
-                                            :error-messages="emailErrors"
                                             label="Email"
-
+                                            :error-messages="emailErrors"
                                             @input="$v.userList.email.$touch()"
                                             @blur="$v.userList.email.$touch()"
                                     ></v-text-field>
@@ -55,7 +52,6 @@
                                         v-model="userList.password"
                                         :error-messages="passwordErrors"
                                         label="Parolă"
-
                                         @input="$v.userList.password.$touch()"
                                         @blur="$v.userList.password.$touch()"
                                         @click:append="show = !show"
@@ -66,7 +62,6 @@
                                             :items=roles
                                             label="Rol"
                                             v-model="userList.role_id"
-
                                     ></v-select>
                                 </v-flex>
                             </v-layout>
@@ -162,6 +157,26 @@
                 this.$v.$touch();
                 if (this.$v.$pending || this.$v.$error) return;
 
+                if ((this.userList.name === this.user.name &&
+                    this.userList.email === this.user.email &&
+                    this.userList.password === this.user.password &&
+                    this.userList.role_id === this.user.role_id) ||
+                    (this.userList.name === '' &&
+                        this.userList.email === this.user.email &&
+                        this.userList.password === this.user.password &&
+                        this.userList.role_id === this.user.role_id) ||
+                    (this.userList.name === this.user.name &&
+                        this.userList.email === '' &&
+                        this.userList.password === this.user.password &&
+                        this.userList.role_id === this.user.role_id) ||
+                    (this.userList.name === '' &&
+                        this.userList.email === '' &&
+                        this.userList.password === this.user.password &&
+                        this.userList.role_id === this.user.role_id)) {
+                    this.openModal = false;
+                    return;
+                }
+
                 const formData = new FormData();
                 let data = {
                     id: this.userList.id,
@@ -170,20 +185,10 @@
                     password: this.userList.password,
                     role_id: this.userList.role_id
                 };
-
-                // if (this.user.name !== this.userList.name)
-                //     this.$set(data, 'name', this.userList.name);
-                // if (this.user.password !== this.userList.password)
-                //     this.$set(data, 'password', this.userList.password);
-                // if (this.user.email !== this.userList.email)
-                //     this.$set(data, 'email', this.userList.email);
-                // if (this.user.role_id !== this.userList.role_id)
-                //     this.$set(data, 'role_id', this.userList.role_id);
-
                 formData.append('id', data.id);
-                if (this.user.name !== this.userList.name && this.userList.name !== '')
+                if (this.user.name !== this.userList.name)
                     formData.append('name', data.name);
-                if (this.user.email !== this.userList.email && this.userList.email !== '')
+                if (this.user.email !== this.userList.email)
                     formData.append('email', data.email);
                 if (this.user.password !== this.userList.password)
                     formData.append('password', data.password);

@@ -33,24 +33,24 @@ export default new Vuex.Store({
     },
     actions: {
         login({commit, state}, authData) {
-            axios.post('/login', {
+            return axios.post('/login', {
                 email: authData.email,
                 password: authData.password
-            })
-                .then(res => {
-                    console.log(res);
+            }).then(res => {
+                if(res.data.responseType === 'success'){
                     localStorage.setItem('token', res.data.data.jwt);
                     commit('authUser', {
                         token: res.data.data.jwt,
                         role_id: res.data.data.role_id
                     });
                     if (state.user.role_id === 'Admin')
-                        router.replace('/admin/stores');
+                        router.replace('/admin/utilizatori');
 
                     if (state.user.role_id === 'Staff')
-                        router.replace('/staff/menus');
-                })
-                .catch(error => console.log(error));
+                        router.replace('/staff/meniuri');
+                }
+                return res.data;
+            }).catch(error => console.log(error));
         },
         logout({commit}) {
             commit('clearAuthData');
@@ -90,7 +90,7 @@ export default new Vuex.Store({
     modules: {
         menusStore,
         usersStore,
-        storesStore,
+        storesStore
     }
 });
 

@@ -6,19 +6,19 @@
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
-            <v-btn v-if="userRole === 'Admin'" flat to="/admin/stores">
+            <v-btn v-if="userRole === 'Admin'" flat to="/admin/magazine">
                 <v-icon class="pr-2">restaurant</v-icon>
                 Magazine
             </v-btn>
-            <v-btn v-if="userRole === 'Admin'" flat to="/admin/users">
+            <v-btn v-if="userRole === 'Admin'" flat to="/admin/utilizatori">
                 <v-icon class="pr-2">people</v-icon>
-                Manageri
+                Utilizatori
             </v-btn>
-            <v-btn v-if="userRole === 'Staff'" flat to="/staff/store">
+            <v-btn v-if="userRole === 'Staff'" flat to="/staff/magazin">
                 <v-icon class="pr-2">restaurant</v-icon>
                 Magazin
             </v-btn>
-            <v-btn v-if="userRole === 'Staff'" flat to="/staff/menus">
+            <v-btn v-if="userRole === 'Staff'" flat to="/staff/meniuri">
                 <v-icon class="pr-2">fastfood</v-icon>
                 Meniuri
             </v-btn>

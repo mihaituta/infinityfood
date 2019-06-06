@@ -10,6 +10,8 @@
                       :showNotification="emailNotification" :top=true></notification>
         <add-modal/>
         <edit-modal v-if="openEditModal" v-model="openEditModal" :id='userId'/>
+        <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest utilizator?"
+                      :id='userId' action="deleteUser"/>
         <v-card class="mt-3">
             <v-card-title class="headline">
                 Utilizatori
@@ -36,7 +38,7 @@
                     <td>{{user.item.role_id}}</td>
                     <td class="pa-0" width="20%">
 
-                        <v-btn small dark color="success" @click.stop="userById(user.item.id)">
+                        <v-btn small dark color="success" @click.stop="editUser(user.item.id)">
                             <v-icon class="pr-2" size="18">edit</v-icon>
                             Modifică
                         </v-btn>
@@ -66,6 +68,7 @@
 <script>
     import addModal from '../modals/addUserModal';
     import editModal from '../modals/editUserModal';
+    import deleteModal from '../modals/deleteModal';
 
     export default {
         data: function () {
@@ -79,6 +82,7 @@
                 ],
                 search: '',
                 openEditModal: false,
+                openDeleteModal: false,
                 userId: null,
                 userDeletedNotif: false,
                 userUpdatedNotif: false,
@@ -92,16 +96,13 @@
             }
         },
         methods: {
-            userById(id) {
+            editUser(id) {
                 this.userId = id;
                 this.openEditModal = true;
             },
             deleteUser(id) {
-                this.$store.dispatch('deleteUser', id).then((res) => {
-                    if (res.responseType === 'success') {
-                        this.addDeleteNotification();
-                    }
-                });
+                this.userId = id;
+                this.openDeleteModal = true;
             },
             addDeleteNotification() {
                 this.userDeletedNotif = false;
@@ -133,7 +134,8 @@
         },
         components: {
             'add-modal': addModal,
-            'edit-modal': editModal
+            'edit-modal': editModal,
+            'delete-modal': deleteModal
         }
     };
 </script>

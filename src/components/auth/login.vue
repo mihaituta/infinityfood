@@ -1,13 +1,20 @@
 <template>
     <v-container fill-height>
         <v-layout align-center justify-center>
-            <v-flex xs10 sm6 md6 lg4>
-                <v-card class="elevation-4">
+            <v-flex xs10 sm7 md6 lg4 xl3>
+                <v-card class="elevation-6">
                     <v-toolbar dark color="info">
                         <v-toolbar-title>Autentificare</v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
                         <v-form>
+                            <v-alert
+                                    class="mb-3 text-sm-center subheading pr-5"
+                                    :value=errorText
+                                    type="error"
+                                    transition="scale-transition">
+                                {{errorText}}
+                            </v-alert>
                             <v-text-field
                                     prepend-icon="person"
                                     name="email"
@@ -51,7 +58,9 @@
             return {
                 show: false,
                 email: '',
-                password: ''
+                password: '',
+                errorLoginNotification: false,
+                errorText: ''
             };
         },
         validations: {
@@ -84,7 +93,13 @@
                     email: this.email,
                     password: this.password
                 };
-                this.$store.dispatch('login', formData);
+                this.$store.dispatch('login', formData).then((res) => {
+                    if (res.responseType !== 'undefined' && res.responseType === 'error' && res.errorMessage === 'invalidEmail') {
+                        this.errorText = 'Utilizatorul nu există';
+                    } else if (res.responseType !== 'undefined' && res.responseType === 'error'  && res.errorMessage === 'invalidPassword') {
+                        this.errorText = 'Parola este incorectă';
+                    }
+                });
             }
         }
     };

@@ -47,6 +47,9 @@
                                             label="Preț"
                                             min="0"
                                             oninput="this.value = Math.abs(this.value)"
+                                            :error-messages="priceErrors"
+                                            @input="$v.menuList.price.$touch()"
+                                            @blur="$v.menuList.price.$touch()"
                                     ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12>
@@ -78,10 +81,10 @@
                                 </v-flex>
                                 <v-flex xs12
                                         class="text-xs-center text-sm-center text-md-center text-lg-center mt-2">
-                                    <v-tooltip top max-width="60%" color="white">
+                                    <v-tooltip top max-width="500px" color="white">
                                         <template v-slot:activator="{ on }">
-                                            <img :src="imageUrl" v-on="on" width="50%" v-if="imageUrl"/>
-                                            <img :src="path+menuList.image" v-on="on" width="50%"
+                                            <img :src="imageUrl" v-on="on" width="35%" v-if="imageUrl"/>
+                                            <img :src="path+menuList.image" v-on="on" width="35%"
                                                  v-else-if="menuList.image"/>
                                         </template>
                                         <img :src="imageUrl" width="100%" v-if="imageUrl"/>
@@ -106,6 +109,8 @@
 </template>
 
 <script>
+    import {minValue, maxValue, minLength} from 'vuelidate/lib/validators';
+
     export default {
         props: {
             value: Boolean,
@@ -132,19 +137,18 @@
             };
         },
         beforeMount() {
-            if (this.id !== undefined) {
-                this.menu = this.$store.getters.getMenuById(this.id);
-                this.menuList.id = this.menu.id;
-                this.menuList.name = this.menu.name;
-                this.menuList.description = this.menu.description;
-                this.menuList.price = this.menu.price;
-                this.menuList.type = this.menu.type;
-                this.menuList.image = this.menu.image;
-                this.menuList.store_id = this.menu.store_id;
-            }
+            this.menu = this.$store.getters.getMenuById(this.id);
+            this.menuList.id = this.menu.id;
+            this.menuList.name = this.menu.name;
+            this.menuList.description = this.menu.description;
+            this.menuList.price = this.menu.price;
+            this.menuList.type = this.menu.type;
+            this.menuList.image = this.menu.image;
+            this.menuList.store_id = this.menu.store_id;
         },
         watch: {
             openModal() {
+                this.$v.$reset();
                 this.$refs.image.value = '';
                 this.menu.name = '';
                 this.menu.description = '';
@@ -156,6 +160,14 @@
                 this.imageTooBig = false;
             }
         },
+        validations: {
+            menuList: {
+                // name: {required},
+                // description: {required},
+                price: {minLength: minLength(6)}
+                // type: {required}
+            }
+        },
         computed: {
             openModal: {
                 get() {
@@ -164,6 +176,15 @@
                 set(value) {
                     this.$emit('input', value);
                 }
+            },
+            priceErrors() {
+                const errors = [];
+                if (!this.$v.menuList.price.$dirty) return errors;
+                // !this.$v.menuList.price.minValue && errors.push('Prețul nu poate fi negativ');
+                // !this.$v.menuList.price.maxValue && errors.push('Prețul este prea mare');
+                !this.$v.menuList.price.minLength && errors.push('Pretul trebuie să aibă cel puțin 6 caractere');
+
+                return errors;
             }
         },
         methods: {
@@ -189,14 +210,54 @@
                 this.imageUrl = URL.createObjectURL(file);
             },
             onSubmit() {
+                // this.$v.$touch();
+                // if (this.$v.$pending || this.$v.$error) return;
+
                 const formData = new FormData();
-                let data = this.menuList;
+                let data = {
+                    id: this.menuList.id,
+                    name: this.menuList.name,
+                    description: this.menuList.description,
+                    price: this.menuList.price,
+                    type: this.menuList.type,
+                    image: this.menuList.image
+                };
+
+                if ((this.menuList.name === this.menu.name &&
+                    this.menuList.description === this.menu.description &&
+                    this.menuList.price === this.menu.price &&
+                    this.menuList.type === this.menu.type &&
+                    this.menuList.image === this.menu.image) ||
+                    (this.menuList.name === '' &&
+                        this.menuList.description === '' &&
+                        this.menuList.price === this.menu.price &&
+                        this.menuList.type === this.menu.type &&
+                        this.menuList.image === this.menu.image) ||
+                    (this.menuList.name === '' &&
+                        this.menuList.description === this.menu.description &&
+                        this.menuList.price === this.menu.price &&
+                        this.menuList.type === this.menu.type &&
+                        this.menuList.image === this.menu.image) ||
+                    (this.menuList.name === this.menu.name &&
+                        this.menuList.description === '' &&
+                        this.menuList.price === this.menu.price &&
+                        this.menuList.type === this.menu.type &&
+                        this.menuList.image === this.menu.image)) {
+                    this.openModal = false;
+                    return;
+                }
+
                 formData.append('id', data.id);
-                formData.append('name', data.name);
-                formData.append('description', data.description);
-                formData.append('price', data.price);
-                formData.append('image', data.image);
-                formData.append('type', data.type);
+                if (this.menuList.name !== this.menu.name && this.menuList.name !== '')
+                    formData.append('name', data.name);
+                if (this.menuList.description !== this.menu.description && this.menuList.description !== '')
+                    formData.append('description', data.description);
+                if (this.menuList.price !== this.menu.price)
+                    formData.append('price', data.price);
+                if (this.menuList.image !== this.menu.image)
+                    formData.append('image', data.image);
+                if (this.menuList.type !== this.menu.type)
+                    formData.append('type', data.type);
                 formData.append('_method', 'patch');
                 this.$store.dispatch('editMenu', {data: formData, id: data.id}).then((res) => {
                     if (res.responseType === 'success') {

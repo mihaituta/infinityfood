@@ -5,30 +5,37 @@ const state = {
         {
             id: null,
             name: null,
-            description: null,
-            price: null,
-            type: null,
-            image: null,
-            store_id: null
+            slug: null,
+            user_id: null,
+            images_id: null
+
         }
-    ]
+    ],
+    store: {
+        id: null,
+        name: null,
+        slug: null,
+        images_id: null
+    }
 };
 
 const mutations = {
     getStores(state, payload) {
         state.stores = payload;
     },
+    getStore(state,payload){
+      state.store = payload;
+    },
     deleteStore(state, menu) {
         state.stores.splice(menu, 1);
     },
     clearStores(state) {
         state.stores = null;
-
     }
 };
 
 const actions = {
-    getStores({commit, state}) {
+    getStores({commit}) {
         axios.get('/stores')
             .then(res => {
                 console.log(res);
@@ -38,7 +45,7 @@ const actions = {
                     const temp = {
                         id: store.id,
                         name: store.name,
-                        url: store.url,
+                        slug: store.slug,
                         user_id: store.user_id,
                         images_id: store.images_id
                     };
@@ -47,6 +54,22 @@ const actions = {
                 commit('getStores', stores);
             })
             .catch(error => console.log(error));
+    },
+    getStore({commit},slug) {
+        return axios.get('/store/'+slug)
+            .then(res => {
+                let response = res.data.data;
+                if (res.data.responseType === 'success') {
+                    const store = {
+                        id: response.id,
+                        name: response.name,
+                        slug: response.slug,
+                        images_id: response.images_id
+                    };
+                    commit('getStore', store);
+                }
+                return res.data;
+            });
     },
     addStore({commit}, payload) {
         return axios.post('/staff/menu/add', payload)
@@ -87,6 +110,9 @@ const getters = {
     },
     getStoreById: (state) => (id) => {
         return state.menus.find(menu => menu.id === id);
+    },
+    store(state){
+        return state.store;
     }
 };
 

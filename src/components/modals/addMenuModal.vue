@@ -113,9 +113,9 @@
 
                                 <v-flex xs12
                                         class="text-xs-center text-sm-center text-md-center text-lg-center mt-2">
-                                    <v-tooltip v-if="imageUrl" top max-width="60%" color="white">
+                                    <v-tooltip v-if="imageUrl" top max-width="500px" color="white">
                                         <template v-slot:activator="{ on }">
-                                            <img :src="imageUrl" v-on="on" width="50%" v-if="imageUrl"/>
+                                            <img :src="imageUrl" v-on="on" width="35%" v-if="imageUrl"/>
                                         </template>
                                         <img :src="imageUrl" width="100%" v-if="imageUrl"/>
 

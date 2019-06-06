@@ -6,7 +6,6 @@
                 transition="slide-x-reverse-transition"
         >
             <v-card>
-
                 <v-card-title class="ma-0 pa-0">
                     <v-spacer></v-spacer>
                     <v-btn flat fab small @click="showModal = false">
@@ -30,7 +29,8 @@
         props: {
             value: Boolean,
             text: String,
-            id: Number
+            id: Number,
+            action: String,
         },
         computed: {
             showModal: {
@@ -44,7 +44,7 @@
         },
         methods: {
             onSubmit() {
-                this.$store.dispatch('deleteMenu', this.id).then((res) => {
+                this.$store.dispatch(this.action, this.id).then((res) => {
                     if (res.responseType === 'success') {
                         this.$parent.addDeleteNotification();
                         this.showModal = false;
