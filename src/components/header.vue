@@ -1,23 +1,20 @@
 <template>
-    <v-toolbar color="white">
+<!--    <v-toolbar dark color="#295ec4">-->
+    <v-toolbar dark color="dark">
         <router-link to="/">
-                <v-img contain width="250" :src="require('../assets/smallLogoBlue.png')"/>
+                <v-img contain width="300" :src="require('../assets/smallLogoWhiteBlue.png')"/>
         </router-link>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
-            <v-btn flat to="/">
-                <v-icon dark class="pr-2">home</v-icon>
+            <v-btn color="" flat to="/">
+                <v-icon class="pr-2">restaurant</v-icon>
                 Acasă
             </v-btn>
-            <v-btn flat to="/restaurante">
-                <v-icon class="pr-2">restaurant</v-icon>
-                Restaurante
-            </v-btn>
-            <v-btn flat to="/staff/store">
+            <v-btn color="" flat to="/staff/store">
                 <v-icon class="pr-2">people</v-icon>
                 Despre noi
             </v-btn>
-            <v-btn flat to="/staff/menus">
+            <v-btn color="" flat to="/staff/menus">
                 <v-icon class="pr-2">mail</v-icon>
                 Contact
             </v-btn>
