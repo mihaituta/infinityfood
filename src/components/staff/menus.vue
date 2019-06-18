@@ -1,101 +1,108 @@
 <template>
-    <v-container fluid style="width:80%">
-        <notification text="Meniul a fost șters cu succes!" color="rgb(255, 82, 82, 0.9)"
-                      :showNotification="menuDeletedNotif" :top=true :right=true></notification>
-        <notification text="Meniul a fost modificat cu succes!" color="rgb(76, 175, 80, 0.9)"
-                      :showNotification="menuUpdatedNotif" :top=true :right=true></notification>
-        <notification text="Există deja un meniu cu acest nume!" color="rgb(255, 82, 82, 0.9)"
-                      :showNotification="nameNotification" :top=true></notification>
-        <add-modal/>
-        <edit-modal v-if="openEditModal" v-model="openEditModal" :id='menuId'/>
-        <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest meniu?"
-                      :id='menuId' action="deleteMenu"/>
-        <v-tabs fixed-tabs color="transparent" centered>
-            <v-tab v-for="type in types" :key="type.id">
-                {{type}}
-            </v-tab>
-            <v-tab-item v-for="type in types" :key="type.id">
-                <v-container fluid grid-list-sm class="pa-2 mt-2">
-                    <v-layout class="text-xs-center">
-                        <v-flex xs1>
-                            <div>Imagine</div>
-                        </v-flex>
-                        <v-flex xs2>
-                            <div>Nume</div>
-                        </v-flex>
-                        <v-flex xs4>
-                            <div>Descriere</div>
-                        </v-flex>
-                        <v-flex xs1>
-                            <div>Preț</div>
-                        </v-flex>
-                        <v-flex xs1>
-                            <div>Tip</div>
-                        </v-flex>
-                        <v-flex xs3>
-                            <div>Acțiuni</div>
-                        </v-flex>
-                    </v-layout>
-                </v-container>
-                <v-hover v-for="menu in menus" :key="menu.id" v-if="menu.type === type">
-                    <v-card slot-scope="{ hover }"
-                            :class="`elevation-${hover ? 10 : 3}`">
-                        <v-container fluid grid-list-sm class="mb-2 mt-3 pa-1">
-                            <v-layout align-center justify-center  class="text-sm-center">
-                                <v-flex xs1>
-                                    <v-tooltip fixed right max-width="500px" color="white">
-                                        <template v-slot:activator="{ on }">
-                                            <v-img :src="path+menu.image"
-                                                   aspect-ratio="1"
-                                                   height="90"
-                                                   width="90"
-                                                   contain
-                                                   v-on="on"
-                                            ></v-img>
-                                        </template>
-                                        <img :src="path+menu.image" width="100%"/>
-                                    </v-tooltip>
-                                </v-flex>
-                                <v-flex xs2>
-                                    <div>{{ menu.name}}</div>
-                                </v-flex>
-                                <v-flex xs4>
-                                    <div >{{menu.description}}</div>
-                                </v-flex>
-                                <v-flex xs1>
-                                    <div>{{ menu.price}} ron</div>
-                                </v-flex>
-                                <v-flex xs1>
-                                    <div>{{ menu.type}}</div>
-                                </v-flex>
+    <div class="wrapper">
+        <v-container fluid style="width:80%">
+            <notification text="Meniul a fost șters cu succes!" color="rgb(255, 82, 82, 0.9)"
+                          :showNotification="menuDeletedNotif" :top=true :right=true></notification>
+            <notification text="Meniul a fost modificat cu succes!" color="rgb(76, 175, 80, 0.9)"
+                          :showNotification="menuUpdatedNotif" :top=true :right=true></notification>
+            <notification text="Există deja un meniu cu acest nume!" color="rgb(255, 82, 82, 0.9)"
+                          :showNotification="nameNotification" :top=true></notification>
+<!--            <v-btn ref="button" color="primary" block @click="$vuetify.goTo('.sms', options)">scroll</v-btn>-->
 
-                                <v-flex xs3>
-                                    <v-layout align-center justify-center row fill-height>
+            <add-modal/>
+            <edit-modal v-if="openEditModal" v-model="openEditModal" :id='menuId'/>
+            <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest meniu?"
+                          :id='menuId' action="deleteMenu"/>
+            <v-tabs fixed-tabs color="transparent" centered>
+                <v-tab v-for="type in types" :key="type.id">
+                    {{type}}
+                </v-tab>
+                <v-tab-item v-for="type in types" :key="type.id">
+                    <v-container fluid grid-list-sm class="pa-2 mt-2">
+                        <v-layout class="text-xs-center">
+                            <v-flex xs1>
+                                <div>Imagine</div>
+                            </v-flex>
+                            <v-flex xs2>
+                                <div>Nume</div>
+                            </v-flex>
+                            <v-flex xs4>
+                                <div>Descriere</div>
+                            </v-flex>
+                            <v-flex xs1>
+                                <div>Preț</div>
+                            </v-flex>
+                            <v-flex xs1>
+                                <div>Tip</div>
+                            </v-flex>
+                            <v-flex xs3>
+                                <div>Acțiuni</div>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                    <v-hover v-for="menu in menus" :key="menu.id" v-if="menu.type === type">
+                        <v-card slot-scope="{ hover }"
+                                :class="`elevation-${hover ? 10 : 3}`">
+                            <v-container fluid grid-list-sm class="mb-2 mt-3 pa-1">
+                                <v-layout align-center justify-center class="text-sm-center">
+                                    <v-flex xs1>
+                                        <v-tooltip fixed right max-width="500px" color="white">
+                                            <template v-slot:activator="{ on }">
+                                                <v-img :src="path+menu.image"
+                                                       aspect-ratio="1"
+                                                       height="90"
+                                                       width="90"
+                                                       contain
+                                                       v-on="on"
+                                                ></v-img>
+                                            </template>
+                                            <img :src="path+menu.image" width="100%"/>
+                                        </v-tooltip>
+                                    </v-flex>
+                                    <v-flex xs2>
+                                        <div>{{ menu.name}}</div>
+                                    </v-flex>
+                                    <v-flex xs4>
+                                        <div>{{menu.description}}</div>
+                                    </v-flex>
+                                    <v-flex xs1>
+                                        <div>{{ menu.price}} ron</div>
+                                    </v-flex>
+                                    <v-flex xs1>
+                                        <div>{{ menu.type}}</div>
+                                    </v-flex>
 
-                                        <v-btn dark color="success" @click.stop="editMenu(menu.id)">
-                                            <v-icon class="pr-2" size="20">edit</v-icon>
-                                            Modifică
-                                        </v-btn>
+                                    <v-flex xs3>
+                                        <v-layout align-center justify-center row fill-height>
 
-                                        <v-btn @click.stop="deleteMenu(menu.id)" dark color="error">
-                                            <v-icon class="pr-1" size="22">delete</v-icon>
-                                            Șterge
-                                        </v-btn>
-                                    </v-layout>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                    </v-card>
-                </v-hover>
-            </v-tab-item>
-        </v-tabs>
-    </v-container>
+                                            <v-btn dark color="success" @click.stop="editMenu(menu.id)">
+                                                <v-icon class="pr-2" size="20">edit</v-icon>
+                                                Modifică
+                                            </v-btn>
+
+                                            <v-btn @click.stop="deleteMenu(menu.id)" dark color="error">
+                                                <v-icon class="pr-1" size="22">delete</v-icon>
+                                                Șterge
+                                            </v-btn>
+                                        </v-layout>
+                                    </v-flex>
+                                </v-layout>
+                            </v-container>
+                        </v-card>
+                    </v-hover>
+                </v-tab-item>
+            </v-tabs>
+            <v-btn class="sms">SMS</v-btn>
+        </v-container>
+    </div>
 </template>
 
 <script>
     import addModal from '../modals/addMenuModal';
     import editModal from '../modals/editMenuModal';
     import deleteModal from '../modals/deleteModal';
+    import * as easings from 'vuetify/es5/util/easing-patterns'
+
 
     export default {
         data: function () {
@@ -108,6 +115,10 @@
                 nameNotification: false,
                 menuId: null,
                 path: process.env.VUE_APP_MENU_IMAGES,
+                duration: 1000,
+                offset: 0,
+                easing: 'easeInOutCubic',
+                easings: Object.keys(easings)
             };
         },
         computed: {
@@ -116,7 +127,19 @@
             },
             types() {
                 return this.$store.getters.menuTypes;
-            }
+            },
+            target() {
+                const value = this[this.type];
+                if (!isNaN(value)) return Number(value);
+                else return value
+            },
+            options() {
+                return {
+                    duration: this.duration,
+                    offset: this.offset,
+                    easing: this.easing
+                }
+            },
         },
         methods: {
             editMenu(id) {
@@ -161,7 +184,16 @@
     div {
         font-size: 18px;
     }
-    .flex{
-        word-wrap:break-word;
+
+    .wrapper {
+        /*background-image: url('../../assets/b8.png');*/
+        /*background-size: cover;*/
+        /*background-position: center;*/
+        /*background-attachment: fixed;*/
+
+    }
+
+    .flex {
+        word-wrap: break-word;
     }
 </style>

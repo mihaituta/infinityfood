@@ -122,7 +122,7 @@
                                     </v-tooltip>
                                 </v-flex>
                                 <v-flex class="text-xs-center text-sm-center text-md-center text-lg-center">
-                                    <div v-if="imageName" class="subheading font-weight-light">{{imageName}}</div>
+                                    <div v-if="imageName" class="subheading font-weight-light text-truncate">{{imageName}}</div>
                                 </v-flex>
 
 

@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar dark color="primary">
+    <v-toolbar dark color="dark">
         <v-toolbar-title>
             <div v-if="userRole === 'Admin'">Administrare</div>
             <div v-else-if="userRole === 'Staff'">Staff</div>
@@ -8,7 +8,7 @@
         <v-toolbar-items class="hidden-sm-and-down">
             <v-btn v-if="userRole === 'Admin'" flat to="/admin/magazine">
                 <v-icon class="pr-2">restaurant</v-icon>
-                Magazine
+                Restaurante
             </v-btn>
             <v-btn v-if="userRole === 'Admin'" flat to="/admin/utilizatori">
                 <v-icon class="pr-2">people</v-icon>
@@ -16,7 +16,7 @@
             </v-btn>
             <v-btn v-if="userRole === 'Staff'" flat to="/staff/magazin">
                 <v-icon class="pr-2">restaurant</v-icon>
-                Magazin
+                Restaurant
             </v-btn>
             <v-btn v-if="userRole === 'Staff'" flat to="/staff/meniuri">
                 <v-icon class="pr-2">fastfood</v-icon>

@@ -1,8 +1,8 @@
 <template>
-<!--    <v-toolbar dark color="#295ec4">-->
+    <!--    <v-toolbar dark color="#295ec4">-->
     <v-toolbar dark color="dark">
         <router-link to="/">
-                <v-img contain width="300" :src="require('../assets/smallLogoWhiteBlue.png')"/>
+            <v-img contain width="300" :src="require('../assets/'+logoImage)"/>
         </router-link>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
@@ -21,8 +21,30 @@
         </v-toolbar-items>
     </v-toolbar>
 </template>
-<script>
 
+<script>
+    export default {
+        data: function () {
+            return {
+                logoImage: ''
+            }
+        },
+        watch: {
+            $route(to, from) {
+                if (this.$router.currentRoute.name === 'storeslist') {
+                    this.logoImage = 'smallLogoWhiteBlue.png';
+                } else if (this.$router.currentRoute.name === 'login') {
+                    this.logoImage = 'smallLogoWhiteRed4.png';
+                }
+            }
+        },
+        created() {
+            if (this.$router.currentRoute.name === 'storeslist') {
+                this.logoImage = 'smallLogoWhiteBlue.png';
+            } else if (this.$router.currentRoute.name === 'login')
+                this.logoImage = 'smallLogoWhiteRed4.png';
+        },
+    }
 </script>
 
 <style scoped>

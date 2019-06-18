@@ -12,7 +12,7 @@
         <edit-modal v-if="openEditModal" v-model="openEditModal" :id='userId'/>
         <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest utilizator?"
                       :id='userId' action="deleteUser"/>
-        <v-card class="mt-3">
+        <v-card class="mt-4">
             <v-card-title class="headline">
                 Utilizatori
                 <v-spacer></v-spacer>

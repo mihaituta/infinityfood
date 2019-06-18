@@ -1,5 +1,5 @@
 <template>
-    <v-layout>
+    <v-layout class="pt-4">
         <notification text="Utilizatorul a fost adăugat cu succes!" color="rgb(76, 175, 80, 0.9)"
                       :showNotification="addNotification" :top=true :right=true></notification>
         <notification :text="'Există deja un utilizator cu acest '+errorText" color="rgb(255, 82, 82, 0.9)"

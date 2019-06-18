@@ -1,52 +1,56 @@
 <template>
-    <v-container fill-height>
-        <v-layout align-center justify-center>
-            <v-flex xs10 sm7 md6 lg4 xl3>
-                <v-card class="elevation-6">
-                    <v-toolbar dark color="info">
-                        <v-toolbar-title>Autentificare</v-toolbar-title>
-                    </v-toolbar>
-                    <v-card-text>
-                        <v-form>
-                            <v-alert
-                                    class="mb-3 text-sm-center subheading pr-5"
-                                    :value=errorText
-                                    type="error"
-                                    transition="scale-transition">
-                                {{errorText}}
-                            </v-alert>
-                            <v-text-field
-                                    prepend-icon="person"
-                                    name="email"
-                                    v-model="email"
-                                    :error-messages="emailErrors"
-                                    label="Email"
-                                    required
-                                    @input="$v.email.$touch()"
-                                    @blur="$v.email.$touch()"
-                            ></v-text-field>
-                            <v-text-field
-                                    prepend-icon="lock"
-                                    name="password"
-                                    :append-icon="show ? 'visibility' : 'visibility_off'"
-                                    :type="show ? 'text' : 'password'"
-                                    v-model="password"
-                                    :error-messages="passwordErrors"
-                                    label="Parolă"
-                                    required
-                                    @input="$v.password.$touch()"
-                                    @blur="$v.password.$touch()"
-                                    @click:append="show = !show"
-                            ></v-text-field>
-                        </v-form>
-                    </v-card-text>
-                    <v-card-actions class="justify-center pb-3">
-                        <v-btn color="info" @click.prevent="submit">Autentificare</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-flex>
-        </v-layout>
-    </v-container>
+    <div class="wrapper">
+        <v-container fill-height>
+            <v-layout align-center justify-center>
+                <v-flex xs10 sm7 md6 lg5 xl4>
+                    <v-card class="elevation-6">
+                        <v-toolbar dark color="dark">
+                            <v-toolbar-title class="headline">Autentificare</v-toolbar-title>
+                            <v-spacer></v-spacer>
+                            <v-img contain width="140" :src="require('../../assets/smallLogoWhiteRed4.png')"/>
+                        </v-toolbar>
+                        <v-card-text class="mt-2">
+                            <v-form>
+                                <v-alert
+                                        class="mt-0 mb-3 text-sm-center subheading pr-5"
+                                        :value=errorText
+                                        type="error"
+                                        transition="scale-transition">
+                                    {{errorText}}
+                                </v-alert>
+                                <v-text-field
+                                        prepend-icon="person"
+                                        name="email"
+                                        v-model="email"
+                                        :error-messages="emailErrors"
+                                        label="Email"
+                                        required
+                                        @input="$v.email.$touch()"
+                                        @blur="$v.email.$touch()"
+                                ></v-text-field>
+                                <v-text-field
+                                        prepend-icon="lock"
+                                        name="password"
+                                        :append-icon="show ? 'visibility' : 'visibility_off'"
+                                        :type="show ? 'text' : 'password'"
+                                        v-model="password"
+                                        :error-messages="passwordErrors"
+                                        label="Parolă"
+                                        required
+                                        @input="$v.password.$touch()"
+                                        @blur="$v.password.$touch()"
+                                        @click:append="show = !show"
+                                ></v-text-field>
+                            </v-form>
+                        </v-card-text>
+                        <v-card-actions class="justify-center pb-4">
+                            <v-btn dark color="red" @click.prevent="submit">Autentificare</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-flex>
+            </v-layout>
+        </v-container>
+    </div>
 </template>
 
 <script>
@@ -96,7 +100,7 @@
                 this.$store.dispatch('login', formData).then((res) => {
                     if (res.responseType !== 'undefined' && res.responseType === 'error' && res.errorMessage === 'invalidEmail') {
                         this.errorText = 'Utilizatorul nu există';
-                    } else if (res.responseType !== 'undefined' && res.responseType === 'error'  && res.errorMessage === 'invalidPassword') {
+                    } else if (res.responseType !== 'undefined' && res.responseType === 'error' && res.errorMessage === 'invalidPassword') {
                         this.errorText = 'Parola este incorectă';
                     }
                 });
@@ -106,5 +110,10 @@
 </script>
 
 <style scoped>
-
+    .wrapper {
+        background-image: url('../../assets/b6.png');
+        background-size: cover;
+        background-position: center;
+        height: 100%;
+    }
 </style>

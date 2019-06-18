@@ -12,7 +12,7 @@
                                :src="require('../assets/biglogoBlue2e.png')"></v-img>
                     </v-layout>
                     <v-layout align-center row justify-space-between class="mt-4">
-                        <v-flex xs6 sm5 md4 lg4 xl4>
+                        <v-flex xs6 sm5 md4 lg3 xl4>
                             <v-text-field
                                     prepend-inner-icon="search"
                                     v-model="search"
@@ -23,7 +23,7 @@
                             >
                             </v-text-field>
                         </v-flex>
-                        <v-flex xs6 sm5 md4 lg3 xl3>
+                        <v-flex xs6 sm5 md4 lg3 xl4>
                             <v-autocomplete
                                     prepend-inner-icon="location_city"
                                     v-model="cityModel"
@@ -31,12 +31,11 @@
                                     label="Alege un Oraș"
                                     height="60"
                                     solo
-                                    class="centered-input text--darken-3 mt-3"
                                     clearable
                             ></v-autocomplete>
                         </v-flex>
                     </v-layout>
-                    <v-layout row wrap class="mt-4">
+                    <v-layout row wrap class="mt-3">
                         <v-flex :key="store.id" v-for="(store, index) in filteredList" xs12 sm6 md4 lg3 xl3>
                             <v-layout justify-center>
                                 <v-card
@@ -160,6 +159,8 @@
 
         created() {
             this.$store.dispatch('getStores');
+            console.info('App currentRoute:', this.$router.currentRoute)
+
         },
 
     }
@@ -185,6 +186,10 @@
     .wrapper {
         margin: 0;
         padding: 0;
+        /*background-image: url('../assets/b8.png');*/
+        /*background-size: cover;*/
+
+
     }
 
     .v-text-field .v-label {
