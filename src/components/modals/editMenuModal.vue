@@ -56,7 +56,7 @@
                                     <v-select
                                             prepend-icon="restaurant_menu"
                                             :items=types
-                                            label="Tip mâncare"
+                                            label="Tip meniu"
                                             v-model="menuList.type"
                                     ></v-select>
                                 </v-flex>
@@ -75,7 +75,6 @@
                                     </v-btn>
                                     <div v-if="imageTooBig" style="color:red;"
                                          class="subheading font-weight-light mt-3">
-                                        <!--                                        Image is too big, resolution must be 1920x1080 or lower.-->
                                         Imaginea este prea mare, rezoluția trebuie să fie 1920x1080 sau mai mică.
                                     </div>
                                 </v-flex>
@@ -109,7 +108,7 @@
 </template>
 
 <script>
-    import {minValue, maxValue, minLength} from 'vuelidate/lib/validators';
+    import {minValue, maxValue,minLength} from 'vuelidate/lib/validators';
 
     export default {
         props: {
@@ -162,10 +161,7 @@
         },
         validations: {
             menuList: {
-                // name: {required},
-                // description: {required},
-                price: {minLength: minLength(6)}
-                // type: {required}
+                price: {minLength: minLength(6)}//,maxValue: maxValue(999999.99)},
             }
         },
         computed: {
@@ -180,9 +176,8 @@
             priceErrors() {
                 const errors = [];
                 if (!this.$v.menuList.price.$dirty) return errors;
-                // !this.$v.menuList.price.minValue && errors.push('Prețul nu poate fi negativ');
-                // !this.$v.menuList.price.maxValue && errors.push('Prețul este prea mare');
-                !this.$v.menuList.price.minLength && errors.push('Pretul trebuie să aibă cel puțin 6 caractere');
+                //!this.$v.menuList.price.maxValue && errors.push('Prețul este prea mare');
+                !this.$v.menuList.price.minLength && errors.push('Prețul este prea mic');
 
                 return errors;
             }
@@ -210,8 +205,8 @@
                 this.imageUrl = URL.createObjectURL(file);
             },
             onSubmit() {
-                // this.$v.$touch();
-                // if (this.$v.$pending || this.$v.$error) return;
+                this.$v.$touch();
+                if (this.$v.$pending || this.$v.$error) return;
 
                 const formData = new FormData();
                 let data = {

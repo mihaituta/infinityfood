@@ -2,14 +2,14 @@
     <div class="wrapper">
         <v-layout justify-center row>
             <v-flex xs12 sm10 md10 lg12 xl8>
-                <v-container>
+                <v-container class="mb-4">
                     <v-layout align-center justify-space-between row>
                         <v-flex xs7>
                             <div class="logoText">Livrare de mancare de la cele mai bune restaurante din orasul <b>Craiova</b>
                             </div>
                         </v-flex>
                         <v-img contain max-width="430"
-                               :src="require('../assets/biglogoBlue2e.png')"></v-img>
+                               :src="require('../assets/biglogoBlue2f.png')"></v-img>
                     </v-layout>
                     <v-layout align-center row justify-space-between class="mt-4">
                         <v-flex xs6 sm5 md4 lg3 xl4>

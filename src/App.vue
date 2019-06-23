@@ -8,18 +8,22 @@
             <auth-header v-if="logged"/>
             <app-header v-else/>
             <router-view/>
+            <app-footer/>
         </v-app>
     </div>
 </template>
 
 <script>
     import authHeader from './components/auth/authHeader';
-    import header from './components/header';
+    import header from './components/utils/header';
+    import footer from './components/utils/footer';
+
 
     export default {
         components: {
             'auth-header': authHeader,
-            'app-header': header
+            'app-header': header,
+            'app-footer': footer
         },
         computed: {
             logged() {

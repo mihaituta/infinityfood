@@ -11,6 +11,8 @@ import store from './store/store';
 import Store from './views/Store';
 import axios from 'axios';
 import StoresList from './views/StoresList';
+import About from './views/About';
+import Contact from './views/Contact';
 
 Vue.use(Router);
 
@@ -23,6 +25,16 @@ const router = new Router({
             path: '/',
             name: 'storeslist',
             component: StoresList
+        },
+        {
+            path: '/despre-noi',
+            name: 'about',
+            component: About
+        },
+        {
+            path: '/contact',
+            name: 'contact',
+            component: Contact
         },
         {
             path: '/restaurant/:slug',

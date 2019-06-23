@@ -8,17 +8,17 @@ import Vuelidate from 'vuelidate'
 import notification from './components/utils/notifications'
 import './utils/globalcss.css'
 
-Vue.component('notification',notification);
+Vue.component('notification', notification);
 Vue.config.productionTip = false
 Vue.use(Vuetify)
 Vue.use(Vuelidate)
 
 new Vue({
-  el: '#app',
-  router,
-  store,
-  render: h => h(App),
-  created () {
-    this.$store.dispatch('tryAutoLogin')
-  }
+    el: '#app',
+    router,
+    store,
+    render: h => h(App),
+    created() {
+        this.$store.dispatch('tryAutoLogin')
+    }
 });

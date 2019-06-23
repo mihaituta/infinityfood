@@ -1,0 +1,118 @@
+<template>
+    <div>
+        <v-layout class="wrap">
+            <v-container fill-height>
+                <v-layout align-center justify-center>
+                    <v-img class="mt-3 mr-2" max-width="215px"
+                           :src="require('../assets/bluewhitelogo3.png')"></v-img>
+                    <div class="mr-3 logodiv" style="color: #1b6cc4;">Despre</div>
+                    <div style="color: white" class="logodiv">noi</div>
+                </v-layout>
+            </v-container>
+        </v-layout>
+        <v-container style="width:70%">
+            <v-layout class="text-sm-center">
+                <v-flex>
+                    <div class="mb-3 sTitle">Despre noi</div>
+                    <div style="color: #434543">
+                        <div class="text mb-2">Ce este InfinityFood? O echipă creativă și dinamică, antrenată cu
+                            zambete și voie bună.
+                        </div>
+                        <div class="text mb-2">Ce face InfinityFood? Lucrează cu optimism în a vă oferi cele mai
+                            bune servicii pentru a comanda mancare online.
+                        </div>
+                        <div class="text mb-2">Ce motivează InfinityFood? Dorința de a oferi zi de zi servicii de
+                            calitate la un nivel realizat doar de profesioniști.
+                        </div>
+                        <div class="text mb-4">Ce oferă InfinityFood? Posibilitatea de a savura preparate delicioase
+                            de la restaurantele din zona în care vă aflati. O gamă variata de bucătării văstau la
+                            dispoziție cu doar câteva click-uri.
+                        </div>
+                    </div>
+                    <v-divider></v-divider>
+                    <div class="mb-3 mt-3 sTitle">Cum comanzi</div>
+                    <div class="text mb-2">1. Alege orașul și restaurantul de la care vrei să comanzi.</div>
+                    <div class="text mb-2">2. Adaugă mâncarea pe care ți-o dorești apăsând pe +, iar când ai terminat
+                        apasă pe "Comandă Acum".
+                    </div>
+                    <div class="text mb-2">3. Completează locația și datele tale de contact, după care apasă pe "Plasează comanda" pentru a confirma.
+                    </div>
+                    <div class="text mb-4">4. Poftă bună! Mâncarea este pregătită și livrată la ușa ta de către
+                        restaurant.
+                    </div>
+                    <v-divider class="mb-2"></v-divider>
+                    <v-btn
+                            color="primary"
+                            class="pl-4 pr-4 mt-4 mb-3 comandabtn"
+                            to="/"
+                            @click.native="scrollToTop"
+                    >
+                        Comandă acum
+                    </v-btn>
+                </v-flex>
+            </v-layout>
+        </v-container>
+    </div>
+</template>
+
+<script>
+    export default {
+        created() {
+            window.addEventListener('scroll', function (e) {
+                let scrolled = window.pageYOffset;
+                let background = document.querySelector(".wrap");
+                background.style.backgroundPosition = '0%' + (-(scrolled * 0.6) + 'px');
+            });
+        },
+        methods: {
+            scrollToTop() {
+                window.scrollTo(0, 0);
+            }
+        }
+
+    }
+</script>
+
+<style scoped>
+    .wrap {
+        height: 500px;
+        font-size: 55px;
+
+        color: white;
+        text-shadow: 2px 2px black;
+        width: 100%;
+        background-image: url('../assets/aboutbgdark.png');
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .text {
+        font-size: 22px;
+        font-family: sans-serif;
+        text-align: justify;
+    }
+
+    .sTitle {
+        font-size: 45px;
+        font-family: sans-serif;
+
+    }
+
+    .logodiv {
+        font-size: 110px;
+        font-weight: bold;
+        /*#526372*/
+        font-family: sans-serif;
+
+    }
+
+    .comandabtn {
+        font-size: 35px;
+        height: 55px;
+        font-family: sans-serif;
+        border-radius:5px;
+    }
+
+
+</style>

@@ -3,13 +3,13 @@
         <v-container fill-height>
             <v-layout align-center justify-center>
                 <v-flex xs10 sm7 md6 lg5 xl4>
-                    <v-card class="elevation-6">
+                    <v-card class="elevation-6 mb-5">
                         <v-toolbar dark color="dark">
                             <v-toolbar-title class="headline">Autentificare</v-toolbar-title>
                             <v-spacer></v-spacer>
-                            <v-img contain width="140" :src="require('../../assets/smallLogoWhiteRed4.png')"/>
+                            <v-img  width="140" :src="require('../../assets/smallLogoWhiteRed4.png')"/>
                         </v-toolbar>
-                        <v-card-text class="mt-2">
+                        <v-card-text>
                             <v-form>
                                 <v-alert
                                         class="mt-0 mb-3 text-sm-center subheading pr-5"
