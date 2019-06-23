@@ -186,10 +186,6 @@
     .wrapper {
         margin: 0;
         padding: 0;
-        /*background-image: url('../assets/b8.png');*/
-        /*background-size: cover;*/
-
-
     }
 
     .v-text-field .v-label {

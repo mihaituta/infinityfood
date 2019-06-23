@@ -51,9 +51,5 @@
 </script>
 
 <style scoped>
-    .logobtn {
-        text-decoration: none;
-        color: white;
-        font-size: 22px;
-    }
+
 </style>

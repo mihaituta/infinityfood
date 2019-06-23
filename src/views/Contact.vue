@@ -5,13 +5,13 @@
                 <v-layout align-center justify-center>
                     <v-img class="mt-3 mr-2" max-width="215px"
                            :src="require('../assets/bluewhitelogo3.png')"></v-img>
-                    <div class="logodiv" style="color: #1b6cc4;">Cont</div>
-                    <div class="logodiv">act</div>
+                    <div class="logo" style="color: #1b6cc4;">Cont</div>
+                    <div class="logo">act</div>
                 </v-layout>
             </v-container>
         </v-layout>
         <v-container style="width:70%">
-            <v-layout >
+            <v-layout>
                 <v-flex>
                     <div class="titleText mb-3 mt-3">Contact</div>
                     <div class="contentText mb-4">Ne face plăcere să discutăm cu cei care comandă mâncare pe
@@ -46,12 +46,13 @@
                         <v-divider></v-divider>
                     </div>
                     <div class="titleText mb-3 mt-3">Parteneri</div>
-                    <div class="contentText mb-2">Doriți să deveniți partenerul nostru? Vreți să vă vedeți restaurantul pe site? Sau sunteți deja partener și aveți întrebări cu privire la serviciile noastre?
+                    <div class="contentText mb-2">Doriți să deveniți partenerul nostru? Vreți să vă vedeți restaurantul
+                        pe site? Sau sunteți deja partener și aveți întrebări cu privire la serviciile noastre?
                     </div>
                     <div class="contentText mb-4">
                         Apelați cu încredere la
                         <v-icon class="mr-2">phone</v-icon>
-                        <span style="color: #1b6cc4;">0722 343 122</span>
+                        <span style="color: #1b6cc4;">0762 188 254</span>
                         sau scrieți-ne un e-mail la adresa
                         <v-icon class="mr-2">mail</v-icon>
                         <span style="color: #1b6cc4;">partener@infinityfood.ro</span>.
@@ -87,10 +88,9 @@
         background-attachment: fixed;
         background-repeat: no-repeat;
         background-size: cover;
-
     }
 
-    .logodiv {
+    .logo {
         font-size: 110px;
         font-weight: bold;
         font-family: sans-serif;

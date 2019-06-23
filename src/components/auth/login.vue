@@ -111,7 +111,7 @@
 
 <style scoped>
     .wrapper {
-        background-image: url('../../assets/b6.png');
+        background-image: url('../../assets/loginbg.png');
         background-size: cover;
         background-position: center;
         height: 100%;

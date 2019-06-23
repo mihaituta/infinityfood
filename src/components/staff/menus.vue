@@ -186,10 +186,10 @@
     }
 
     .wrapper {
-        /*background-image: url('../../assets/b8.png');*/
-        /*background-size: cover;*/
-        /*background-position: center;*/
-        /*background-attachment: fixed;*/
+       /* background-image: url('../../assets/s.png');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;*/
 
     }
 
