@@ -1,7 +1,7 @@
 import axios from '../axios-auth';
 
 const state = {
-    stores: [
+    restaurants: [
         {
             id: null,
             name: null,
@@ -11,7 +11,7 @@ const state = {
 
         }
     ],
-    store: {
+    restaurant: {
         id: null,
         name: null,
         slug: null,
@@ -20,58 +20,58 @@ const state = {
 };
 
 const mutations = {
-    getStores(state, payload) {
-        state.stores = payload;
+    getRestaurants(state, payload) {
+        state.restaurants = payload;
     },
-    getStore(state,payload){
-      state.store = payload;
+    getRestaurant(state, payload) {
+        state.restaurant = payload;
     },
-    deleteStore(state, menu) {
-        state.stores.splice(menu, 1);
+    deleteRestaurant(state, menu) {
+        state.restaurants.splice(menu, 1);
     },
-    clearStores(state) {
-        state.stores = null;
+    clearRestaurants(state) {
+        state.restaurants = null;
     }
 };
 
 const actions = {
-    getStores({commit}) {
+    getRestaurants({commit}) {
         axios.get('/stores')
             .then(res => {
                 console.log(res);
-                let stores = [];
+                let restaurants = [];
                 let response = res.data.data;
-                response.forEach((store) => {
+                response.forEach((restaurant) => {
                     const temp = {
-                        id: store.id,
-                        name: store.name,
-                        slug: store.slug,
-                        user_id: store.user_id,
-                        images_id: store.images_id
+                        id: restaurant.id,
+                        name: restaurant.name,
+                        slug: restaurant.slug,
+                        user_id: restaurant.user_id,
+                        images_id: restaurant.images_id
                     };
-                    stores.push(temp);
+                    restaurants.push(temp);
                 });
-                commit('getStores', stores);
+                commit('getRestaurants', restaurants);
             })
             .catch(error => console.log(error));
     },
-    getStore({commit},slug) {
-        return axios.get('/store/'+slug)
+    getRestaurant({commit}, slug) {
+        return axios.get('/store/' + slug)
             .then(res => {
                 let response = res.data.data;
                 if (res.data.responseType === 'success') {
-                    const store = {
+                    const restaurant = {
                         id: response.id,
                         name: response.name,
                         slug: response.slug,
                         images_id: response.images_id
                     };
-                    commit('getStore', store);
+                    commit('getRestaurant', restaurant);
                 }
                 return res.data;
             });
     },
-    addStore({commit}, payload) {
+    addRestaurant({commit}, payload) {
         return axios.post('/staff/menu/add', payload)
             .then(res => {
                 if (res.data.responseType === 'success')
@@ -82,7 +82,7 @@ const actions = {
                 console.log(error);
             });
     },
-    editStore({commit}, payload) {
+    editRestaurant({commit}, payload) {
         return axios.post('/staff/menu/' + payload.id, payload.data)
             .then(res => {
                 if (res.data.responseType === 'success')
@@ -93,7 +93,7 @@ const actions = {
                 console.log(error);
             });
     },
-    deleteStore({commit}, id) {
+    deleteRestaurant({commit}, id) {
         return axios.delete('/staff/menu/' + id)
             .then(res => {
                 console.log(res);
@@ -105,14 +105,14 @@ const actions = {
 };
 
 const getters = {
-    stores(state) {
-        return state.stores;
+    restaurants(state) {
+        return state.restaurants;
     },
-    getStoreById: (state) => (id) => {
+    getRestaurantById: (state) => (id) => {
         return state.menus.find(menu => menu.id === id);
     },
-    store(state){
-        return state.store;
+    restaurant(state) {
+        return state.restaurant;
     }
 };
 

@@ -3,14 +3,14 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Login from './components/auth/login';
 import Users from './components/admin/users';
-import Stores from './components/admin/stores';
+import Restaurants from './components/admin/restaurants';
 import Menus from './components/staff/menus';
-import EditStore from './components/staff/editStore';
+import EditStore from './components/staff/restaurant';
 import Error from './views/Error404';
 import store from './store/store';
-import Store from './views/Store';
+import Restaurant from './views/Restaurant';
 import axios from 'axios';
-import StoresList from './views/StoresList';
+import RestaurantsList from './views/RestaurantsList';
 import About from './views/About';
 import Contact from './views/Contact';
 
@@ -23,8 +23,8 @@ const router = new Router({
         {path: '/login', name: 'login', component: Login},
         {
             path: '/',
-            name: 'storeslist',
-            component: StoresList
+            name: 'restaurantslist',
+            component: RestaurantsList
         },
         {
             path: '/despre-noi',
@@ -38,8 +38,8 @@ const router = new Router({
         },
         {
             path: '/restaurant/:slug',
-            name: 'Store',
-            component: Store
+            name: 'restaurant',
+            component: Restaurant
         },
         {
             path: '/admin/utilizatori',
@@ -48,9 +48,9 @@ const router = new Router({
             meta: {requiresAuth: true, adminAuth: true, staffAuth: false}
         },
         {
-            path: '/admin/magazine',
-            name: 'stores',
-            component: Stores,
+            path: '/admin/restaurante',
+            name: 'restaurants',
+            component: Restaurants,
             meta: {requiresAuth: true, adminAuth: true, staffAuth: false}
         },
         {
@@ -60,7 +60,7 @@ const router = new Router({
             meta: {requiresAuth: true, adminAuth: false, staffAuth: true}
         },
         {
-            path: '/staff/magazin',
+            path: '/staff/restaurant',
             name: 'store',
             component: EditStore,
             meta: {requiresAuth: true, adminAuth: false, staffAuth: true}

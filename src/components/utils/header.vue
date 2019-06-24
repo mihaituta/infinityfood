@@ -1,5 +1,4 @@
 <template>
-    <!--    <v-toolbar dark color="#295ec4">-->
     <v-toolbar dark color="dark">
         <router-link to="/">
             <v-img v-if="logoImage" contain width="280" :src="require('../../assets/'+logoImage)"/>
@@ -8,7 +7,7 @@
         <v-toolbar-items class="hidden-sm-and-down">
             <v-btn color="" flat to="/">
                 <v-icon class="pr-2">restaurant</v-icon>
-                Acasă
+                Restaurante
             </v-btn>
             <v-btn color="" flat to="/despre-noi">
                 <v-icon class="pr-2">people</v-icon>
@@ -24,7 +23,7 @@
 
 <script>
     export default {
-        data: function () {
+        data() {
             return {
                 logoImage: ''
             }

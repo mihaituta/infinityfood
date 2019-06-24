@@ -36,13 +36,13 @@
                         </v-flex>
                     </v-layout>
                     <v-layout row wrap class="mt-3">
-                        <v-flex :key="store.id" v-for="(store, index) in filteredList" xs12 sm6 md4 lg3 xl3>
+                        <v-flex :key="restaurant.id" v-for="(restaurant, index) in filteredList" xs12 sm6 md4 lg3 xl3>
                             <v-layout justify-center>
                                 <v-card
                                         height="50%"
                                         width="90%"
                                         class="store-card mb-4"
-                                        @click="goToStore(store.slug)"
+                                        @click="goToRestaurant(restaurant.slug)"
                                 >
                                     <div class="store-img">
                                         <v-img :src="images[index]"
@@ -53,7 +53,7 @@
                                         <v-layout column wrap>
                                             <v-flex>
                                                 <div class="name">
-                                                    {{store.name}}
+                                                    {{restaurant.name}}
                                                 </div>
                                             </v-flex>
                                             <v-flex>
@@ -127,13 +127,13 @@
         },
         computed: {
             stores() {
-                return this.$store.getters.stores;
+                return this.$store.getters.restaurants;
             },
 
             filteredList() {
-               return this.$store.getters.stores.filter(store => {
-                    if (store.name)
-                        return store.name.toLowerCase().includes(this.search.toLowerCase())
+                return this.$store.getters.restaurants.filter(restaurant => {
+                    if (restaurant.name)
+                        return restaurant.name.toLowerCase().includes(this.search.toLowerCase())
                 });
                 // let restaurants = this.$store.getters.stores.filter(store => {
                 //     if (store.name)
@@ -152,15 +152,15 @@
             },
         },
         methods: {
-            goToStore(slug) {
-                this.$router.push({name: 'Store', params: {slug: slug}});
-            }
+            goToRestaurant(slug) {
+                this.$router.push({name: 'restaurant', params: {slug: slug}});
+            },
         },
 
         created() {
-            this.$store.dispatch('getStores');
+            this.$store.dispatch('getRestaurants');
             console.info('App currentRoute:', this.$router.currentRoute)
-
+            window.scrollTo(0, 0);
         },
 
     }

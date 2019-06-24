@@ -66,13 +66,20 @@
 <script>
     export default {
         created() {
-            window.addEventListener('scroll', function (e) {
+            window.addEventListener('scroll', this.handleScroll);
+        },
+
+        destroyed() {
+            window.removeEventListener('scroll', this.handleScroll);
+        },
+
+        methods: {
+            handleScroll() {
                 let scrolled = window.pageYOffset;
                 let background = document.querySelector(".wrap");
                 background.style.backgroundPosition = '0%' + (-(scrolled * 0.6) + 'px');
-            });
-        },
-
+            }
+        }
     }
 </script>
 

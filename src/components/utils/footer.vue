@@ -21,8 +21,8 @@
                             round
                             @click.native="scrollToTop"
                             to="/">
-                        <v-icon class="pr-2">home</v-icon>
-                        Acasă
+                        <v-icon class="pr-2">restaurant</v-icon>
+                        Restaurante
                     </v-btn>
                     <v-btn
                             color="white"

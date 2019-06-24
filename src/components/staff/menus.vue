@@ -7,7 +7,7 @@
                           :showNotification="menuUpdatedNotif" :top=true :right=true></notification>
             <notification text="Există deja un meniu cu acest nume!" color="rgb(255, 82, 82, 0.9)"
                           :showNotification="nameNotification" :top=true></notification>
-<!--            <v-btn ref="button" color="primary" block @click="$vuetify.goTo('.sms', options)">scroll</v-btn>-->
+            <!--            <v-btn ref="button" color="primary" block @click="$vuetify.goTo('.sms', options)">scroll</v-btn>-->
 
             <add-modal/>
             <edit-modal v-if="openEditModal" v-model="openEditModal" :id='menuId'/>
@@ -92,7 +92,6 @@
                     </v-hover>
                 </v-tab-item>
             </v-tabs>
-            <v-btn class="sms">SMS</v-btn>
         </v-container>
     </div>
 </template>
@@ -105,7 +104,7 @@
 
 
     export default {
-        data: function () {
+        data(){
             return {
                 menuDeletedNotif: false,
                 menuUpdatedNotif: false,
@@ -118,21 +117,25 @@
                 duration: 1000,
                 offset: 0,
                 easing: 'easeInOutCubic',
-                easings: Object.keys(easings)
+                easings: Object.keys(easings),
             };
         },
+
         computed: {
             menus() {
                 return this.$store.getters.menus;
             },
+
             types() {
                 return this.$store.getters.menuTypes;
             },
+
             target() {
                 const value = this[this.type];
                 if (!isNaN(value)) return Number(value);
                 else return value
             },
+
             options() {
                 return {
                     duration: this.duration,
@@ -146,22 +149,26 @@
                 this.openEditModal = true;
                 this.menuId = id;
             },
+
             deleteMenu(id) {
                 this.openDeleteModal = true;
                 this.menuId = id;
             },
+
             addDeleteNotification() {
                 this.menuDeletedNotif = false;
                 setTimeout(() => {
                     this.menuDeletedNotif = true;
                 }, 200);
             },
+
             addUpdateNotification() {
                 this.menuUpdatedNotif = false;
                 setTimeout(() => {
                     this.menuUpdatedNotif = true;
                 }, 200);
             },
+
             nameErrorNotification() {
                 this.nameNotification = false;
                 setTimeout(() => {
@@ -169,13 +176,15 @@
                 }, 200);
             }
         },
+
         created() {
             this.$store.dispatch('getMenus');
         },
+
         components: {
             'add-modal': addModal,
             'edit-modal': editModal,
-            'delete-modal': deleteModal
+            'delete-modal': deleteModal,
         }
     };
 </script>
@@ -186,10 +195,10 @@
     }
 
     .wrapper {
-       /* background-image: url('../../assets/s.png');
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;*/
+        /* background-image: url('../../assets/s.png');
+         background-size: cover;
+         background-position: center;
+         background-attachment: fixed;*/
 
     }
 
