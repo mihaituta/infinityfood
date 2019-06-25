@@ -89,7 +89,7 @@
         font-size: 55px;
         font-weight: bold;
         color: white;
-        text-shadow: 2px 2px black;
+        text-shadow: 3px 3px black;
         width: 100%;
         background-image: url('../assets/contactbgdark.png');
         background-attachment: fixed;

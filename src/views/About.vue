@@ -82,7 +82,7 @@
         font-size: 55px;
 
         color: white;
-        text-shadow: 2px 2px black;
+        text-shadow: 3px 3px black;
         width: 100%;
         background-image: url('../assets/aboutbgdark.png');
         background-attachment: fixed;

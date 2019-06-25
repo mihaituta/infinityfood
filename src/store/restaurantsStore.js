@@ -7,19 +7,54 @@ const state = {
             name: null,
             slug: null,
             user_id: null,
-            images_id: null
-
+            city: null,
+            previewDescription: null,
+            previewImage: null,
+            backgroundImage: null,
+            logoImage: null,
+            contactText: null,
+            phone1: null,
+            phone2: null,
+            mail1: null,
+            mail2: null,
+            aboutText: null,
         }
     ],
     restaurant: {
         id: null,
         name: null,
         slug: null,
-        images_id: null
-    }
+        user_id: null,
+        city: null,
+        previewDescription: null,
+        previewImage: null,
+        backgroundImage: null,
+        logoImage: null,
+        contactText: null,
+        phone1: null,
+        phone2: null,
+        mail1: null,
+        mail2: null,
+        aboutText: null,
+    },
+    menus: [
+        {
+            id: null,
+            name: null,
+            description: null,
+            price: null,
+            type: null,
+            image: null,
+            store_id: null
+        }
+    ],
+    menuTypes: []
 };
 
 const mutations = {
+    getRestaurantMenus(state, payload) {
+        state.menus = payload;
+    },
     getRestaurants(state, payload) {
         state.restaurants = payload;
     },
@@ -46,8 +81,9 @@ const actions = {
                         id: restaurant.id,
                         name: restaurant.name,
                         slug: restaurant.slug,
-                        user_id: restaurant.user_id,
-                        images_id: restaurant.images_id
+                        city: restaurant.city,
+                        previewDescription: restaurant.previewDescription,
+                        previewImage: restaurant.previewImage
                     };
                     restaurants.push(temp);
                 });
@@ -55,22 +91,55 @@ const actions = {
             })
             .catch(error => console.log(error));
     },
+
     getRestaurant({commit}, slug) {
         return axios.get('/store/' + slug)
             .then(res => {
-                let response = res.data.data;
+                let response = res.data.data.store;
                 if (res.data.responseType === 'success') {
                     const restaurant = {
                         id: response.id,
                         name: response.name,
-                        slug: response.slug,
-                        images_id: response.images_id
+                        backgroundImage: response.backgroundImage,
+                        logoImage: response.logoImage,
+                        contactText: response.contactText,
+                        phone1: response.phone1,
+                        phone2: response.phone2,
+                        mail1: response.mail1,
+                        mail2: response.mail2,
+                        aboutText: response.aboutText,
                     };
+
                     commit('getRestaurant', restaurant);
                 }
+                let menus = [];
+                let response2 = res.data.data.menus;
+                response2.forEach((menu) => {
+                    const temp = {
+                        id: menu.id,
+                        name: menu.name,
+                        description: menu.description,
+                        price: menu.price,
+                        type: menu.type,
+                        image: menu.image,
+                        store_id: menu.store_id
+                    };
+                    menus.push(temp);
+                });
+                commit('getRestaurantMenus', menus);
+                commit('getTypes',res.data.data.types);
+               /* const distinct = (value, index, self) => {
+                    return self.indexOf(value) === index;
+                };
+                let type = [];
+                for (let i = 0; i < menus.length; i++) {
+                    type[i] = menus[i].type;
+                }
+                state.menuTypes = type.filter(distinct);*/
                 return res.data;
             });
     },
+
     addRestaurant({commit}, payload) {
         return axios.post('/staff/menu/add', payload)
             .then(res => {
@@ -82,6 +151,7 @@ const actions = {
                 console.log(error);
             });
     },
+
     editRestaurant({commit}, payload) {
         return axios.post('/staff/menu/' + payload.id, payload.data)
             .then(res => {
@@ -93,6 +163,7 @@ const actions = {
                 console.log(error);
             });
     },
+
     deleteRestaurant({commit}, id) {
         return axios.delete('/staff/menu/' + id)
             .then(res => {
@@ -113,6 +184,15 @@ const getters = {
     },
     restaurant(state) {
         return state.restaurant;
+    },
+    restaurantMenus(state) {
+        return state.menus;
+    },
+    /* getMenuById: (state) => (id) => {
+         return state.menus.find(menu => menu.id === id);
+     },*/
+    restaurantMenuTypes(state) {
+        return state.menuTypes;
     }
 };
 

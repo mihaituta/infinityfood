@@ -121,7 +121,7 @@
                 path: 'http://food/storage/menu-images/',
                 imageName: '',
                 imageTooBig: false,
-                types: ['Starter', 'Main', 'Dessert', 'Drink', 'Pizza', 'Fastfood'],
+                types: ['Felul întâi', 'Fel principal', 'Fastfood', 'Pizza', 'Desert', 'Băuturi'],
                 menu: {},
                 menuList: [
                     {id: ''},
@@ -177,7 +177,7 @@
                 const errors = [];
                 if (!this.$v.menuList.price.$dirty) return errors;
                 //!this.$v.menuList.price.maxValue && errors.push('Prețul este prea mare');
-                !this.$v.menuList.price.minLength && errors.push('Prețul este prea mic');
+                //!this.$v.menuList.price.minLength && errors.push('Prețul este prea mic');
 
                 return errors;
             }

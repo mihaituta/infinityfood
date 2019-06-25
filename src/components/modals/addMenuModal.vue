@@ -122,7 +122,9 @@
                                     </v-tooltip>
                                 </v-flex>
                                 <v-flex class="text-xs-center text-sm-center text-md-center text-lg-center">
-                                    <div v-if="imageName" class="subheading font-weight-light text-truncate">{{imageName}}</div>
+                                    <div v-if="imageName" class="subheading font-weight-light text-truncate">
+                                        {{imageName}}
+                                    </div>
                                 </v-flex>
 
 
@@ -150,7 +152,7 @@
                 imageUrl: '',
                 imageName: '',
                 imageTooBig: false,
-                types: ['Starter', 'Main', 'Dessert', 'Drink', 'Pizza', 'Fastfood'],
+                types: ['Felul întâi', 'Fel principal', 'Fastfood', 'Pizza', 'Desert', 'Băuturi'],
                 menu: {
                     name: '',
                     description: '',

@@ -45,7 +45,7 @@
                                         @click="goToRestaurant(restaurant.slug)"
                                 >
                                     <div class="store-img">
-                                        <v-img :src="images[index]"
+                                        <v-img :src="path+restaurant.previewImage"
                                                height="180" width="100%" class="img"></v-img>
                                     </div>
 
@@ -58,7 +58,7 @@
                                             </v-flex>
                                             <v-flex>
                                             <span class="body-1 pt-1 font-weight-light text-truncate">
-                                                {{ text[index] }}
+                                                {{ restaurant.previewDescription }}
                                              </span>
                                             </v-flex>
                                         </v-layout>
@@ -77,28 +77,7 @@
     export default {
         data: function () {
             return {
-                path: 'http://food/storage/menu-images/',
-                images: [
-                    'https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500', //infinityfood
-                    'https://www.joc.com/sites/default/files/field_feature_image/KFC_0.png', //kfc
-                    'https://www.onlineqatar.com/portals/0/Images/living/Dining-Entertainments/pizza-hut-qatar.jpg', //pizza hut
-                    'http://pizzeria-mario-lino.de/wp-content/uploads/2012/10/20161122_212810-1024x768.jpg', //pizzeria mario
-                    'https://mirajpizza.ro/wp-content/uploads/2017/08/piept_pui_2.jpg', //la familiar
-                    'http://nrai.org/site/wp-content/uploads/2018/10/mcdonalds-fast-food.jpg', //mc donalds
-                    'https://eucemananc.ro/uploads/cover/18767566_1202786246499241_5126678999309654559_n.jpg', // spartan
-                    'https://i2-prod.mirror.co.uk/incoming/article10001303.ece/ALTERNATES/s615/Dominos-Pizza.jpg', //dominos
-                ],
-                text: [
-                    'Fast-Food | Bauturi | Romanesc',
-                    'Fast-Food | Internațional | Bauturi',
-                    'Pizza | Italienesc | Desert',
-                    'Pizza | Italienesc | Desert',
-                    'Fast-food | Bauturi | Romanesc',
-                    'Fast-Food | Internațional | Desert',
-                    'Fast-Food | Specific Grecesc | Desert',
-                    'Pizza | Italienesc | Bauturi',
-
-                ],
+                path: process.env.VUE_APP_RESTAURANT_IMAGES,
                 search: '',
                 cityModel: null,
                 city: [
@@ -161,6 +140,7 @@
             this.$store.dispatch('getRestaurants');
             console.info('App currentRoute:', this.$router.currentRoute)
             window.scrollTo(0, 0);
+
         },
 
     }

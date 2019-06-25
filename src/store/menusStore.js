@@ -19,6 +19,9 @@ const mutations = {
     getMenus(state, payload) {
         state.menus = payload;
     },
+    getTypes(state, payload) {
+        state.menuTypes = payload;
+    },
     deleteMenu(state, menu) {
         state.menus.splice(menu, 1);
     },
@@ -34,7 +37,7 @@ const actions = {
             .then(res => {
                 console.log(res);
                 let menus = [];
-                let response = res.data.data;
+                let response = res.data.data.menus;
                 response.forEach((menu) => {
                     const temp = {
                         id: menu.id,
@@ -48,14 +51,16 @@ const actions = {
                     menus.push(temp);
                 });
                 commit('getMenus', menus);
-                const distinct = (value, index, self) => {
-                    return self.indexOf(value) === index;
-                };
-                let type = [];
-                for (let i = 0; i < menus.length; i++) {
-                    type[i] = menus[i].type;
-                }
-                state.menuTypes = type.filter(distinct);
+                commit('getTypes', res.data.data.types);
+
+                // const distinct = (value, index, self) => {
+                //     return self.indexOf(value) === index;
+                // };
+                // let type = [];
+                // for (let i = 0; i < menus.length; i++) {
+                //     type[i] = menus[i].type;
+                // }
+                // state.menuTypes = type.filter(distinct);
             })
             .catch(error => console.log(error));
     },

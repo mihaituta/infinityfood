@@ -12,7 +12,7 @@
                 class="mb-5"
                 @click="$vuetify.goTo(0, options)"
         >
-            <v-icon>keyboard_arrow_up</v-icon>
+            <v-icon size="30">keyboard_arrow_up</v-icon>
         </v-btn>
     </v-fab-transition>
 </template>
