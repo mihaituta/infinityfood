@@ -1,4 +1,5 @@
 <template>
+    <div class="wrapper">
     <v-container fluid style="width:80%">
         <notification text="Utilizatorul a fost șters cu succes!" color="rgb(255, 82, 82, 0.9)" :top=true :right=true
                       :showNotification="userDeletedNotif"></notification>
@@ -12,7 +13,7 @@
         <edit-modal v-if="openEditModal" v-model="openEditModal" :id='userId'/>
         <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest utilizator?"
                       :id='userId' action="deleteUser"/>
-        <v-card class="mt-4">
+        <v-card class="mt-4 mb-5">
             <v-card-title class="headline">
                 Utilizatori
                 <v-spacer></v-spacer>
@@ -35,7 +36,7 @@
                     <td>{{ user.item.id }}</td>
                     <td>{{ user.item.name }}</td>
                     <td>{{ user.item.email }}</td>
-                    <td>{{user.item.role_id}}</td>
+                    <td>{{ user.item.role_id }}</td>
                     <td class="pa-0" width="20%">
 
                         <v-btn small dark color="success" @click.stop="editUser(user.item.id)">
@@ -63,6 +64,7 @@
             </v-data-table>
         </v-card>
     </v-container>
+    </div>
 </template>
 
 <script>
@@ -127,11 +129,25 @@
                 setTimeout(() => {
                     this.emailNotification = true;
                 }, 200);
-            }
+            },
+            handleScroll() {
+                let scrolled = window.pageYOffset;
+                let background = document.querySelector(".wrapper");
+                background.style.backgroundPosition = '0%' + (-(scrolled * 0.4) + 'px');
+            },
         },
-        created() {
+
+        beforeCreate() {
             this.$store.dispatch('getUsers');
         },
+        created() {
+            window.addEventListener('scroll', this.handleScroll);
+        },
+
+        destroyed() {
+            window.removeEventListener('scroll', this.handleScroll);
+        },
+
         components: {
             'add-modal': addModal,
             'edit-modal': editModal,
@@ -141,5 +157,10 @@
 </script>
 
 <style scoped>
+    .wrapper {
+ /*       background-image: url('../../assets/b16.png');
+        background-attachment: fixed;
+        background-size: cover;*/
 
+    }
 </style>

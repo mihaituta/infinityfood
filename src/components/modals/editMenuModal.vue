@@ -46,8 +46,7 @@
                                             type="number"
                                             label="Preț"
                                             min="0"
-                                            oninput="this.value = Math.abs(this.value)"
-                                            :error-messages="priceErrors"
+                                             :error-messages="priceErrors"
                                             @input="$v.menuList.price.$touch()"
                                             @blur="$v.menuList.price.$touch()"
                                     ></v-text-field>
@@ -161,7 +160,9 @@
         },
         validations: {
             menuList: {
-                price: {minLength: minLength(6)}//,maxValue: maxValue(999999.99)},
+                price: {minLength: minLength(6)}
+             /*   price: {maxValue: maxValue(25)},*/
+
             }
         },
         computed: {
@@ -176,8 +177,10 @@
             priceErrors() {
                 const errors = [];
                 if (!this.$v.menuList.price.$dirty) return errors;
-                //!this.$v.menuList.price.maxValue && errors.push('Prețul este prea mare');
-                //!this.$v.menuList.price.minLength && errors.push('Prețul este prea mic');
+/*
+                 !this.$v.menuList.price.maxValue && errors.push('Prețul este prea mare');
+*/
+                 !this.$v.menuList.price.minLength && errors.push('Prețul este prea mic');
 
                 return errors;
             }
@@ -254,6 +257,7 @@
                 if (this.menuList.type !== this.menu.type)
                     formData.append('type', data.type);
                 formData.append('_method', 'patch');
+
                 this.$store.dispatch('editMenu', {data: formData, id: data.id}).then((res) => {
                     if (res.responseType === 'success') {
                         this.$parent.addUpdateNotification();

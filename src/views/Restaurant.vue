@@ -106,7 +106,7 @@
         created() {
             window.scrollTo(0, 0);
 
-            this.$store.dispatch('getRestaurant', this.$route.params.slug).then((res) => {
+            this.$store.dispatch('getRestaurantComplete', this.$route.params.slug).then((res) => {
                 if (res.responseType === 'error') {
                     this.$router.replace({name: 'error', params: {'0': '404'}});
                 }

@@ -5,7 +5,7 @@
                   rel="stylesheet">
         </head>
         <v-app>
-            <auth-header v-if="logged"/>
+            <auth-header v-if="showLoggedNavbar"/>
             <app-header v-else-if="showNavbar"/>
             <router-view/>
             <app-footer/>
@@ -23,7 +23,8 @@
     export default {
         data() {
             return {
-                showNavbar: true
+                showNavbar: true,
+                showLoggedNavbar: false
             }
         },
         components: {
@@ -41,7 +42,12 @@
             $route(to, from) {
                 if (this.$router.currentRoute.name === 'restaurant') {
                     this.showNavbar = false;
+                    this.showLoggedNavbar = false;
+                } else if (this.$router.currentRoute.path.includes('/admin/') || this.$router.currentRoute.path.includes('/staff/')) {
+                    this.showNavbar = false;
+                    this.showLoggedNavbar = true;
                 } else {
+                    this.showLoggedNavbar = false;
                     this.showNavbar = true;
                 }
             }
@@ -49,7 +55,12 @@
         created() {
             if (this.$router.currentRoute.name === 'restaurant') {
                 this.showNavbar = false;
+                this.showLoggedNavbar = false;
+            } else if (this.$router.currentRoute.path.includes('/admin/') || this.$router.currentRoute.path.includes('/staff/')) {
+                this.showNavbar = false;
+                this.showLoggedNavbar = true;
             } else {
+                this.showLoggedNavbar = false;
                 this.showNavbar = true;
             }
         }

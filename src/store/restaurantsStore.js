@@ -64,13 +64,10 @@ const mutations = {
     deleteRestaurant(state, menu) {
         state.restaurants.splice(menu, 1);
     },
-    clearRestaurants(state) {
-        state.restaurants = null;
-    }
 };
 
 const actions = {
-    getRestaurants({commit}) {
+    getRestaurantsPreviews({commit}) {
         axios.get('/stores')
             .then(res => {
                 console.log(res);
@@ -78,7 +75,6 @@ const actions = {
                 let response = res.data.data;
                 response.forEach((restaurant) => {
                     const temp = {
-                        id: restaurant.id,
                         name: restaurant.name,
                         slug: restaurant.slug,
                         city: restaurant.city,
@@ -92,8 +88,8 @@ const actions = {
             .catch(error => console.log(error));
     },
 
-    getRestaurant({commit}, slug) {
-        return axios.get('/store/' + slug)
+    getRestaurantComplete({commit}, slug) {
+        return axios.get('/store-complete/' + slug)
             .then(res => {
                 let response = res.data.data.store;
                 if (res.data.responseType === 'success') {
@@ -109,7 +105,6 @@ const actions = {
                         mail2: response.mail2,
                         aboutText: response.aboutText,
                     };
-
                     commit('getRestaurant', restaurant);
                 }
                 let menus = [];
@@ -127,16 +122,45 @@ const actions = {
                     menus.push(temp);
                 });
                 commit('getRestaurantMenus', menus);
-                commit('getTypes',res.data.data.types);
-               /* const distinct = (value, index, self) => {
-                    return self.indexOf(value) === index;
-                };
-                let type = [];
-                for (let i = 0; i < menus.length; i++) {
-                    type[i] = menus[i].type;
-                }
-                state.menuTypes = type.filter(distinct);*/
+                commit('getTypes', res.data.data.types);
                 return res.data;
+            });
+    },
+    getRestaurantStaff({commit}) {
+        return axios.get('/staff/store')
+            .then(res => {
+                let response = res.data.data;
+                if (res.data.responseType === 'success') {
+                    const restaurant = {
+                        id: response.id,
+                        name: response.name,
+                        city: response.city,
+                        previewDescription: response.previewDescription,
+                        previewImage: response.previewImage,
+                        backgroundImage: response.backgroundImage,
+                        logoImage: response.logoImage,
+                        contactText: response.contactText,
+                        phone1: response.phone1,
+                        phone2: response.phone2,
+                        mail1: response.mail1,
+                        mail2: response.mail2,
+                        aboutText: response.aboutText,
+                    };
+                    commit('getRestaurant', restaurant);
+                }
+                return res.data;
+            });
+    },
+
+    editRestaurantStaff({commit}, payload) {
+        return axios.post('/staff/store', payload)
+            .then(res => {
+                if (res.data.responseType === 'success')
+                    this.dispatch('getRestaurantStaff');
+                return res.data;
+            })
+            .catch(error => {
+                console.log(error);
             });
     },
 

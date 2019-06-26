@@ -104,7 +104,7 @@
 
 
     export default {
-        data(){
+        data() {
             return {
                 menuDeletedNotif: false,
                 menuUpdatedNotif: false,
@@ -174,11 +174,25 @@
                 setTimeout(() => {
                     this.nameNotification = true;
                 }, 200);
-            }
+            },
+
+            handleScroll() {
+                let scrolled = window.pageYOffset;
+                let background = document.querySelector(".wrapper");
+                background.style.backgroundPosition = '0%' + (-(scrolled * 0.1) + 'px');
+            },
+        },
+
+        beforeCreate() {
+            this.$store.dispatch('getMenus');
         },
 
         created() {
-            this.$store.dispatch('getMenus');
+            window.addEventListener('scroll', this.handleScroll);
+        },
+
+        destroyed() {
+            window.removeEventListener('scroll', this.handleScroll);
         },
 
         components: {
@@ -195,11 +209,9 @@
     }
 
     .wrapper {
-        /* background-image: url('../../assets/s.png');
-         background-size: cover;
-         background-position: center;
-         background-attachment: fixed;*/
-
+        background-image: url('../../assets/b16.png');
+        background-attachment: fixed;
+        background-size: cover;
     }
 
     .flex {

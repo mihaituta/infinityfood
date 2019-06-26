@@ -80,7 +80,6 @@
     .wrap {
         height: 500px;
         font-size: 55px;
-
         color: white;
         text-shadow: 3px 3px black;
         width: 100%;

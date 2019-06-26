@@ -12,6 +12,7 @@ export default new Vuex.Store({
     state: {
         token: null,
         user: {
+            id: null,
             name: null,
             email: null,
             role_id: null
@@ -20,12 +21,14 @@ export default new Vuex.Store({
     mutations: {
         authUser(state, userData) {
             state.token = userData.token;
+            state.user.id = userData.id;
             state.user.name = userData.name;
             state.user.email = userData.email;
             state.user.role_id = userData.role_id;
         },
         clearAuthData(state) {
             state.token = null;
+            state.user.id = null;
             state.user.name = null;
             state.user.email = null;
             state.user.role_id = null;
@@ -47,11 +50,12 @@ export default new Vuex.Store({
                         router.replace('/admin/utilizatori');
 
                     if (state.user.role_id === 'Staff')
-                        router.replace('/staff/meniuri');
+                        router.replace('/staff/restaurant');
                 }
                 return res.data;
             }).catch(error => console.log(error));
         },
+
         logout({commit}) {
             commit('clearAuthData');
             commit('clearMenus');
@@ -69,6 +73,7 @@ export default new Vuex.Store({
             axios.get('/user').then(res => {
                 commit('authUser', {
                     token: token,
+                    id: res.data.data.id,
                     name: res.data.data.name,
                     email: res.data.data.email,
                     role_id: res.data.data.role_id

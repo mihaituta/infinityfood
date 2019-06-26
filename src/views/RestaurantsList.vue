@@ -134,15 +134,23 @@
             goToRestaurant(slug) {
                 this.$router.push({name: 'restaurant', params: {slug: slug}});
             },
+            handleScroll() {
+                let scrolled = window.pageYOffset;
+                let background = document.querySelector(".wrapper");
+                background.style.backgroundPosition = '0%' + (-(scrolled * 0.3) + 'px');
+            },
         },
 
         created() {
-            this.$store.dispatch('getRestaurants');
+            this.$store.dispatch('getRestaurantsPreviews');
             console.info('App currentRoute:', this.$router.currentRoute)
             window.scrollTo(0, 0);
+            window.addEventListener('scroll', this.handleScroll);
 
         },
-
+        destroyed() {
+            window.removeEventListener('scroll', this.handleScroll);
+        },
     }
 
 </script>
@@ -158,14 +166,12 @@
         font-family: 'Malgun Gothic', sans-serif
     }
 
-    .item-card-title {
-        /*font-family: Arial,sans-serif;*/
-
-    }
-
     .wrapper {
         margin: 0;
         padding: 0;
+        background-image: url('../assets/b17.png');
+        background-attachment: fixed;
+        background-size: cover;
     }
 
     .v-text-field .v-label {
