@@ -1,69 +1,70 @@
 <template>
     <div class="wrapper">
-    <v-container fluid style="width:80%">
-        <notification text="Utilizatorul a fost șters cu succes!" color="rgb(255, 82, 82, 0.9)" :top=true :right=true
-                      :showNotification="userDeletedNotif"></notification>
-        <notification text="Utilizatorul a fost modificat cu succes!" color="rgb(76, 175, 80, 0.9)"
-                      :showNotification="userUpdatedNotif" :top=true :right=true></notification>
-        <notification text="Există deja un utilizatorul cu acest nume!" color="rgb(255, 82, 82, 0.9)"
-                      :showNotification="nameNotification" :top=true></notification>
-        <notification text="Există deja un utilizatorul cu acest email!" color="rgb(255, 82, 82, 0.9)"
-                      :showNotification="emailNotification" :top=true></notification>
-        <add-modal/>
-        <edit-modal v-if="openEditModal" v-model="openEditModal" :id='userId'/>
-        <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest utilizator?"
-                      :id='userId' action="deleteUser"/>
-        <v-card class="mt-4 mb-5">
-            <v-card-title class="headline">
-                Utilizatori
-                <v-spacer></v-spacer>
-                <v-text-field
-                        v-model="search"
-                        append-icon="search"
-                        label="Caută"
-                        single-line
-                        hide-details
-                ></v-text-field>
-            </v-card-title>
-            <v-data-table
-                    v-if="users"
-                    :headers="headers"
-                    :items="users"
-                    :search="search"
-                    class="elevation-1"
-            >
-                <template slot="items" slot-scope="user">
-                    <td>{{ user.item.id }}</td>
-                    <td>{{ user.item.name }}</td>
-                    <td>{{ user.item.email }}</td>
-                    <td>{{ user.item.role_id }}</td>
-                    <td class="pa-0" width="20%">
+        <v-container fluid style="width:80%">
+            <notification text="Utilizatorul a fost șters cu succes!" color="rgb(255, 82, 82, 0.9)" :top=true
+                          :right=true
+                          :showNotification="userDeletedNotif"></notification>
+            <notification text="Utilizatorul a fost modificat cu succes!" color="rgb(76, 175, 80, 0.9)"
+                          :showNotification="userUpdatedNotif" :top=true :right=true></notification>
+            <notification text="Există deja un utilizatorul cu acest nume!" color="rgb(255, 82, 82, 0.9)"
+                          :showNotification="nameNotification" :top=true></notification>
+            <notification text="Există deja un utilizatorul cu acest email!" color="rgb(255, 82, 82, 0.9)"
+                          :showNotification="emailNotification" :top=true></notification>
+            <add-modal/>
+            <edit-modal v-if="openEditModal" v-model="openEditModal" :id='userId'/>
+            <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest utilizator?"
+                          :id='userId' action="deleteUser"/>
+            <v-card class="mt-4 mb-5">
+                <v-card-title class="headline">
+                    Utilizatori
+                    <v-spacer></v-spacer>
+                    <v-text-field
+                            v-model="search"
+                            append-icon="search"
+                            label="Caută"
+                            single-line
+                            hide-details
+                    ></v-text-field>
+                </v-card-title>
+                <v-data-table
+                        v-if="users"
+                        :headers="headers"
+                        :items="users"
+                        :search="search"
+                        class="elevation-1"
+                >
+                    <template slot="items" slot-scope="user">
+                        <td>{{ user.item.id }}</td>
+                        <td>{{ user.item.name }}</td>
+                        <td>{{ user.item.email }}</td>
+                        <td>{{ user.item.role_id }}</td>
+                        <td class="pa-0" width="20%">
 
-                        <v-btn small dark color="success" @click.stop="editUser(user.item.id)">
-                            <v-icon class="pr-2" size="18">edit</v-icon>
-                            Modifică
-                        </v-btn>
+                            <v-btn small dark color="success" @click.stop="editUser(user.item.id)">
+                                <v-icon class="pr-2" size="18">edit</v-icon>
+                                Modifică
+                            </v-btn>
 
-                        <v-btn small @click.stop="deleteUser(user.item.id)" dark color="error">
-                            <v-icon class="pr-1" size="20">delete</v-icon>
-                            Șterge
-                        </v-btn>
+                            <v-btn small @click.stop="deleteUser(user.item.id)" dark color="error">
+                                <v-icon class="pr-1" size="20">delete</v-icon>
+                                Șterge
+                            </v-btn>
 
-                    </td>
-                </template>
-                <template v-slot:no-data>
-                    <v-alert :value="true" color="error" icon="warning">
-                        Nu există utilizatori.
-                    </v-alert>
-                </template>
-                <template v-slot:no-results>
-                    <v-alert :value="true" color="error" icon="warning">
-                        Nu s-a găsit nimic pentru "{{ search }}" .
-                    </v-alert>
-                </template>
-            </v-data-table>
-        </v-card>
-    </v-container>
+                        </td>
+                    </template>
+                    <template v-slot:no-data>
+                        <v-alert :value="true" color="error" icon="warning">
+                            Nu există utilizatori.
+                        </v-alert>
+                    </template>
+                    <template v-slot:no-results>
+                        <v-alert :value="true" color="error" icon="warning">
+                            Nu s-a găsit nimic pentru "{{ search }}" .
+                        </v-alert>
+                    </template>
+                </v-data-table>
+            </v-card>
+        </v-container>
     </div>
 </template>
 
@@ -158,9 +159,9 @@
 
 <style scoped>
     .wrapper {
- /*       background-image: url('../../assets/b16.png');
-        background-attachment: fixed;
-        background-size: cover;*/
+        /*       background-image: url('../../assets/b16.png');
+               background-attachment: fixed;
+               background-size: cover;*/
 
     }
 </style>

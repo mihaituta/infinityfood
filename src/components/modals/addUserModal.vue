@@ -19,7 +19,7 @@
                 transition="slide-y-transition"
         >
             <v-card>
-                <v-card-title class="pa-0">
+                <v-card-title class="pa-0 mb-4">
                     <v-spacer></v-spacer>
                     <v-btn flat fab small @click="openModal = false">
                         <v-icon size="25px">close</v-icon>
@@ -31,7 +31,9 @@
                         </div>
                     </v-flex>
                 </v-card-title>
-                <v-form ref="form">
+                <v-divider></v-divider>
+                <v-form ref="form"  v-model="valid"
+                        lazy-validation>
                     <v-card-text class="pt-0 pb-0">
                         <v-container class="pl-3 pr-3 pb-2">
                             <v-layout column>
@@ -88,7 +90,7 @@
                         <v-card-actions class="pb-3">
                             <v-spacer></v-spacer>
                             <v-btn color="error" @click="openModal = false">Închide</v-btn>
-                            <v-btn color="primary" @click.prevent="onSubmit">Adaugă</v-btn>
+                            <v-btn color="primary" :disabled="!valid" @click.prevent="onSubmit">Adaugă</v-btn>
                         </v-card-actions>
                     </v-card-text>
                 </v-form>
@@ -104,12 +106,12 @@
     export default {
         data() {
             return {
+                valid: true,
                 openModal: false,
                 show: false,
                 roles: [
                     {text: 'Admin'},
                     {text: 'Staff'},
-                    {text: 'User'}
                 ],
                 user: {
                     name: '',
@@ -120,7 +122,6 @@
                 addNotification: false,
                 errorNotification: false,
                 errorText: ''
-
             };
         },
         validations: {

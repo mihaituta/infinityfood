@@ -60,6 +60,7 @@ export default new Vuex.Store({
             commit('clearAuthData');
             commit('clearMenus');
             commit('clearUsers');
+            commit('clearRestaurants');
             localStorage.removeItem('token');
             router.replace('/login');
             delete axios.defaults.headers.common['Authorization'];

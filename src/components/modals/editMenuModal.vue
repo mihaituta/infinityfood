@@ -7,7 +7,7 @@
                 transition="scale-transition"
         >
             <v-card>
-                <v-card-title class="ma-0 pa-0">
+                <v-card-title class="ma-0 pa-0 pb-4">
                     <v-spacer></v-spacer>
                     <v-btn flat fab small @click="openModal = false">
                         <v-icon size="25px">close</v-icon>
@@ -19,15 +19,17 @@
                         </div>
                     </v-flex>
                 </v-card-title>
-                <v-form ref="form">
+                <v-divider></v-divider>
+                <v-form ref="form" v-model="valid" lazy-validation>
                     <v-card-text class="pt-0 pb-0">
-                        <v-container class="pl-3 pr-3 pb-1">
+                        <v-container class="pt-3 pl-3 pr-3 pb-1">
                             <v-layout column>
                                 <v-flex xs12>
                                     <v-text-field
                                             prepend-icon="create"
                                             v-model="menuList.name"
                                             label="Nume"
+                                            :rules="nameRules"
                                     ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12>
@@ -37,6 +39,7 @@
                                             label="Descriere"
                                             rows="1"
                                             auto-grow
+                                            :rules="descriptionRules"
                                     ></v-textarea>
                                 </v-flex>
                                 <v-flex>
@@ -46,9 +49,7 @@
                                             type="number"
                                             label="Preț"
                                             min="0"
-                                             :error-messages="priceErrors"
-                                            @input="$v.menuList.price.$touch()"
-                                            @blur="$v.menuList.price.$touch()"
+                                            :rules="priceRules"
                                     ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12>
@@ -57,6 +58,7 @@
                                             :items=types
                                             label="Tip meniu"
                                             v-model="menuList.type"
+                                            :rules="typeRules"
                                     ></v-select>
                                 </v-flex>
                                 <input
@@ -97,7 +99,7 @@
                         <v-card-actions class="pb-3">
                             <v-spacer></v-spacer>
                             <v-btn color="error" @click.stop="openModal=false">Închide</v-btn>
-                            <v-btn color="primary" @click.prevent="onSubmit">Modifică</v-btn>
+                            <v-btn color="primary" :disabled="!valid" @click.prevent="onSubmit">Modifică</v-btn>
                         </v-card-actions>
                     </v-card-text>
                 </v-form>
@@ -107,8 +109,6 @@
 </template>
 
 <script>
-    import {minValue, maxValue,minLength} from 'vuelidate/lib/validators';
-
     export default {
         props: {
             value: Boolean,
@@ -116,6 +116,7 @@
         },
         data() {
             return {
+                valid: true,
                 imageUrl: '',
                 path: 'http://food/storage/menu-images/',
                 imageName: '',
@@ -129,7 +130,22 @@
                     {price: ''},
                     {type: ''},
                     {image: ''},
-                    {store_id: ''}
+                ],
+                nameRules: [
+                    v => !!v || 'Numele este obligatoriu',
+                ],
+                descriptionRules: [
+                    v => !!v || 'Descrierea este obligatorie',
+                ],
+                priceRules: [
+                    v => !!v || 'Prețul este obligatoriu',
+                    v => /^[0-9]*$/.test(v) || 'Prețul trebuie să conțină doar cifre',
+/*
+                    v => /^([0-9]{0,6})\.?\d+$/.test(v) || 'Prețul nu poate avea mai mult de 6 cifre'
+*/
+                ],
+                typeRules: [
+                    v => !!v || 'Tipul mâncării este obligatoriu',
                 ],
                 showNotification: false
             };
@@ -146,7 +162,6 @@
         },
         watch: {
             openModal() {
-                this.$v.$reset();
                 this.$refs.image.value = '';
                 this.menu.name = '';
                 this.menu.description = '';
@@ -158,13 +173,6 @@
                 this.imageTooBig = false;
             }
         },
-        validations: {
-            menuList: {
-                price: {minLength: minLength(6)}
-             /*   price: {maxValue: maxValue(25)},*/
-
-            }
-        },
         computed: {
             openModal: {
                 get() {
@@ -174,16 +182,6 @@
                     this.$emit('input', value);
                 }
             },
-            priceErrors() {
-                const errors = [];
-                if (!this.$v.menuList.price.$dirty) return errors;
-/*
-                 !this.$v.menuList.price.maxValue && errors.push('Prețul este prea mare');
-*/
-                 !this.$v.menuList.price.minLength && errors.push('Prețul este prea mic');
-
-                return errors;
-            }
         },
         methods: {
             pickFile() {
@@ -207,9 +205,11 @@
                 this.menuList.image = file;
                 this.imageUrl = URL.createObjectURL(file);
             },
+
             onSubmit() {
-                this.$v.$touch();
-                if (this.$v.$pending || this.$v.$error) return;
+                if (!this.$refs.form.validate()) {
+                    return;
+                }
 
                 const formData = new FormData();
                 let data = {
@@ -221,26 +221,11 @@
                     image: this.menuList.image
                 };
 
-                if ((this.menuList.name === this.menu.name &&
+                if (this.menuList.name === this.menu.name &&
                     this.menuList.description === this.menu.description &&
                     this.menuList.price === this.menu.price &&
                     this.menuList.type === this.menu.type &&
-                    this.menuList.image === this.menu.image) ||
-                    (this.menuList.name === '' &&
-                        this.menuList.description === '' &&
-                        this.menuList.price === this.menu.price &&
-                        this.menuList.type === this.menu.type &&
-                        this.menuList.image === this.menu.image) ||
-                    (this.menuList.name === '' &&
-                        this.menuList.description === this.menu.description &&
-                        this.menuList.price === this.menu.price &&
-                        this.menuList.type === this.menu.type &&
-                        this.menuList.image === this.menu.image) ||
-                    (this.menuList.name === this.menu.name &&
-                        this.menuList.description === '' &&
-                        this.menuList.price === this.menu.price &&
-                        this.menuList.type === this.menu.type &&
-                        this.menuList.image === this.menu.image)) {
+                    this.menuList.image === this.menu.image){
                     this.openModal = false;
                     return;
                 }

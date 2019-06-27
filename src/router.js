@@ -5,7 +5,7 @@ import Login from './components/auth/login';
 import Users from './components/admin/users';
 import Restaurants from './components/admin/restaurants';
 import Menus from './components/staff/menus';
-import EditStore from './components/staff/restaurant';
+import editRestaurant from './components/staff/editRestaurant';
 import Error from './views/Error404';
 import store from './store/store';
 import Restaurant from './views/Restaurant';
@@ -61,8 +61,8 @@ const router = new Router({
         },
         {
             path: '/staff/restaurant',
-            name: 'store',
-            component: EditStore,
+            name: 'editRestaurant',
+            component: editRestaurant,
             meta: {requiresAuth: true, adminAuth: false, staffAuth: true}
         },
         {

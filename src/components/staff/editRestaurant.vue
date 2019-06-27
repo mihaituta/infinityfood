@@ -4,7 +4,7 @@
 
             <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
                 <div class="titleText">
-                    Modifica Restaurant
+                    Modifică Restaurant
                 </div>
             </v-flex>
 
@@ -44,7 +44,7 @@
                                         <v-textarea
                                                 prepend-icon="description"
                                                 v-model="restaurant.previewDescription"
-                                                label="Descrierea de previzualizare"
+                                                label="Descrierea de prezentare"
                                                 rows="1"
                                                 auto-grow
                                                 :error-messages="previewDescriptionErrors"
@@ -122,7 +122,7 @@
                                     <v-flex xs12
                                             class="mt-3">
                                         <v-icon class="pr-2" dark>photo</v-icon>
-                                        <span class="subheading mr-3">Imagine de previzualizare</span>
+                                        <span class="subheading mr-3">Imagine de prezentare</span>
                                         <v-btn @click="pickPreviewImage" color="primary" class="ma-0">
                                             <v-icon left dark>add_photo_alternate</v-icon>
                                             Alege imagine
@@ -132,10 +132,6 @@
                                             Imaginea este prea mare, rezoluția trebuie să fie 1920x1080 sau mai
                                             mică.
                                         </div>
-                                        <!--     <div v-else-if="imageError" style="color:red;"
-                                                  class="subheading font-weight-light mt-3">
-                                                 Imaginea este obligatorie
-                                             </div>-->
                                     </v-flex>
                                     <input
                                             type="file"
@@ -169,7 +165,7 @@
                                         <v-icon class="pr-2" dark>photo</v-icon>
                                         <span class="subheading mr-3">Imagine de fundal</span>
                                         <v-btn @click="pickBgImage" color="primary" class="ma-0">
-                                            <v-icon left dark>cloud_upload</v-icon>
+                                            <v-icon left dark>add_photo_alternate</v-icon>
                                             Alege imagine
                                         </v-btn>
                                         <div v-if="bgImageTooBig" style="color:red;"
@@ -177,10 +173,6 @@
                                             Imaginea este prea mare, rezoluția trebuie să fie 1920x1080 sau mai
                                             mică.
                                         </div>
-                                        <!-- <div v-else-if="imageError" style="color:red;"
-                                              class="subheading font-weight-light mt-3">
-                                             Imaginea este obligatorie
-                                         </div>-->
                                     </v-flex>
                                     <input
                                             type="file"
@@ -214,7 +206,7 @@
                                         <v-icon class="pr-2" dark>photo</v-icon>
                                         <span class="subheading mr-3">Logo-ul restaurantului</span>
                                         <v-btn @click="pickLogoImage" color="primary" class="ma-0">
-                                            <v-icon left dark>add_a_photo</v-icon>
+                                            <v-icon left dark>add_photo_alternate</v-icon>
                                             Alege imagine
                                         </v-btn>
                                         <div v-if="logoImageTooBig" style="color:red;"
@@ -222,10 +214,6 @@
                                             Imaginea este prea mare, rezoluția trebuie să fie 1920x1080 sau mai
                                             mică.
                                         </div>
-                                        <!--<div v-else-if="imageError" style="color:red;"
-                                             class="subheading font-weight-light mt-3">
-                                            Imaginea este obligatorie
-                                        </div>-->
                                     </v-flex>
                                     <input
                                             type="file"
@@ -257,8 +245,7 @@
                             </v-container>
                             <v-card-actions class="pb-3">
                                 <v-spacer></v-spacer>
-                                <v-btn color="error" @click="resetFields">Resetează</v-btn>
-                                <v-btn color="primary" @click.prevent="onSubmit">Modifică</v-btn>
+                                <v-btn large class="editBtn pr-3 pl-3" color="primary" @click.prevent="onSubmit">Modifică</v-btn>
                             </v-card-actions>
                         </v-card-text>
                     </v-form>
@@ -303,7 +290,6 @@
                 ],
                 restaurantUpdatedNotif: false,
                 nameNotification: false,
-                imageError: false
             };
         },
 
@@ -340,13 +326,13 @@
             previewDescriptionErrors() {
                 const errors = [];
                 if (!this.$v.restaurant.previewDescription.$dirty) return errors;
-                !this.$v.restaurant.previewDescription.required && errors.push('Descrierea de previzualizare este obligatorie');
+                !this.$v.restaurant.previewDescription.required && errors.push('Descrierea de prezentare este obligatorie');
                 return errors;
             },
             aboutTextErrors() {
                 const errors = [];
                 if (!this.$v.restaurant.aboutText.$dirty) return errors;
-                !this.$v.restaurant.aboutText.required && errors.push('Descrierea este obligatorie');
+                !this.$v.restaurant.aboutText.required && errors.push('Descrierea restaurantului este obligatorie');
                 return errors;
             },
             contactTextErrors() {
@@ -376,7 +362,6 @@
                 !this.$v.restaurant.mail1.required && errors.push('Email-ul este obligatoriu');
                 return errors;
             },
-
             mailErrors2() {
                 const errors = [];
                 if (!this.$v.restaurant.mail2.$dirty) return errors;
@@ -388,42 +373,6 @@
         },
 
         methods: {
-            resetFields() {
-                this.$v.$reset();
-                this.$refs.previewImage.value = '';
-                this.$refs.bgImage.value = '';
-                this.$refs.logoImage.value = '';
-
-                this.restaurant.name = this.restaurantList.name;
-                this.restaurant.city = this.restaurantList.city;
-                this.restaurant.previewDescription = this.restaurantList.previewDescription;
-
-                this.restaurant.previewImage = this.restaurantList.previewImage;
-
-                this.restaurant.backgroundImage = this.restaurantList.backgroundImage;
-
-                this.restaurant.logoImage = this.restaurantList.logoImage;
-
-                this.restaurant.contactText = this.restaurantList.contactText;
-                this.restaurant.phone1 = this.restaurantList.phone1;
-                this.restaurant.phone2 = this.restaurantList.phone2;
-                this.restaurant.mail1 = this.restaurantList.mail1;
-                this.restaurant.mail2 = this.restaurantList.mail2;
-                this.restaurant.aboutText = this.restaurantList.aboutText;
-
-                this.previewImageURL = '';
-                this.bgImageURL = '';
-                this.logoImageURL = '';
-
-                this.previewImageName = '';
-                this.bgImageName = '';
-                this.logoImageName = '';
-
-                this.previewImageTooBig = false;
-                this.bgImageTooBig = false;
-                this.logoImageTooBig = false;
-            },
-
             addUpdateNotification() {
                 this.restaurantUpdatedNotif = false;
                 setTimeout(() => {
@@ -464,7 +413,6 @@
                 } else {
                     return;
                 }
-                this.imageError = false;
                 this.previewImageTooBig = false;
                 this.restaurant.previewImage = file;
                 this.previewImageURL = URL.createObjectURL(file);
@@ -484,7 +432,6 @@
                 } else {
                     return;
                 }
-                this.imageError = false;
                 this.bgImageTooBig = false;
                 this.restaurant.backgroundImage = file;
                 this.bgImageURL = URL.createObjectURL(file);
@@ -504,7 +451,6 @@
                 } else {
                     return;
                 }
-                this.imageError = false;
                 this.logoImageTooBig = false;
                 this.restaurant.logoImage = file;
                 this.logoImageURL = URL.createObjectURL(file);
@@ -534,7 +480,6 @@
             onSubmit() {
                 this.$v.$touch();
                 if (this.$v.$pending || this.$v.$error) return;
-                ;
 
                 if (this.restaurantList.name === this.restaurant.name &&
                     this.restaurantList.city === this.restaurant.city &&
@@ -548,7 +493,6 @@
                     this.restaurantList.mail1 === this.restaurant.mail1 &&
                     this.restaurantList.mail2 === this.restaurant.mail2 &&
                     this.restaurantList.aboutText === this.restaurant.aboutText) {
-                    console.log('sms');
                     return
                 }
 
@@ -615,8 +559,13 @@
     }
 
     .titleText {
-        font-size: 55px;
+        font-size: 60px;
         color: white;
-        text-shadow: 3px 3px black;
+        text-shadow: 6px 6px black;
+
+    }
+
+    .editBtn{
+        font-size: 19px;
     }
 </style>

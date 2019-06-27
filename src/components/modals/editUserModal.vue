@@ -23,7 +23,8 @@
                         </div>
                     </v-flex>
                 </v-card-title>
-                <v-form ref="form">
+                <v-form ref="form" v-model="valid"
+                        lazy-validation>
                     <v-card-text class="pt-0 pb-0">
                         <v-container class="pl-3 pr-3 pb-1">
                             <v-layout column>
@@ -32,6 +33,7 @@
                                             prepend-icon="person"
                                             v-model="userList.name"
                                             label="Nume"
+                                            :rules="nameRules"
                                     ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12>
@@ -39,29 +41,29 @@
                                             prepend-icon="email"
                                             v-model="userList.email"
                                             label="Email"
-                                            :error-messages="emailErrors"
-                                            @input="$v.userList.email.$touch()"
-                                            @blur="$v.userList.email.$touch()"
+                                            :rules="mailRules"
                                     ></v-text-field>
                                 </v-flex>
-                                <v-text-field
-                                        prepend-icon="lock"
-                                        name="password"
-                                        :append-icon="show ? 'visibility' : 'visibility_off'"
-                                        :type="show ? 'text' : 'password'"
-                                        v-model="userList.password"
-                                        :error-messages="passwordErrors"
-                                        label="Parolă"
-                                        @input="$v.userList.password.$touch()"
-                                        @blur="$v.userList.password.$touch()"
-                                        @click:append="show = !show"
-                                ></v-text-field>
+                                <v-flex>
+                                    <v-text-field
+                                            prepend-icon="lock"
+                                            :append-icon="show ? 'visibility' : 'visibility_off'"
+                                            :type="show ? 'text' : 'password'"
+                                            v-model="userList.password"
+                                            :error-messages="passwordErrors"
+                                            label="Parolă"
+                                            @input="$v.userList.password.$touch()"
+                                            @blur="$v.userList.password.$touch()"
+                                            @click:append="show = !show"
+                                    ></v-text-field>
+                                </v-flex>
                                 <v-flex xs12>
                                     <v-select
                                             prepend-icon="security"
                                             :items=roles
                                             label="Rol"
                                             v-model="userList.role_id"
+                                            :rules="role_idRules"
                                     ></v-select>
                                 </v-flex>
                             </v-layout>
@@ -69,7 +71,7 @@
                         <v-card-actions class="pb-3">
                             <v-spacer></v-spacer>
                             <v-btn color="error" @click.stop="openModal=false">Închide</v-btn>
-                            <v-btn color="primary" @click.prevent="onSubmit">Modifică</v-btn>
+                            <v-btn color="primary" :disabled="!valid" @click.prevent="onSubmit">Modifică</v-btn>
                         </v-card-actions>
                     </v-card-text>
                 </v-form>
@@ -89,19 +91,23 @@
         },
         data() {
             return {
+                valid: true,
                 show: false,
                 roles: [
                     {text: 'Admin'},
                     {text: 'Staff'},
-                    {text: 'User'}
                 ],
                 user: {},
-                userList: [
-                    {id: ''},
-                    {name: ''},
-                    {email: ''},
-                    {password: ''},
-                    {role_id: ''}
+                userList: [],
+                nameRules: [
+                    v => !!v || 'Numele este obligatoriu',
+                ],
+                mailRules: [
+                    v => !!v || 'E-mail-ul este obligatoriu',
+                    v => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail-ul trebuie să fie valid'
+                ],
+                role_idRules: [
+                    v => !!v || 'Rolul este obligatoriu',
                 ],
                 addNotification: false,
                 errorNotification: false,
@@ -126,7 +132,6 @@
         },
         validations: {
             userList: {
-                email: {email},
                 password: {minLength: minLength(6)}
             }
         },
@@ -139,16 +144,10 @@
                     this.$emit('input', value);
                 }
             },
-            emailErrors() {
-                const errors = [];
-                if (!this.$v.userList.email.$dirty) return errors;
-                !this.$v.userList.email.email && errors.push('Email-ul trebuie să fie valid');
-                return errors;
-            },
             passwordErrors() {
                 const errors = [];
                 if (!this.$v.userList.password.$dirty) return errors;
-                !this.$v.userList.password.minLength && errors.push('Parola trebuie să aibă cel puțin 6 caractere');
+                !this.$v.userList.password.minLength && errors.push('Parola trebuie să conțină cel puțin 6 caractere');
                 return errors;
             }
         },
@@ -157,21 +156,17 @@
                 this.$v.$touch();
                 if (this.$v.$pending || this.$v.$error) return;
 
+                if (!this.$refs.form.validate()) {
+                    return;
+                }
+
                 if ((this.userList.name === this.user.name &&
                     this.userList.email === this.user.email &&
-                    this.userList.password === this.user.password &&
+                    this.userList.password === undefined &&
                     this.userList.role_id === this.user.role_id) ||
-                    (this.userList.name === '' &&
-                        this.userList.email === this.user.email &&
-                        this.userList.password === this.user.password &&
-                        this.userList.role_id === this.user.role_id) ||
                     (this.userList.name === this.user.name &&
-                        this.userList.email === '' &&
-                        this.userList.password === this.user.password &&
-                        this.userList.role_id === this.user.role_id) ||
-                    (this.userList.name === '' &&
-                        this.userList.email === '' &&
-                        this.userList.password === this.user.password &&
+                        this.userList.email === this.user.email &&
+                        this.userList.password === '' &&
                         this.userList.role_id === this.user.role_id)) {
                     this.openModal = false;
                     return;

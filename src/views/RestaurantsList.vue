@@ -137,7 +137,7 @@
             handleScroll() {
                 let scrolled = window.pageYOffset;
                 let background = document.querySelector(".wrapper");
-                background.style.backgroundPosition = '0%' + (-(scrolled * 0.3) + 'px');
+                background.style.backgroundPosition = '0%' + (-(scrolled * 0.1) + 'px');
             },
         },
 

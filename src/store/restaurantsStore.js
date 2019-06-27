@@ -48,7 +48,13 @@ const state = {
             store_id: null
         }
     ],
-    menuTypes: []
+    menuTypes: [],
+    users: [
+        {
+            id: null,
+            name: null,
+        }
+    ],
 };
 
 const mutations = {
@@ -61,9 +67,18 @@ const mutations = {
     getRestaurant(state, payload) {
         state.restaurant = payload;
     },
+    getRestaurantsUsers(state, payload) {
+        state.users = payload;
+    },
     deleteRestaurant(state, menu) {
         state.restaurants.splice(menu, 1);
     },
+    clearRestaurants(state) {
+       /* state.restaurant = null;*/
+        state.menus = null;
+        state.menuTypes = null;
+        state.users = null;
+    }
 };
 
 const actions = {
@@ -84,6 +99,37 @@ const actions = {
                     restaurants.push(temp);
                 });
                 commit('getRestaurants', restaurants);
+            })
+            .catch(error => console.log(error));
+    },
+    getRestaurantsComplete({commit}) {
+        axios.get('/stores-complete')
+            .then(res => {
+                console.log(res);
+                let restaurants = [];
+                let response = res.data.data.restaurants;
+                response.forEach((restaurant) => {
+                    const temp = {
+                        id: restaurant.id,
+                        name: restaurant.name,
+                        slug: restaurant.slug,
+                        city: restaurant.city,
+                        user_id: restaurant.user_id,
+                        previewDescription: restaurant.previewDescription,
+                        previewImage: restaurant.previewImage,
+                        backgroundImage: restaurant.backgroundImage,
+                        logoImage: restaurant.logoImage,
+                        contactText: restaurant.contactText,
+                        phone1: restaurant.phone1,
+                        phone2: restaurant.phone2,
+                        mail1: restaurant.mail1,
+                        mail2: restaurant.mail2,
+                        aboutText: restaurant.aboutText,
+                    };
+                    restaurants.push(temp);
+                });
+                commit('getRestaurants', restaurants);
+                commit('getRestaurantsUsers', res.data.data.users);
             })
             .catch(error => console.log(error));
     },
@@ -165,10 +211,10 @@ const actions = {
     },
 
     addRestaurant({commit}, payload) {
-        return axios.post('/staff/menu/add', payload)
+        return axios.post('/admin/store', payload)
             .then(res => {
                 if (res.data.responseType === 'success')
-                    this.dispatch('getMenus');
+                    this.dispatch('getRestaurantsComplete');
                 return res.data;
             })
             .catch(error => {
@@ -177,10 +223,10 @@ const actions = {
     },
 
     editRestaurant({commit}, payload) {
-        return axios.post('/staff/menu/' + payload.id, payload.data)
+        return axios.post('/admin/store/' + payload.id, payload.data)
             .then(res => {
                 if (res.data.responseType === 'success')
-                    this.dispatch('getMenus');
+                    this.dispatch('getRestaurantsComplete');
                 return res.data;
             })
             .catch(error => {
@@ -189,11 +235,10 @@ const actions = {
     },
 
     deleteRestaurant({commit}, id) {
-        return axios.delete('/staff/menu/' + id)
+        return axios.delete('/admin/store/' + id)
             .then(res => {
-                console.log(res);
-                commit('deleteMenu', id);
-                this.dispatch('getMenus');
+                commit('deleteRestaurant', id);
+                this.dispatch('getRestaurantsComplete');
                 return res.data;
             });
     }
@@ -204,17 +249,17 @@ const getters = {
         return state.restaurants;
     },
     getRestaurantById: (state) => (id) => {
-        return state.menus.find(menu => menu.id === id);
+        return state.restaurants.find(restaurant => restaurant.id === id);
     },
     restaurant(state) {
         return state.restaurant;
     },
+    getStaffUsers(state) {
+        return state.users;
+    },
     restaurantMenus(state) {
         return state.menus;
     },
-    /* getMenuById: (state) => (id) => {
-         return state.menus.find(menu => menu.id === id);
-     },*/
     restaurantMenuTypes(state) {
         return state.menuTypes;
     }

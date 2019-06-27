@@ -20,8 +20,7 @@
                 transition="slide-y-transition"
         >
             <v-card>
-
-                <v-card-title class="pa-0">
+                <v-card-title class="pa-0 mb-4">
                     <v-spacer></v-spacer>
                     <v-btn flat fab small @click="openModal = false">
                         <v-icon size="25px">close</v-icon>
@@ -33,9 +32,11 @@
                         </div>
                     </v-flex>
                 </v-card-title>
-                <v-form ref="form">
+                <v-divider></v-divider>
+                <v-form ref="form" v-model="valid"
+                        lazy-validation>
                     <v-card-text class="pt-0 pb-0">
-                        <v-container class="pl-3 pr-3 pb-2">
+                        <v-container class="pl-3 pr-3 pb-2 pt-1">
                             <v-layout column>
                                 <v-flex xs12>
                                     <v-text-field
@@ -126,14 +127,12 @@
                                         {{imageName}}
                                     </div>
                                 </v-flex>
-
-
                             </v-layout>
                         </v-container>
                         <v-card-actions class="pb-3">
                             <v-spacer></v-spacer>
                             <v-btn color="error" @click="openModal = false">Închide</v-btn>
-                            <v-btn color="primary" @click.prevent="onSubmit">Adaugă</v-btn>
+                            <v-btn color="primary" :disabled="!valid" @click.prevent="onSubmit">Adaugă</v-btn>
                         </v-card-actions>
                     </v-card-text>
                 </v-form>
@@ -148,6 +147,7 @@
     export default {
         data() {
             return {
+                valid: true,
                 openModal: false,
                 imageUrl: '',
                 imageName: '',
@@ -180,8 +180,8 @@
                 this.menu.name = '';
                 this.menu.description = '';
                 this.menu.price = '';
-                this.menu.type = null;
-                this.menu.image = null;
+                this.menu.type = '';
+                this.menu.image = '';
                 this.imageUrl = '';
                 this.imageName = '';
                 this.imageTooBig = false;
@@ -253,15 +253,18 @@
                 this.imageUrl = URL.createObjectURL(file);
             },
             onSubmit() {
+                if (!this.menu.image)
+                    this.imageError = true;
                 this.$v.$touch();
                 if (this.$v.$pending || this.$v.$error) return;
 
                 const formData = new FormData();
                 const menuData = this.menu;
+
                 if (!menuData.image) {
-                    this.imageError = true;
                     return;
                 }
+
                 formData.append('name', menuData.name);
                 formData.append('description', menuData.description);
                 formData.append('price', menuData.price);
