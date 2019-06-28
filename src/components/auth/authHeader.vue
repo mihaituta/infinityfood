@@ -22,6 +22,10 @@
                 <v-icon class="pr-2">fastfood</v-icon>
                 Meniuri
             </v-btn>
+            <v-btn v-if="userRole === 'Staff'" flat to="/staff/comenzi">
+                <v-icon class="pr-2">assignment</v-icon>
+                Comenzi
+            </v-btn>
             <v-btn flat v-if="userRole" @click="onLogout" class="logout">
                 <v-icon class="pr-2">exit_to_app</v-icon>
                 Deconectează-te

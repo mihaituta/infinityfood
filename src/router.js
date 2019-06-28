@@ -5,6 +5,7 @@ import Login from './components/auth/login';
 import Users from './components/admin/users';
 import Restaurants from './components/admin/restaurants';
 import Menus from './components/staff/menus';
+import Orders from './components/staff/orders';
 import editRestaurant from './components/staff/editRestaurant';
 import Error from './views/Error404';
 import store from './store/store';
@@ -63,6 +64,12 @@ const router = new Router({
             path: '/staff/restaurant',
             name: 'editRestaurant',
             component: editRestaurant,
+            meta: {requiresAuth: true, adminAuth: false, staffAuth: true}
+        },
+        {
+            path: '/staff/comenzi',
+            name: 'orders',
+            component: Orders,
             meta: {requiresAuth: true, adminAuth: false, staffAuth: true}
         },
         {

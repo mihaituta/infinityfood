@@ -224,12 +224,6 @@
                     this.nameNotification = true;
                 }, 200);
             },
-            emailErrorNotification() {
-                this.emailNotification = false;
-                setTimeout(() => {
-                    this.emailNotification = true;
-                }, 200);
-            },
             handleScroll() {
                 let scrolled = window.pageYOffset;
                 let background = document.querySelector(".wrapper");

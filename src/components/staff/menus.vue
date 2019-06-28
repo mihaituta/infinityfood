@@ -11,6 +11,13 @@
             <edit-modal v-if="openEditModal" v-model="openEditModal" :id='menuId'/>
             <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest meniu?"
                           :id='menuId' action="deleteMenu"/>
+            <v-alert
+                    :value="!menus.length"
+                    type="error"
+                    class="mt-4"
+            >
+                Nu există meniuri.
+            </v-alert>
             <v-tabs class="mt-2" fixed-tabs color="transparent" centered>
                 <v-tab v-for="type in types" :key="type.id">
                     <v-icon class="mr-2">{{getIcon(type)}}</v-icon>
@@ -40,7 +47,7 @@
                         </v-layout>
                     </v-container>
                     <v-hover v-for="menu in menus" :key="menu.id" v-if="menu.type === type">
-                        <v-card slot-scope="{ hover }"
+                        <v-card style="border-radius: 5px;" slot-scope="{ hover }"
                                 :class="`elevation-${hover ? 10 : 3}`">
                             <v-container fluid grid-list-sm class="mb-2 mt-3 pa-1">
                                 <v-layout align-center justify-center class="text-sm-center">
@@ -74,13 +81,15 @@
                                     <v-flex xs3>
                                         <v-layout align-center justify-center row fill-height>
 
-                                            <v-btn dark color="success" @click.stop="editMenu(menu.id)">
+                                            <v-btn style="border-radius: 5px;" color="success"
+                                                   @click.stop="editMenu(menu.id)">
                                                 <v-icon class="pr-2" size="20">edit</v-icon>
                                                 Modifică
                                             </v-btn>
 
-                                            <v-btn @click.stop="deleteMenu(menu.id)" dark color="error">
-                                                <v-icon class="pr-1" size="22">delete</v-icon>
+                                            <v-btn style="border-radius: 5px;" color="error"
+                                                   @click.stop="deleteMenu(menu.id)">
+                                                <v-icon class="pr-1" size="21">delete</v-icon>
                                                 Șterge
                                             </v-btn>
                                         </v-layout>
@@ -132,6 +141,7 @@
         computed: {
             menus() {
                 return this.$store.getters.menus;
+
             },
 
             types() {

@@ -32,7 +32,7 @@ const mutations = {
 };
 
 const actions = {
-    getMenus({commit, state}) {
+    getMenus({commit}) {
         axios.get('/staff/menus')
             .then(res => {
                 console.log(res);

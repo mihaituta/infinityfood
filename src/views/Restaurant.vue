@@ -1,6 +1,24 @@
 <template>
     <div>
         <restaurant-header/>
+        <v-snackbar
+                v-model="addNotification"
+                :timeout="60000"
+                top
+                dark
+                multi-line
+                color="rgb(76, 175, 80, 0.9)"
+                style="font-size: 18px"
+                class="font-weight-light mt-4"
+        >
+            <div>Comanda a fost finalizată cu succes, aceasta va ajunge la
+                dumneavoastră in aproximativ 50 de minute. <br> Mulțumim că ați comandat de la noi. Pofta bună!
+            </div>
+            <v-btn flat @click.native="addNotification = false">
+                <v-icon size="21px">close</v-icon>
+            </v-btn>
+        </v-snackbar>
+
         <v-layout class="wrap" v-if="restaurant.backgroundImage"
                   :style="{ backgroundImage: 'url('+path+restaurant.backgroundImage+')'}">
             <v-container fill-height>
@@ -19,20 +37,27 @@
                     <div style="color: #434543">
                         <div class="contentText mb-4">{{restaurant.aboutText}}</div>
                     </div>
-                    <v-divider></v-divider>
+
                 </v-flex>
             </v-layout>
         </v-container>
 
-        <v-container fluid class="pt-0" style="width:85%">
-            <div class="mb-3 text-sm-center sTitle t3">
+        <v-container v-if="menus.length" fluid class="pt-0 pb-2" style="width:85%">
+            <v-divider></v-divider>
+            <div class="mb-3 text-sm-center sTitle t2">
                 Comandă acum
             </div>
             <v-layout>
                 <v-flex xs9>
-                    <v-tabs grow slider-color="black" dark color="primary">
+                    <v-tabs
+                            grow
+                            slider-color="black"
+                            dark
+                            color="primary"
+                            class="mb-5"
+                    >
                         <v-tab v-for="type in types" :key="type.id">
-                            <v-icon style="text-shadow: 2px 2px  black;" size="18" class="mr-2">{{getIcon(type)}}
+                            <v-icon style="text-shadow: 2px 2px black;" size="18" class="mr-2">{{getIcon(type)}}
                             </v-icon>
                             <div class="typeText ma-0 pa-0"><b>{{type}}</b></div>
                         </v-tab>
@@ -76,10 +101,135 @@
                             </v-hover>
                         </v-tab-item>
                     </v-tabs>
+
+                    <div class="orderSection">
+                        <div v-if="orderNow">
+                            <v-divider class="mb-4"></v-divider>
+                            <v-layout justify-center>
+                                <v-card width="100%" class="mb-3 mt-4" style="border-radius:10px;">
+                                    <v-form ref="form">
+                                        <v-card-text class="pt-0 pb-0">
+                                            <v-container class="pl-3 pr-3 pb-0">
+                                                <v-layout column>
+                                                    <v-flex xs12>
+                                                        <div class="mb-2 finalOrderTitle">Eşti gata să serveşti masa?
+                                                        </div>
+                                                    </v-flex>
+
+                                                    <v-flex xs12>
+                                                        <v-divider></v-divider>
+                                                        <div class="mt-3 finalOrderText">Unde dorești să fie livrată
+                                                            comanda?
+                                                        </div>
+                                                    </v-flex>
+
+                                                    <v-layout class="justify-space-between mt-3">
+                                                        <v-text-field
+                                                                prepend-inner-icon="place"
+                                                                v-model="address.adresa"
+                                                                label="Adresă (strada, numarul) *"
+                                                                outline
+                                                                :rules="addressRules"
+                                                                class="pr-3"
+                                                        ></v-text-field>
+                                                        <v-text-field
+                                                                prepend-inner-icon="place"
+                                                                v-model="address.bloc"
+                                                                label="Bloc"
+                                                                outline
+                                                                class="pl-3"
+                                                        ></v-text-field>
+                                                    </v-layout>
+
+                                                    <v-layout class="justify-space-between">
+                                                        <v-text-field
+                                                                prepend-inner-icon="place"
+                                                                v-model="address.scara"
+                                                                label="Scara"
+                                                                outline
+                                                                class="pr-3"
+                                                        ></v-text-field>
+                                                        <v-text-field
+                                                                prepend-inner-icon="place"
+                                                                v-model="address.etaj"
+                                                                label="Etaj"
+                                                                outline
+                                                                class="pl-3"
+                                                        ></v-text-field>
+                                                    </v-layout>
+
+                                                    <v-layout class="justify-space-between">
+                                                        <v-text-field
+                                                                prepend-inner-icon="place"
+                                                                v-model="address.apartament"
+                                                                label="Apartament"
+                                                                outline
+                                                                class="pr-3"
+                                                        ></v-text-field>
+                                                        <v-text-field
+                                                                prepend-inner-icon="phone"
+                                                                v-model="address.interfon"
+                                                                label="Interfon"
+                                                                outline
+                                                                class="pl-3"
+                                                        ></v-text-field>
+                                                    </v-layout>
+                                                    <v-textarea
+                                                            prepend-inner-icon="description"
+                                                            v-model="address.informations"
+                                                            label="Obiecții, preferințe (dacă este cazul)"
+                                                            outline
+                                                            rows="1"
+                                                            auto-grow
+                                                    ></v-textarea>
+
+                                                    <v-flex xs12>
+                                                        <v-divider></v-divider>
+                                                        <div class="mt-3 finalOrderText">Cum te putem contacta?</div>
+                                                    </v-flex>
+
+                                                    <v-layout class="justify-space-between mt-3">
+                                                        <v-text-field
+                                                                prepend-inner-icon="person"
+                                                                v-model="address.name"
+                                                                label="Nume, prenume *"
+                                                                :rules="nameRules"
+                                                                outline
+                                                                class="pr-3"
+                                                        ></v-text-field>
+                                                        <v-text-field
+                                                                prepend-inner-icon="phone_android"
+                                                                v-model="address.phone"
+                                                                :rules="phoneRules"
+                                                                label="Număr de telefon *"
+                                                                outline
+                                                                class="pl-3"
+                                                        ></v-text-field>
+                                                    </v-layout>
+                                                </v-layout>
+                                            </v-container>
+                                        </v-card-text>
+                                        <v-card-actions class="mb-4 pl-5">
+                                            <v-btn large class="pr-3 pl-3" style="font-size: 20px;" color="primary"
+                                                   @click.prevent="onSubmit">
+                                                Plasesază comanda
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-form>
+                                </v-card>
+                            </v-layout>
+                        </div>
+                    </div>
                 </v-flex>
+
                 <v-flex xs3 class="pl-3">
                     <v-card class="orderCard" style="border-radius:4px;">
-                        <v-toolbar style="text-shadow: 2px 2px 2px black" height="47px" color="primary" dark>
+                        <v-toolbar
+                                style="text-shadow: 2px 2px 2px black"
+                                height="47px"
+                                color="primary"
+                                dark
+                        >
                             <v-toolbar-title>
                                 <div style="font-size: 22px;">Comandă</div>
                             </v-toolbar-title>
@@ -98,7 +248,12 @@
 
                         <v-container v-else class="pb-2 pr-0 pl-3 pt-0">
                             <div class="orderItems pt-3">
-                                <v-layout v-for="item in items" :key="item.id" column class="pr-0">
+                                <v-layout
+                                        v-for="item in items"
+                                        :key="item.id"
+                                        column
+                                        class="pr-0"
+                                >
                                     <v-layout row>
                                         <v-flex xs8 class="subheading">
                                             {{item.nr}}x {{item.name}}
@@ -138,14 +293,20 @@
                             <v-layout class="mt-3">
                                 <div class="title">TOTAL</div>
                                 <v-spacer></v-spacer>
-                                <div class="title pr-3" style="color: #cd0a00;">
+                                <div
+                                        class="title pr-3"
+                                        style="color: #cd0a00;">
                                     {{totalPrice.toLocaleString("ro-RO",{minimumFractionDigits: 2})}} lei
                                 </div>
                             </v-layout>
 
                             <v-card-actions class="justify-center mt-3">
-                                <v-btn large class="pl-5 pr-5 mr-3" style="font-size: 20px;" color="primary"
-                                       @click="order"
+                                <v-btn
+                                        large
+                                        class="pl-5 pr-5 mr-3"
+                                        style="font-size: 20px;"
+                                        color="primary"
+                                        @click="order"
                                 >
                                     Comandă Acum
                                 </v-btn>
@@ -156,129 +317,11 @@
             </v-layout>
         </v-container>
 
-        <v-container class="orderSection pb-0 pt-2" fluid style="width:85%">
-            <!--<div v-if="orderNow">-->
-            <div>
-                <v-divider class="mb-4"></v-divider>
-                <v-layout justify-center>
-                    <v-card width="100%" class="mb-5 mt-4" style="border-radius:10px;">
-                        <v-form ref="form">
-                            <v-card-text class="pt-0 pb-0">
-                                <v-container class="pl-3 pr-3 pb-0">
-                                    <v-layout column>
-                                        <v-flex xs12>
-                                            <div class="mb-2 finalOrderTitle">Eşti gata să serveşti masa?</div>
-                                        </v-flex>
-
-                                        <v-flex xs12>
-                                            <v-divider></v-divider>
-                                            <div class="mt-3 finalOrderText">Unde dorești să fie livrată comanda?
-                                            </div>
-                                        </v-flex>
-
-                                        <v-layout class="justify-space-between mt-3">
-                                            <v-text-field
-                                                    prepend-inner-icon="place"
-                                                    v-model="address.address"
-                                                    label="Adresă (strada, numarul) *"
-                                                    outline
-                                                    :rules="addressRules"
-                                                    class="pr-3"
-                                            ></v-text-field>
-                                            <v-text-field
-                                                    prepend-inner-icon="place"
-                                                    v-model="address.bloc"
-                                                    label="Bloc"
-                                                    outline
-                                                    class="pl-3"
-                                            ></v-text-field>
-                                        </v-layout>
-
-                                        <v-layout class="justify-space-between">
-                                            <v-text-field
-                                                    prepend-inner-icon="place"
-                                                    v-model="address.scara"
-                                                    label="Scara"
-                                                    outline
-                                                    class="pr-3"
-                                            ></v-text-field>
-                                            <v-text-field
-                                                    prepend-inner-icon="place"
-                                                    v-model="address.etaj"
-                                                    label="Etaj"
-                                                    outline
-                                                    class="pl-3"
-                                            ></v-text-field>
-                                        </v-layout>
-
-                                        <v-layout class="justify-space-between">
-                                            <v-text-field
-                                                    prepend-inner-icon="place"
-                                                    v-model="address.apartament"
-                                                    label="Apartament"
-                                                    outline
-                                                    class="pr-3"
-                                            ></v-text-field>
-                                            <v-text-field
-                                                    prepend-inner-icon="phone"
-                                                    v-model="address.interfon"
-                                                    label="Interfon"
-                                                    outline
-                                                    class="pl-3"
-                                            ></v-text-field>
-                                        </v-layout>
-                                        <v-textarea
-                                                prepend-inner-icon="description"
-                                                v-model="address.informations"
-                                                label="Obiecții, preferințe (dacă este cazul)"
-                                                outline
-                                                rows="1"
-                                                auto-grow
-                                        ></v-textarea>
-
-                                        <v-flex xs12>
-                                            <v-divider></v-divider>
-                                            <div class="mt-3 finalOrderText">Cum te putem contacta?</div>
-                                        </v-flex>
-
-                                        <v-layout class="justify-space-between mt-3">
-                                            <v-text-field
-                                                    prepend-inner-icon="person"
-                                                    v-model="address.name"
-                                                    label="Nume, prenume *"
-                                                    :rules="nameRules"
-                                                    outline
-                                                    class="pr-3"
-                                            ></v-text-field>
-                                            <v-text-field
-                                                    prepend-inner-icon="phone_android"
-                                                    v-model="address.phone"
-                                                    :rules="phoneRules"
-                                                    label="Număr de telefon *"
-                                                    outline
-                                                    class="pl-3"
-                                            ></v-text-field>
-                                        </v-layout>
-                                    </v-layout>
-                                </v-container>
-                            </v-card-text>
-                            <v-card-actions class="mb-4 pl-5">
-                                <v-btn large class="pr-3 pl-3" style="font-size: 20px;" color="primary"
-                                       @click.prevent="onSubmit">
-                                    Plasesază comanda
-                                </v-btn>
-                            </v-card-actions>
-                        </v-form>
-                    </v-card>
-                </v-layout>
-            </div>
-        </v-container>
-
         <v-container class="pt-0" fluid style="width:85%">
             <v-divider class="mb-2 mt-2"></v-divider>
             <v-layout>
                 <v-flex>
-                    <div class="mb-3 mt-3 sTitle t2">Contact</div>
+                    <div class="mb-3 mt-3 sTitle t3">Contact</div>
                     <div class="contentText mb-2">{{restaurant.contactText}}</div>
                     <div class="contentText mb-4">
                         <v-flex class="mb-2">
@@ -323,7 +366,7 @@
                 path: process.env.VUE_APP_RESTAURANT_IMAGES,
                 menuPath: process.env.VUE_APP_MENU_IMAGES,
                 duration: 1000,
-                offset: 30,
+                offset: 40,
                 easing: 'easeInOutCubic',
                 easings: Object.keys(easings),
                 icons:
@@ -359,23 +402,31 @@
                 ],
 
                 orderNow: false,
+                addNotification: false,
+
             };
         },
-
         methods: {
+            orderCreatedNotification() {
+                this.addNotification = false;
+                setTimeout(() => {
+                    this.addNotification = true;
+                }, 100);
+            },
             onSubmit() {
+
                 if (!this.$refs.form.validate()) {
                     return;
                 }
 
-                const orderData = {};
+                let orderData = {};
 
-                let items = this.items.map(item => item.nr + 'x ' + item.name);
+                let items = this.items.map(item => ' ' + item.nr + 'x ' + item.name);
                 orderData.menus = items.toString();
                 orderData.name = this.address.name;
                 orderData.phone = this.address.phone;
                 orderData.city = this.restaurant.city;
-                orderData.adresa = this.address.address;
+                orderData.adresa = this.address.adresa;
                 orderData.store_id = this.restaurant.id;
                 orderData.totalPrice = this.totalPrice;
 
@@ -392,9 +443,14 @@
                 if (this.address.informations !== '')
                     orderData.informations = this.address.informations;
 
+                this.$vuetify.goTo('.t2', this.optionsFinalOrder);
                 this.$store.dispatch('addOrder', orderData).then((res) => {
                     if (res.responseType === 'success') {
                         this.orderNow = false;
+                        this.orderCreatedNotification();
+                        this.address = {};
+                        this.totalPrice = null;
+                        this.items = [];
                     }
                 });
             },
@@ -459,11 +515,17 @@
                     easing: this.easing
                 }
             },
+            optionsFinalOrder() {
+                return {
+                    duration: 700,
+                    offset: 80,
+                    easing: this.easing
+                }
+            },
         },
 
         created() {
-            //window.scrollTo(0, 0);
-            console.log(this.items);
+            window.scrollTo(0, 0);
             this.$store.dispatch('getRestaurantComplete', this.$route.params.slug).then((res) => {
                 if (res.responseType === 'error') {
                     this.$router.replace({name: 'error', params: {'0': '404'}});
@@ -485,12 +547,6 @@
 </script>
 
 <style scoped>
-
-    .orderBtn {
-        height: 20px;
-        width: 25px;
-    }
-
     .orderCard {
         position: sticky;
         top: 80px;

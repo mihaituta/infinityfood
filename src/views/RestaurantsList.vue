@@ -37,6 +37,14 @@
                             ></v-autocomplete>
                         </v-flex>
                     </v-layout>
+                    <v-container style="width: 85%"  class="text-xs-center pb-0 pt-2">
+                        <div v-if="!filteredList.length">
+                            <div class="notFound">Ne pare rău, se pare că restaurantul <b>{{search}}</b> nu există sau
+                                nu este înregistrat pe site-ul nostru.
+                            </div>
+                            <v-icon size="220">restaurant_menu</v-icon>
+                        </div>
+                    </v-container>
                     <v-layout row wrap class="mt-3">
                         <v-flex :key="restaurant.id" v-for="(restaurant) in filteredList" xs12 sm6 md4 lg3 xl3>
                             <v-layout justify-center>
@@ -147,6 +155,11 @@
 </script>
 
 <style scoped>
+    .notFound {
+        font-size: 30px;
+        color: #5f6762;
+    }
+
     .name {
         font-size: 18px;
         font-family: 'Malgun Gothic', sans-serif;

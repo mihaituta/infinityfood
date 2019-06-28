@@ -9,14 +9,14 @@
                 <v-icon class="pr-2">restaurant</v-icon>
                 Restaurante
             </v-btn>
-            <v-btn color="" flat  @click="$vuetify.goTo('.t3', options)">
+            <v-btn color="" flat  @click="$vuetify.goTo('.t2', options)">
                 <v-icon class="pr-2">fastfood</v-icon>
                 Comandă
             </v-btn> <v-btn color="" flat  @click="$vuetify.goTo('.t1', options)">
                 <v-icon class="pr-2">people</v-icon>
                 Despre noi
             </v-btn>
-            <v-btn color="" flat  @click="$vuetify.goTo('.t2', options)">
+            <v-btn color="" flat  @click="$vuetify.goTo('.t3', options)">
                 <v-icon class="pr-2">mail</v-icon>
                 Contact
             </v-btn>

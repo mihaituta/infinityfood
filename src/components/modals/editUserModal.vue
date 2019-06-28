@@ -1,9 +1,5 @@
 <template>
     <v-layout class="pa-0 ma-0" max-width="25%">
-        <notification text="Utilizatorul a fost modificat cu succes!" color="rgb(76, 175, 80, 0.9)"
-                      :showNotification="addNotification" :top=true :right=true></notification>
-        <notification :text="'Există deja un utilizator cu acest '+errorText" color="rgb(255, 82, 82, 0.9)"
-                      :showNotification="errorNotification" :top=true></notification>
         <v-dialog
                 v-model="openModal"
                 max-width="25%"
@@ -109,9 +105,6 @@
                 role_idRules: [
                     v => !!v || 'Rolul este obligatoriu',
                 ],
-                addNotification: false,
-                errorNotification: false,
-                errorText: ''
             };
         },
         beforeMount() {

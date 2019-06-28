@@ -4,56 +4,60 @@ const state = {
     orders: [
         {
             id: null,
+            status: null,
+            totalPrice: null,
+            menus: null,
+            city: null,
             name: null,
-            description: null,
-            price: null,
-            type: null,
-            image: null,
-            store_id: null
+            phone: null,
+            adresa: null,
+            bloc: null,
+            scara: null,
+            etaj: null,
+            apartament: null,
+            interfon: null,
+            informations: null
         }
     ],
 
 };
 
 const mutations = {
-    getMenus(state, payload) {
+    getOrders(state, payload) {
         state.orders = payload;
     },
-    deleteMenu(state, menu) {
-        state.orders.splice(menu, 1);
+    deleteOrder(state, order) {
+        state.orders.splice(order, 1);
     },
 };
 
 const actions = {
-    getMenus({commit, state}) {
-        axios.get('/staff/menus')
+    getOrders({commit}) {
+        axios.get('/staff/orders')
             .then(res => {
                 console.log(res);
-                let menus = [];
-                let response = res.data.data.menus;
-                response.forEach((menu) => {
+                let orders = [];
+                let response = res.data.data;
+                response.forEach((order) => {
                     const temp = {
-                        id: menu.id,
-                        name: menu.name,
-                        description: menu.description,
-                        price: menu.price,
-                        type: menu.type,
-                        image: menu.image,
-                        store_id: menu.store_id
+                        id: order.id,
+                        status: order.status,
+                        totalPrice: order.totalPrice,
+                        menus: order.menus,
+                        city: order.city,
+                        name: order.name,
+                        phone: order.phone,
+                        adresa: order.adresa,
+                        bloc: order.bloc,
+                        scara: order.scara,
+                        etaj: order.etaj,
+                        apartament: order.apartament,
+                        interfon: order.interfon,
+                        informations: order.informations,
                     };
-                    menus.push(temp);
+                    orders.push(temp);
                 });
-                commit('getMenus', menus);
-                commit('getTypes', res.data.data.types);
-
-                // const distinct = (value, index, self) => {
-                //     return self.indexOf(value) === index;
-                // };
-                // let type = [];
-                // for (let i = 0; i < menus.length; i++) {
-                //     type[i] = menus[i].type;
-                // }
-                // state.menuTypes = type.filter(distinct);
+                commit('getOrders', orders);
             })
             .catch(error => console.log(error));
     },
@@ -66,23 +70,23 @@ const actions = {
                 console.log(error);
             });
     },
-    editMenu({commit}, payload) {
-        return axios.post('/staff/menu/' + payload.id, payload.data)
+    editOrder({commit}, payload) {
+        return axios.post('/staff/order/' + payload.id, payload.data)
             .then(res => {
                 if (res.data.responseType === 'success')
-                    this.dispatch('getMenus');
+                    this.dispatch('getOrders');
                 return res.data;
             })
             .catch(error => {
                 console.log(error);
             });
     },
-    deleteMenu({commit}, id) {
-        return axios.delete('/staff/menu/' + id)
+    deleteOrder({commit}, id) {
+        return axios.delete('/staff/order/' + id)
             .then(res => {
                 console.log(res);
-                commit('deleteMenu', id);
-                this.dispatch('getMenus');
+                commit('deleteOrder', id);
+                this.dispatch('getOrders');
                 return res.data;
             });
     }
