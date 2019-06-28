@@ -5,6 +5,7 @@ import router from '../router';
 import menusStore from './menusStore';
 import usersStore from './usersStore';
 import restaurantsStore from './restaurantsStore';
+import ordersStore from './ordersStore';
 
 Vue.use(Vuex);
 
@@ -71,6 +72,7 @@ export default new Vuex.Store({
             if (!token) {
                 return;
             }
+
             axios.get('/user').then(res => {
                 commit('authUser', {
                     token: token,
@@ -96,7 +98,8 @@ export default new Vuex.Store({
     modules: {
         menusStore,
         usersStore,
-        restaurantsStore
+        restaurantsStore,
+        ordersStore
     }
 });
 

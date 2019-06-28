@@ -8,7 +8,7 @@
                 right
                 bottom
                 fixed
-                color="red btn-to-top"
+                color="red"
                 class="mb-5"
                 @click="$vuetify.goTo(0, options)"
         >

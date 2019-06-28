@@ -38,7 +38,7 @@
                             <td>{{ restaurant.item.id }}</td>
                             <td>{{ restaurant.item.name }}</td>
                             <td>{{ restaurant.item.slug }}</td>
-                            <td>{{ restaurant.item.user_id }}</td>
+                            <td>{{ users.find(e => e.id === restaurant.item.user_id).name }}</td>
                             <td>{{ restaurant.item.city }}</td>
                             <td>{{ restaurant.item.phone1 }}</td>
                             <td>{{ restaurant.item.phone2 }}</td>
@@ -190,6 +190,9 @@
             };
         },
         computed: {
+            users() {
+                return this.$store.getters.getStaffUsers;
+            },
             restaurants() {
                 return this.$store.getters.restaurants;
             },
@@ -236,6 +239,7 @@
 
         beforeCreate() {
             this.$store.dispatch('getRestaurantsComplete');
+
         },
         created() {
             window.addEventListener('scroll', this.handleScroll);
@@ -255,9 +259,9 @@
 
 <style scoped>
     .wrapper {
-        /*       background-image: url('../../assets/b16.png');
+               background-image: url('../../assets/b16.png');
                background-attachment: fixed;
-               background-size: cover;*/
+               background-size: cover;
     }
 
     .titleText {

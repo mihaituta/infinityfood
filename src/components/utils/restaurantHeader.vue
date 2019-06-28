@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar dark color="dark">
+    <v-toolbar fixed dark color="dark">
         <router-link to="/">
             <v-img v-if="logoImage" contain width="280" :src="require('../../assets/'+logoImage)"/>
         </router-link>
@@ -32,7 +32,7 @@
             return {
                 logoImage: 'smallLogoWhiteBlue2.png',
                 duration: 1000,
-                offset: 0,
+                offset: 80,
                 easing: 'easeInOutCubic',
                 easings: Object.keys(easings)
             }

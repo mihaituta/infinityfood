@@ -43,10 +43,7 @@
                                             prepend-icon="create"
                                             v-model="menu.name"
                                             label="Nume"
-                                            :error-messages="nameErrors"
-                                            required
-                                            @input="$v.menu.name.$touch()"
-                                            @blur="$v.menu.name.$touch()"
+                                            :rules="nameRules"
                                     ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12>
@@ -54,10 +51,7 @@
                                             prepend-icon="description"
                                             v-model="menu.description"
                                             label="Descriere"
-                                            :error-messages="descriptionErrors"
-                                            required
-                                            @input="$v.menu.description.$touch()"
-                                            @blur="$v.menu.description.$touch()"
+                                            :rules="descriptionRules"
                                             rows="1"
                                             auto-grow
                                     ></v-textarea>
@@ -69,11 +63,7 @@
                                             type="number"
                                             label="Preț"
                                             min="0"
-                                            oninput="this.value = Math.abs(this.value)"
-                                            :error-messages="priceErrors"
-                                            required
-                                            @input="$v.menu.price.$touch()"
-                                            @blur="$v.menu.price.$touch()"
+                                            :rules="priceRules"
                                     ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12>
@@ -82,10 +72,7 @@
                                             :items=types
                                             label="Tip mâncare"
                                             v-model="menu.type"
-                                            :error-messages="typeErrors"
-                                            required
-                                            @change="$v.menu.type.$touch()"
-                                            @blur="$v.menu.type.$touch()"
+                                            :rules="typeRules"
                                     ></v-select>
                                 </v-flex>
                                 <input
@@ -142,8 +129,6 @@
 </template>
 
 <script>
-    import {required, minValue, maxValue} from 'vuelidate/lib/validators';
-
     export default {
         data() {
             return {
@@ -160,22 +145,27 @@
                     type: '',
                     image: ''
                 },
+                nameRules: [
+                    v => !!v || 'Numele este obligatoriu',
+                ],
+                descriptionRules: [
+                    v => !!v || 'Descrierea este obligatorie',
+                ],
+                priceRules: [
+                    v => !!v || 'Prețul este obligatoriu',
+                    v => /^(\d{0,6})(\.\d{0,2})?$/.test(v) || 'Prețul poate avea maxim 6 cifre și 2 zecimale, ex: 123456.12'
+                ],
+                typeRules: [
+                    v => !!v || 'Tipul mâncării este obligatoriu',
+                ],
                 addNotification: false,
                 nameNotification: false,
                 imageError: false
             };
         },
-        validations: {
-            menu: {
-                name: {required},
-                description: {required},
-                price: {required, minValue: minValue(0), maxValue: maxValue(999999.99)},
-                type: {required}
-            }
-        },
         watch: {
             openModal() {
-                this.$v.$reset();
+                this.$refs.form.resetValidation();
                 this.$refs.image.value = '';
                 this.menu.name = '';
                 this.menu.description = '';
@@ -186,35 +176,6 @@
                 this.imageName = '';
                 this.imageTooBig = false;
                 this.imageError = false;
-
-            }
-        },
-        computed: {
-            nameErrors() {
-                const errors = [];
-                if (!this.$v.menu.name.$dirty) return errors;
-                !this.$v.menu.name.required && errors.push('Numele este obligatoriu');
-                return errors;
-            },
-            descriptionErrors() {
-                const errors = [];
-                if (!this.$v.menu.description.$dirty) return errors;
-                !this.$v.menu.description.required && errors.push('Descrierea este obligatorie');
-                return errors;
-            },
-            priceErrors() {
-                const errors = [];
-                if (!this.$v.menu.price.$dirty) return errors;
-                !this.$v.menu.price.required && errors.push('Prețul este obligatoriu');
-                !this.$v.menu.price.minValue && errors.push('Prețul nu poate fi negativ');
-                !this.$v.menu.price.maxValue && errors.push('Prețul este prea mare');
-                return errors;
-            },
-            typeErrors() {
-                const errors = [];
-                if (!this.$v.menu.type.$dirty) return errors;
-                !this.$v.menu.type.required && errors.push('Tipul mâncării este obligatoriu');
-                return errors;
             }
         },
         methods: {
@@ -255,8 +216,10 @@
             onSubmit() {
                 if (!this.menu.image)
                     this.imageError = true;
-                this.$v.$touch();
-                if (this.$v.$pending || this.$v.$error) return;
+
+                if (!this.$refs.form.validate()) {
+                    return;
+                }
 
                 const formData = new FormData();
                 const menuData = this.menu;

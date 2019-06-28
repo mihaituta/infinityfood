@@ -7,14 +7,13 @@
                           :showNotification="menuUpdatedNotif" :top=true :right=true></notification>
             <notification text="Există deja un meniu cu acest nume!" color="rgb(255, 82, 82, 0.9)"
                           :showNotification="nameNotification" :top=true></notification>
-            <!--            <v-btn ref="button" color="primary" block @click="$vuetify.goTo('.sms', options)">scroll</v-btn>-->
-
             <add-modal/>
             <edit-modal v-if="openEditModal" v-model="openEditModal" :id='menuId'/>
             <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest meniu?"
                           :id='menuId' action="deleteMenu"/>
-            <v-tabs fixed-tabs color="transparent" centered>
+            <v-tabs class="mt-2" fixed-tabs color="transparent" centered>
                 <v-tab v-for="type in types" :key="type.id">
+                    <v-icon class="mr-2">{{getIcon(type)}}</v-icon>
                     {{type}}
                 </v-tab>
                 <v-tab-item v-for="type in types" :key="type.id">
@@ -118,6 +117,15 @@
                 offset: 0,
                 easing: 'easeInOutCubic',
                 easings: Object.keys(easings),
+                icons:
+                    {
+                        'Felul întâi': 'restaurant',
+                        'Fel principal': 'room_service',
+                        'Fastfood': 'fastfood',
+                        'Pizza': 'local_pizza',
+                        'Desert': 'cake',
+                        'Băuturi': 'local_bar',
+                    }
             };
         },
 
@@ -145,6 +153,9 @@
             },
         },
         methods: {
+            getIcon(type) {
+                return this.icons[type];
+            },
             editMenu(id) {
                 this.openEditModal = true;
                 this.menuId = id;

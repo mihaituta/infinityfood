@@ -82,9 +82,7 @@
                                         <v-text-field
                                                 prepend-icon="phone"
                                                 v-model="restaurant.phone1"
-                                                :error-messages="phone1Errors"
-                                                @input="$v.restaurant.phone1.$touch()"
-                                                @blur="$v.restaurant.phone1.$touch()"
+                                                :rules="phone1Rules"
                                                 label="Telefon 1"
                                         ></v-text-field>
                                     </v-flex>
@@ -92,10 +90,8 @@
                                         <v-text-field
                                                 prepend-icon="phone"
                                                 v-model="restaurant.phone2"
-                                                :error-messages="phone2Errors"
-                                                @input="$v.restaurant.phone2.$touch()"
-                                                @blur="$v.restaurant.phone2.$touch()"
                                                 label="Telefon 2"
+                                                :rules="phone2Rules"
                                         ></v-text-field>
                                     </v-flex>
                                     <v-flex xs12>
@@ -288,6 +284,14 @@
                     {mail2: ''},
                     {aboutText: ''}
                 ],
+                phone1Rules: [
+                    v => !!v || 'Numărul de telefon este obligatoriu',
+                    v => /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/.test(v) || 'Numărul trebuie să conțină doar cifre'
+                ],
+                phone2Rules: [
+                    v => !!v || 'Numărul de telefon este obligatoriu',
+                    v => /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/.test(v) || 'Numărul trebuie să conțină doar cifre'
+                ],
                 restaurantUpdatedNotif: false,
                 nameNotification: false,
             };
@@ -300,8 +304,6 @@
                 previewDescription: {required},
                 aboutText: {required},
                 contactText: {required},
-                phone1: {required, integer},
-                phone2: {required, integer},
                 mail1: {required, email},
                 mail2: {required, email},
             }
@@ -339,20 +341,6 @@
                 const errors = [];
                 if (!this.$v.restaurant.contactText.$dirty) return errors;
                 !this.$v.restaurant.contactText.required && errors.push('Descrierea din secțiunea de contact este obligatorie');
-                return errors;
-            },
-            phone1Errors() {
-                const errors = [];
-                if (!this.$v.restaurant.phone1.$dirty) return errors;
-                !this.$v.restaurant.phone1.integer && errors.push('Numărul trebuie să conțină doar cifre');
-                !this.$v.restaurant.phone1.required && errors.push('Numărul de telefon este obligatoriu');
-                return errors;
-            },
-            phone2Errors() {
-                const errors = [];
-                if (!this.$v.restaurant.phone2.$dirty) return errors;
-                !this.$v.restaurant.phone2.integer && errors.push('Numărul trebuie să conțină doar cifre');
-                !this.$v.restaurant.phone2.required && errors.push('Numărul de telefon este obligatoriu');
                 return errors;
             },
             mailErrors1() {
@@ -480,6 +468,10 @@
             onSubmit() {
                 this.$v.$touch();
                 if (this.$v.$pending || this.$v.$error) return;
+
+                if (!this.$refs.form.validate()) {
+                    return;
+                }
 
                 if (this.restaurantList.name === this.restaurant.name &&
                     this.restaurantList.city === this.restaurant.city &&

@@ -5,7 +5,9 @@
                 <v-container class="mb-4">
                     <v-layout align-center justify-space-between row>
                         <v-flex xs7>
-                            <div class="logoText">Livrare de mancare de la cele mai bune restaurante din orasul <b>Craiova</b>
+                            <div v-if="cityModel" class="logoText">Livrare de mancare de la cele mai bune restaurante
+                                din orasul <b>{{cityModel}}</b></div>
+                            <div v-else class="logoText">Livrare de mancare de la cele mai bune restaurante pe <b>InfinityFood</b>
                             </div>
                         </v-flex>
                         <v-img contain max-width="430"
@@ -36,7 +38,7 @@
                         </v-flex>
                     </v-layout>
                     <v-layout row wrap class="mt-3">
-                        <v-flex :key="restaurant.id" v-for="(restaurant, index) in filteredList" xs12 sm6 md4 lg3 xl3>
+                        <v-flex :key="restaurant.id" v-for="(restaurant) in filteredList" xs12 sm6 md4 lg3 xl3>
                             <v-layout justify-center>
                                 <v-card
                                         height="50%"
@@ -80,54 +82,43 @@
                 path: process.env.VUE_APP_RESTAURANT_IMAGES,
                 search: '',
                 cityModel: null,
-                city: [
-                    'pizza',
-                    'kfc',
-                    'spartan',
-                    'inf',
-                ],
-                cities: [
-                    'Craiova', 'Bucuresti', 'American Samoa', 'Arizona',
-                    'Arkansas', 'California', 'Colorado', 'Connecticut',
-                    'Delaware', 'District of Columbia', 'Federated States of Micronesia',
-                    'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho',
-                    'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky',
-                    'Louisiana', 'Maine', 'Marshall Islands', 'Maryland',
-                    'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
-                    'Missouri', 'Montana', 'Nebraska', 'Nevada',
-                    'New Hampshire', 'New Jersey', 'New Mexico', 'New York',
-                    'North Carolina', 'North Dakota', 'Northern Mariana Islands', 'Ohio',
-                    'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico',
-                    'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee',
-                    'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia',
-                    'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-                ]
             };
         },
         computed: {
-            stores() {
+            cities() {
+                return this.$store.getters.cities;
+            },
+            restaurants() {
                 return this.$store.getters.restaurants;
             },
 
             filteredList() {
-                return this.$store.getters.restaurants.filter(restaurant => {
+                let restaurants = this.$store.getters.restaurants.filter(restaurant => {
                     if (restaurant.name)
                         return restaurant.name.toLowerCase().includes(this.search.toLowerCase())
                 });
-                // let restaurants = this.$store.getters.stores.filter(store => {
-                //     if (store.name)
-                //         return store.name.toLowerCase().includes(this.search.toLowerCase())
-                // });
 
-                // if (this.cityModel) {
-                //     return this.$store.getters.stores.filter(store => {
-                //         if (store.name) {
-                //             return store.name.toLowerCase().includes(this.cityModel.toLowerCase());
-                //         }
-                //     })
-                // } else {
-                //     return restaurants;
-                // }
+                let restaurantsFromCity;
+
+                if (this.cityModel) {
+                    restaurantsFromCity = this.$store.getters.restaurants.filter(restaurant => {
+                        if (restaurant.name) {
+                            return restaurant.city.includes(this.cityModel);
+                        }
+                    })
+                } else {
+                    return restaurants;
+                }
+
+                if (this.search) {
+                    return restaurantsFromCity.filter(restaurant => {
+                        if (restaurant.name)
+                            return restaurant.name.toLowerCase().includes(this.search.toLowerCase());
+                    })
+                } else {
+                    return restaurantsFromCity;
+                }
+
             },
         },
         methods: {

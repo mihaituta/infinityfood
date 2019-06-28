@@ -139,10 +139,7 @@
                 ],
                 priceRules: [
                     v => !!v || 'Prețul este obligatoriu',
-                    v => /^[0-9]*$/.test(v) || 'Prețul trebuie să conțină doar cifre',
-/*
-                    v => /^([0-9]{0,6})\.?\d+$/.test(v) || 'Prețul nu poate avea mai mult de 6 cifre'
-*/
+                    v => /^(\d{0,6})(\.\d{0,2})?$/.test(v) || 'Prețul poate avea maxim 6 cifre și 2 zecimale, ex: 123456.12'
                 ],
                 typeRules: [
                     v => !!v || 'Tipul mâncării este obligatoriu',
@@ -225,7 +222,7 @@
                     this.menuList.description === this.menu.description &&
                     this.menuList.price === this.menu.price &&
                     this.menuList.type === this.menu.type &&
-                    this.menuList.image === this.menu.image){
+                    this.menuList.image === this.menu.image) {
                     this.openModal = false;
                     return;
                 }

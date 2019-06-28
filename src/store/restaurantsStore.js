@@ -49,6 +49,7 @@ const state = {
         }
     ],
     menuTypes: [],
+    cities:[],
     users: [
         {
             id: null,
@@ -61,6 +62,9 @@ const mutations = {
     getRestaurantMenus(state, payload) {
         state.menus = payload;
     },
+    getRestaurantMenusTypes(state, payload) {
+        state.menuTypes = payload;
+    },
     getRestaurants(state, payload) {
         state.restaurants = payload;
     },
@@ -69,6 +73,9 @@ const mutations = {
     },
     getRestaurantsUsers(state, payload) {
         state.users = payload;
+    },
+    getRestaurantCities(state,payload){
+        state.cities = payload;
     },
     deleteRestaurant(state, menu) {
         state.restaurants.splice(menu, 1);
@@ -87,7 +94,7 @@ const actions = {
             .then(res => {
                 console.log(res);
                 let restaurants = [];
-                let response = res.data.data;
+                let response = res.data.data.restaurants;
                 response.forEach((restaurant) => {
                     const temp = {
                         name: restaurant.name,
@@ -99,6 +106,7 @@ const actions = {
                     restaurants.push(temp);
                 });
                 commit('getRestaurants', restaurants);
+                commit('getRestaurantCities',res.data.data.cities);
             })
             .catch(error => console.log(error));
     },
@@ -142,6 +150,7 @@ const actions = {
                     const restaurant = {
                         id: response.id,
                         name: response.name,
+                        city: response.city,
                         backgroundImage: response.backgroundImage,
                         logoImage: response.logoImage,
                         contactText: response.contactText,
@@ -168,7 +177,7 @@ const actions = {
                     menus.push(temp);
                 });
                 commit('getRestaurantMenus', menus);
-                commit('getTypes', res.data.data.types);
+                commit('getRestaurantMenusTypes', res.data.data.types);
                 return res.data;
             });
     },
@@ -247,6 +256,9 @@ const actions = {
 const getters = {
     restaurants(state) {
         return state.restaurants;
+    },
+    cities(state){
+        return state.cities;
     },
     getRestaurantById: (state) => (id) => {
         return state.restaurants.find(restaurant => restaurant.id === id);

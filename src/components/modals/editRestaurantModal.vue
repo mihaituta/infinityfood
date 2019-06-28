@@ -500,21 +500,6 @@
                 background.style.backgroundPosition = '0%' + (-(scrolled * 0.2) + 'px');
             },
 
-            mapdata() {
-                this.restaurantList.name = this.restaurant.name;
-                this.restaurantList.city = this.restaurant.city;
-                this.restaurantList.previewDescription = this.restaurant.previewDescription;
-                this.restaurantList.previewImage = this.restaurant.previewImage;
-                this.restaurantList.backgroundImage = this.restaurant.backgroundImage;
-                this.restaurantList.logoImage = this.restaurant.logoImage;
-                this.restaurantList.contactText = this.restaurant.contactText;
-                this.restaurantList.phone1 = this.restaurant.phone1;
-                this.restaurantList.phone2 = this.restaurant.phone2;
-                this.restaurantList.mail1 = this.restaurant.mail1;
-                this.restaurantList.mail2 = this.restaurant.mail2;
-                this.restaurantList.aboutText = this.restaurant.aboutText;
-            },
-
             onSubmit() {
                 if (!this.$refs.form.validate()) {
                     return;

@@ -33,11 +33,6 @@
             'app-footer': footer,
             'btn-to-top': buttonToTop
         },
-        computed: {
-            logged() {
-                return this.$store.getters.isAuthenticated;
-            }
-        },
         watch: {
             $route(to, from) {
                 if (this.$router.currentRoute.name === 'restaurant') {
