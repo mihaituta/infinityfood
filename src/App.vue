@@ -1,15 +1,11 @@
 <template>
     <div>
-        <head>
-            <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons'
-                  rel="stylesheet">
-        </head>
         <v-app>
             <auth-header v-if="showLoggedNavbar"/>
             <app-header v-else-if="showNavbar"/>
             <router-view/>
-            <app-footer/>
             <btn-to-top/>
+            <app-footer/>
         </v-app>
     </div>
 </template>

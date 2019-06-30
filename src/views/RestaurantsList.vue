@@ -37,16 +37,9 @@
                             ></v-autocomplete>
                         </v-flex>
                     </v-layout>
-                    <v-container style="width: 85%"  class="text-xs-center pb-0 pt-2">
-                        <div v-if="!filteredList.length">
-                            <div class="notFound">Ne pare rău, se pare că restaurantul <b>{{search}}</b> nu există sau
-                                nu este înregistrat pe site-ul nostru.
-                            </div>
-                            <v-icon size="220">restaurant_menu</v-icon>
-                        </div>
-                    </v-container>
-                    <v-layout row wrap class="mt-3">
-                        <v-flex :key="restaurant.id" v-for="(restaurant) in filteredList" xs12 sm6 md4 lg3 xl3>
+
+                    <transition-group class="mt-2 row wrap" name="card" tag="v-layout">
+                        <v-flex :key="id" v-for="(restaurant,id) in filteredList" xs12 sm6 md4 lg3 xl3>
                             <v-layout justify-center>
                                 <v-card
                                         height="50%"
@@ -76,7 +69,22 @@
                                 </v-card>
                             </v-layout>
                         </v-flex>
-                    </v-layout>
+                    </transition-group>
+
+                    <v-container style="width: 85%" class="text-xs-center pb-0 pt-0">
+                        <transition name="notFound">
+                            <div v-if="!filteredList.length && filteredList">
+
+                                <div class="notFound">Ne pare rău, se pare că restaurantul <b>{{search}}</b> nu există
+                                    sau
+                                    nu este înregistrat pe site-ul nostru.
+                                </div>
+
+                                <v-icon size="255">restaurant_menu</v-icon>
+                            </div>
+                        </transition>
+                    </v-container>
+
                 </v-container>
             </v-flex>
         </v-layout>
@@ -90,6 +98,7 @@
                 path: process.env.VUE_APP_RESTAURANT_IMAGES,
                 search: '',
                 cityModel: null,
+                notFound: false,
             };
         },
         computed: {
@@ -103,9 +112,8 @@
             filteredList() {
                 let restaurants = this.$store.getters.restaurants.filter(restaurant => {
                     if (restaurant.name)
-                        return restaurant.name.toLowerCase().includes(this.search.toLowerCase())
+                        return restaurant.name.toLowerCase().includes(this.search.toLowerCase());
                 });
-
                 let restaurantsFromCity;
 
                 if (this.cityModel) {
@@ -126,8 +134,7 @@
                 } else {
                     return restaurantsFromCity;
                 }
-
-            },
+            }
         },
         methods: {
             goToRestaurant(slug) {
@@ -142,7 +149,6 @@
 
         created() {
             this.$store.dispatch('getRestaurantsPreviews');
-            console.info('App currentRoute:', this.$router.currentRoute)
             window.scrollTo(0, 0);
             window.addEventListener('scroll', this.handleScroll);
 
@@ -208,5 +214,50 @@
 
     .store-img {
         overflow: hidden;
+    }
+
+    .notFound-enter {
+        transform: translateY(500px);
+        opacity: 0;
+    }
+
+    .notFound-enter-active {
+        transition: transform 0.8s, opacity 1.5s;
+    }
+
+    .notFound-enter-to {
+        transform: translateY(0px);
+    }
+
+    .card-enter {
+        transform: translateX(300px);
+        opacity: 0;
+        position: absolute;
+    }
+
+    .card-enter-active {
+        transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+    }
+
+    .card-enter-to {
+        transform: translateX(0px);
+    }
+
+    .card-leave {
+        transform: translateX(0px);
+        opacity: 0;
+    }
+
+    .card-leave-active {
+        transition: transform 0.4s ease-out, opacity 0.3s ease-out;
+    }
+
+    .card-leave-to {
+        transform: translateX(300px);
+        opacity: 0;
+    }
+
+    .card-move {
+        transition: transform 0.6s;
     }
 </style>

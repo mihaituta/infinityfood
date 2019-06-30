@@ -18,6 +18,7 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.8.0",
     "@vue/cli-service": "^3.8.4",
+    "material-design-icons-iconfont": "^5.0.1",
     "vue-template-compiler": "^2.5.21"
   }
 }

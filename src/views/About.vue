@@ -11,7 +11,7 @@
             </v-container>
         </v-layout>
         <v-container style="width:70%">
-            <v-layout class="text-sm-center">
+            <v-layout>
                 <v-flex>
                     <div class="mb-3 sTitle">Despre noi</div>
                     <div style="color: #434543">
@@ -90,13 +90,13 @@
     }
 
     .text {
-        font-size: 22px;
+        font-size: 21px;
         font-family: sans-serif;
         text-align: justify;
     }
 
     .sTitle {
-        font-size: 45px;
+        font-size: 35px;
         font-family: sans-serif;
 
     }

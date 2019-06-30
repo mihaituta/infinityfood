@@ -14,7 +14,7 @@
             <edit-modal v-if="openEditModal" v-model="openEditModal" :id='userId'/>
             <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest utilizator?"
                           :id='userId' action="deleteUser"/>
-            <v-card class="mt-4 mb-5">
+            <v-card class="mt-4 mb-3">
                 <v-card-title class="headline">
                     Utilizatori
                     <v-spacer></v-spacer>
@@ -159,9 +159,9 @@
 
 <style scoped>
     .wrapper {
-               background-image: url('../../assets/b16.png');
-               background-attachment: fixed;
-               background-size: cover;
-
+        background-image: url('../../assets/b16.png');
+        background-attachment: fixed;
+        background-size: cover;
+        height: 100%;
     }
 </style>

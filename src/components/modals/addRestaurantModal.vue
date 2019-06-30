@@ -1,5 +1,5 @@
 <template>
-    <v-layout>
+    <v-layout class="mt-2">
         <notification text="Restaurantul a fost adăugat cu succes!" color="rgb(76, 175, 80, 0.9)"
                       :showNotification="addNotification" :top=true :right=true></notification>
         <notification text="Există deja un restaurant cu acest nume!" color="rgb(255, 82, 82, 0.9)"

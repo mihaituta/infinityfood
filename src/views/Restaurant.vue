@@ -237,7 +237,7 @@
                             <v-icon>restaurant</v-icon>
                         </v-toolbar>
 
-                        <v-layout v-if="!items.length" column class="text-xs-center pt-5 pb-5">
+                        <v-layout v-if="!items.length && items" column class="text-xs-center pt-5 pb-5">
                             <v-flex>
                                 <v-icon size="110">shopping_cart</v-icon>
                             </v-flex>
@@ -526,6 +526,7 @@
 
         created() {
             window.scrollTo(0, 0);
+
             this.$store.dispatch('getRestaurantComplete', this.$route.params.slug).then((res) => {
                 if (res.responseType === 'error') {
                     this.$router.replace({name: 'error', params: {'0': '404'}});
@@ -599,13 +600,13 @@
     }
 
     .contentText {
-        font-size: 22px;
+        font-size: 21px;
         font-family: sans-serif;
         text-align: justify;
     }
 
     .sTitle {
-        font-size: 40px;
+        font-size: 30px;
         font-family: sans-serif;
     }
 

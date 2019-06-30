@@ -13,7 +13,7 @@
             <edit-modal v-if="openEditModal" v-model="openEditModal" :id='restaurantId'/>
             <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest restaurant?"
                           :id='restaurantId' action="deleteRestaurant"/>
-            <v-card class="mt-4 mb-5">
+            <v-card class="mt-4 mb-2">
                 <v-card-title class="headline">
                     Restaurante
                     <v-spacer></v-spacer>
@@ -253,9 +253,10 @@
 
 <style scoped>
     .wrapper {
-               background-image: url('../../assets/b16.png');
-               background-attachment: fixed;
-               background-size: cover;
+        background-image: url('../../assets/b16.png');
+        background-attachment: fixed;
+        background-size: cover;
+        height: 100%;
     }
 
     .titleText {

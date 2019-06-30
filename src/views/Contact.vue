@@ -21,7 +21,7 @@
                     <v-divider></v-divider>
                     <div class="titleText mb-3 mt-3">Relații clienți</div>
                     <div class="contentText mb-2">
-                        <v-layout class="text-sm-center" column>
+                        <v-layout column>
                             <v-flex class="mb-2">
                                 <v-icon>mail</v-icon>
                                 E-mail:
@@ -105,13 +105,12 @@
 
     .titleText {
         font-family: sans-serif;
-        font-size: 45px;
-        text-align: center;
+        font-size: 35px;
     }
 
     .contentText {
         font-family: sans-serif;
-        font-size: 22px;
+        font-size: 21px;
         text-align: justify;
     }
 </style>
