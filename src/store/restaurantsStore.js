@@ -89,7 +89,7 @@ const mutations = {
 
 const actions = {
     getRestaurantsPreviews({commit}) {
-        axios.get(process.env.VUE_APP_API_URL+'/stores')
+        axios.get(process.env.VUE_APP_API_URL+'stores')
             .then(res => {
                 console.log(res);
                 let restaurants = [];
