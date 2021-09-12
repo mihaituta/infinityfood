@@ -4,7 +4,7 @@
 #   status = 200
 [[redirects]]
   from = "/api/*"
-  to = "https://www.google.ro/:splat"
+  to = "http://api-food.com/:splat"
   status = 200
 
 # SPA router support.
