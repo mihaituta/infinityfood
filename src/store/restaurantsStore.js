@@ -49,7 +49,7 @@ const state = {
         }
     ],
     menuTypes: [],
-    cities:[],
+    cities: [],
     users: [
         {
             id: null,
@@ -74,14 +74,13 @@ const mutations = {
     getRestaurantsUsers(state, payload) {
         state.users = payload;
     },
-    getRestaurantCities(state,payload){
+    getRestaurantCities(state, payload) {
         state.cities = payload;
     },
     deleteRestaurant(state, menu) {
         state.restaurants.splice(menu, 1);
     },
     clearRestaurants(state) {
-       /* state.restaurant = null;*/
         state.menus = null;
         state.menuTypes = null;
         state.users = null;
@@ -90,7 +89,7 @@ const mutations = {
 
 const actions = {
     getRestaurantsPreviews({commit}) {
-        axios.get('/stores')
+        axios.get(process.env.VUE_APP_API_URL+'/stores')
             .then(res => {
                 console.log(res);
                 let restaurants = [];
@@ -106,12 +105,13 @@ const actions = {
                     restaurants.push(temp);
                 });
                 commit('getRestaurants', restaurants);
-                commit('getRestaurantCities',res.data.data.cities);
+                commit('getRestaurantCities', res.data.data.cities);
             })
             .catch(error => console.log(error));
     },
+
     getRestaurantsComplete({commit}) {
-        axios.get('/stores-complete')
+        axios.get(process.env.VUE_APP_API_URL+'/stores-complete')
             .then(res => {
                 console.log(res);
                 let restaurants = [];
@@ -143,7 +143,7 @@ const actions = {
     },
 
     getRestaurantComplete({commit}, slug) {
-        return axios.get('/store-complete/' + slug)
+        return axios.get(process.env.VUE_APP_API_URL+'/store-complete/' + slug)
             .then(res => {
                 let response = res.data.data.store;
                 if (res.data.responseType === 'success') {
@@ -181,8 +181,9 @@ const actions = {
                 return res.data;
             });
     },
+
     getRestaurantStaff({commit}) {
-        return axios.get('/staff/store')
+        return axios.get(process.env.VUE_APP_API_URL+'/staff/store')
             .then(res => {
                 let response = res.data.data;
                 if (res.data.responseType === 'success') {
@@ -208,7 +209,7 @@ const actions = {
     },
 
     editRestaurantStaff({commit}, payload) {
-        return axios.post('/staff/store', payload)
+        return axios.post(process.env.VUE_APP_API_URL+'/staff/store', payload)
             .then(res => {
                 if (res.data.responseType === 'success')
                     this.dispatch('getRestaurantStaff');
@@ -220,7 +221,7 @@ const actions = {
     },
 
     addRestaurant({commit}, payload) {
-        return axios.post('/admin/store', payload)
+        return axios.post(process.env.VUE_APP_API_URL+'/admin/store', payload)
             .then(res => {
                 if (res.data.responseType === 'success')
                     this.dispatch('getRestaurantsComplete');
@@ -232,7 +233,7 @@ const actions = {
     },
 
     editRestaurant({commit}, payload) {
-        return axios.post('/admin/store/' + payload.id, payload.data)
+        return axios.post(process.env.VUE_APP_API_URL+'/admin/store/' + payload.id, payload.data)
             .then(res => {
                 if (res.data.responseType === 'success')
                     this.dispatch('getRestaurantsComplete');
@@ -244,7 +245,7 @@ const actions = {
     },
 
     deleteRestaurant({commit}, id) {
-        return axios.delete('/admin/store/' + id)
+        return axios.delete(process.env.VUE_APP_API_URL+'/admin/store/' + id)
             .then(res => {
                 commit('deleteRestaurant', id);
                 this.dispatch('getRestaurantsComplete');
@@ -257,7 +258,7 @@ const getters = {
     restaurants(state) {
         return state.restaurants;
     },
-    cities(state){
+    cities(state) {
         return state.cities;
     },
     getRestaurantById: (state) => (id) => {

@@ -118,7 +118,7 @@
             return {
                 valid: true,
                 imageUrl: '',
-                path: 'http://food/storage/menu-images/',
+                path: process.env.VUE_APP_MENU_IMAGES,
                 imageName: '',
                 imageTooBig: false,
                 types: ['Felul întâi', 'Fel principal', 'Fastfood', 'Pizza', 'Desert', 'Băuturi'],

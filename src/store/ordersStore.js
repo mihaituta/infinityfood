@@ -33,7 +33,7 @@ const mutations = {
 
 const actions = {
     getOrders({commit}) {
-        axios.get('/staff/orders')
+        axios.get(process.env.VUE_APP_API_URL+'/staff/orders')
             .then(res => {
                 console.log(res);
                 let orders = [];
@@ -61,8 +61,9 @@ const actions = {
             })
             .catch(error => console.log(error));
     },
+
     addOrder({commit}, payload) {
-        return axios.post('/restaurant/order', payload)
+        return axios.post(process.env.VUE_APP_API_URL+'/restaurant/order', payload)
             .then(res => {
                 return res.data;
             })
@@ -70,8 +71,9 @@ const actions = {
                 console.log(error);
             });
     },
+
     editOrder({commit}, payload) {
-        return axios.post('/staff/order/' + payload.id, payload.data)
+        return axios.post(process.env.VUE_APP_API_URL+'/staff/order/' + payload.id, payload.data)
             .then(res => {
                 if (res.data.responseType === 'success')
                     this.dispatch('getOrders');
@@ -81,8 +83,9 @@ const actions = {
                 console.log(error);
             });
     },
+
     deleteOrder({commit}, id) {
-        return axios.delete('/staff/order/' + id)
+        return axios.delete(process.env.VUE_APP_API_URL+'/staff/order/' + id)
             .then(res => {
                 console.log(res);
                 commit('deleteOrder', id);

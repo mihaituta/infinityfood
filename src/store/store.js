@@ -17,7 +17,7 @@ export default new Vuex.Store({
             name: null,
             email: null,
             role_id: null
-        }
+        },
     },
     mutations: {
         authUser(state, userData) {
@@ -27,6 +27,7 @@ export default new Vuex.Store({
             state.user.email = userData.email;
             state.user.role_id = userData.role_id;
         },
+
         clearAuthData(state) {
             state.token = null;
             state.user.id = null;
@@ -37,7 +38,7 @@ export default new Vuex.Store({
     },
     actions: {
         login({commit, state}, authData) {
-            return axios.post('/login', {
+            return axios.post(process.env.VUE_APP_API_URL+'/login', {
                 email: authData.email,
                 password: authData.password
             }).then(res => {
@@ -73,7 +74,7 @@ export default new Vuex.Store({
                 return;
             }
 
-            axios.get('/user').then(res => {
+            axios.get(process.env.VUE_APP_API_URL+'/user').then(res => {
                 commit('authUser', {
                     token: token,
                     id: res.data.data.id,

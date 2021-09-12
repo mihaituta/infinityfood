@@ -7,7 +7,7 @@
                         <v-toolbar dark color="dark">
                             <v-toolbar-title class="headline">Autentificare</v-toolbar-title>
                             <v-spacer></v-spacer>
-                            <v-img  width="140" :src="require('../../assets/smallLogoWhiteRed4.png')"/>
+                            <v-img  width="140" :src="require('../../assets/smallLogoWhiteRed.png')"/>
                         </v-toolbar>
                         <v-card-text>
                             <v-form>

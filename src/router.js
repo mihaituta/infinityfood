@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
 import Login from './components/auth/login';
 import Users from './components/admin/users';
 import Restaurants from './components/admin/restaurants';
@@ -86,7 +85,8 @@ router.beforeEach((to, from, next) => {
         if (token) {
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
         }
-        if (!token) next({name: 'login'});
+        if (!token)
+            next({name: 'login'});
         else if (to.meta.adminAuth) {
             if (store.getters.role_id === null) {
                 const watcher = store.watch(() => store.getters.role_id, role_id => {

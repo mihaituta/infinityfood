@@ -159,7 +159,7 @@
 
 <style scoped>
     .wrapper {
-        background-image: url('../../assets/b16.png');
+        background-image: url('../../assets/loggedPagesBg.png');
         background-attachment: fixed;
         background-size: cover;
         height: 100%;

@@ -292,7 +292,7 @@
                 <v-card-actions class="pb-2 pt-3">
                     <v-spacer></v-spacer>
                     <v-btn color="error" @click="openModal = false">Închide</v-btn>
-                    <v-btn color="primary" @click.prevent="onSubmit">Modifică</v-btn>
+                    <v-btn color="primary" @click.prevent="onSubmit">Adaugă</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -610,7 +610,7 @@
 
 <style scoped>
     .wrapper {
-        background-image: url('../../assets/b2.png');
+        background-image: url('../../assets/editRestaurantBg.png');
         background-attachment: fixed;
         background-size: cover;
     }

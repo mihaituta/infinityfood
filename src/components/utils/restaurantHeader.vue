@@ -30,7 +30,7 @@
     export default {
         data() {
             return {
-                logoImage: 'smallLogoWhiteBlue2.png',
+                logoImage: 'smallLogoWhiteBlue.png',
                 duration: 1000,
                 offset: 80,
                 easing: 'easeInOutCubic',

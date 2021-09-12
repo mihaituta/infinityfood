@@ -11,7 +11,7 @@
                             </div>
                         </v-flex>
                         <v-img contain max-width="430"
-                               :src="require('../assets/biglogoBlue2f.png')"></v-img>
+                               :src="require('../assets/bigLogo.png')"></v-img>
                     </v-layout>
                     <v-layout align-center row justify-space-between class="mt-4">
                         <v-flex xs6 sm5 md4 lg3 xl4>
@@ -179,7 +179,7 @@
     .wrapper {
         margin: 0;
         padding: 0;
-        background-image: url('../assets/b17.png');
+        background-image: url('../assets/restaurantsListBg.png');
         background-attachment: fixed;
         background-size: cover;
     }

@@ -63,16 +63,16 @@
                         </v-tab>
                         <v-tab-item v-for="type in types" :key="type.id">
                             <v-hover v-for="menu in menus" :key="menu.id" v-if="menu.type === type">
-                                <v-card style="border-radius: 8px" slot-scope="{ hover }"
+                                <v-card style="border-radius: 10px" slot-scope="{ hover }"
                                         :class="`elevation-${hover ? 10 : 3}`">
                                     <v-container class="mb-2 mt-3 pa-0">
                                         <v-layout>
                                             <v-flex align-self-center xs2 class="ma-2">
-                                                <v-tooltip fixed right max-width="400px" color="white">
+                                                <v-tooltip fixed right max-width="600px" color="white">
                                                     <template v-slot:activator="{ on }">
                                                         <v-img :src="menuPath+menu.image"
                                                                aspect-ratio="1"
-                                                               width="140"
+                                                               width="160"
                                                                contain
                                                                v-on="on"
                                                         ></v-img>
@@ -80,12 +80,12 @@
                                                     <img :src="menuPath+menu.image" width="100%" alt=""/>
                                                 </v-tooltip>
                                             </v-flex>
-                                            <v-flex xs7 class="mt-3 mb-3 ml-2">
+                                            <v-flex xs8 class="mt-3 mb-3 ml-4">
                                                 <div class="menuTitle">{{ menu.name}}</div>
                                                 <div class="menuContent mt-1">{{ menu.description }}</div>
                                             </v-flex>
 
-                                            <v-flex xs4 mr-2>
+                                            <v-flex xs3 mr-2>
                                                 <v-layout align-center justify-end row fill-height>
                                                     <h2 class="mr-1" style="font-family: sans-serif;">{{
                                                         menu.price.toLocaleString("ro-RO",{minimumFractionDigits: 2}) }}
@@ -247,7 +247,9 @@
                         </v-layout>
 
                         <v-container v-else class="pb-2 pr-0 pl-3 pt-0">
-                            <div class="orderItems pt-3">
+
+
+                            <transition-group class="orderItems pt-3" name="item" tag="div">
                                 <v-layout
                                         v-for="item in items"
                                         :key="item.id"
@@ -288,7 +290,7 @@
                                     </v-layout>
                                     <v-divider class="mt-1 mb-2 mr-3"></v-divider>
                                 </v-layout>
-                            </div>
+                            </transition-group>
 
                             <v-layout class="mt-3">
                                 <div class="title">TOTAL</div>
@@ -390,6 +392,7 @@
                     interfon: null,
                     informations: null
                 },
+                someElement: '',
                 addressRules: [
                     v => !!v || 'Numele este obligatoriu',
                 ],
@@ -403,7 +406,7 @@
 
                 orderNow: false,
                 addNotification: false,
-
+                itemsLengthChanged: false,
             };
         },
         methods: {
@@ -412,7 +415,8 @@
                 setTimeout(() => {
                     this.addNotification = true;
                 }, 100);
-            },
+            }
+            ,
             onSubmit() {
 
                 if (!this.$refs.form.validate()) {
@@ -453,12 +457,20 @@
                         this.items = [];
                     }
                 });
-            },
+            }
+            ,
+
             order() {
                 this.orderNow = true;
                 if (this.orderNow)
                     this.$vuetify.goTo('.orderSection', this.options);
             },
+
+
+            scrollToEnd() {
+                document.querySelector('.orderItems').scrollTop = document.querySelector('.orderItems').scrollHeight;
+            },
+
             addItem(menu) {
                 let item = this.items.find(item => item.id === menu.id);
 
@@ -468,22 +480,26 @@
                 } else {
                     this.items.push({id: menu.id, nr: 1, name: menu.name, price: menu.price});
                     this.totalPrice += menu.price;
+                    this.itemsLengthChanged = true;
                 }
-            },
+            }
+            ,
             addMore(item) {
                 item.nr++;
                 this.totalPrice += item.price;
-                console.log(item);
-            },
+            }
+            ,
             removeItem(item) {
                 item.nr--;
                 this.totalPrice -= item.price;
                 if (item.nr === 0)
                     this.items.splice(this.items.indexOf(item), 1);
-            },
+            }
+            ,
             getIcon(type) {
                 return this.icons[type];
-            },
+            }
+            ,
             handleScroll() {
                 let scrolled = window.pageYOffset;
                 let background = document.querySelector(".wrap");
@@ -523,7 +539,12 @@
                 }
             },
         },
-
+        updated() {
+            if (this.items.length && this.itemsLengthChanged) {
+                this.scrollToEnd();
+                this.itemsLengthChanged = false;
+            }
+        },
         created() {
             window.scrollTo(0, 0);
 
@@ -556,6 +577,8 @@
     .orderItems {
         max-height: 350px;
         overflow: auto;
+        overflow-x: hidden;
+        /*    overflow-y: scroll;*/
         font-family: 'Malgun Gothic', sans-serif;
     }
 
@@ -615,6 +638,34 @@
         font-weight: bold;
         font-family: sans-serif;
 
+    }
+
+    .item-enter {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+
+    .item-enter-active {
+        transition: transform 0.4s ease-in-out, opacity 0.5s ease-in-out;
+    }
+
+    .item-enter-to {
+        transform: translateX(0px);
+    }
+
+    .item-leave {
+        transform: translateX(0px);
+        opacity: 0;
+    }
+
+    .item-leave-active {
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+
+    }
+
+    .item-leave-to {
+        transform: translateX(50px);
+        opacity: 0;
     }
 </style>
 

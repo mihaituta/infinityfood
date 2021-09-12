@@ -4,7 +4,7 @@
             <v-container fill-height>
                 <v-layout align-center justify-center>
                     <v-img class="mt-3 mr-2" max-width="215px"
-                           :src="require('../assets/bluewhitelogo3.png')"></v-img>
+                           :src="require('../assets/blueWhiteLogo.png')"></v-img>
                     <div class="logo" style="color: #1b6cc4;">Cont</div>
                     <div class="logo">act</div>
                 </v-layout>

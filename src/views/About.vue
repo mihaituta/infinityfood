@@ -4,7 +4,7 @@
             <v-container fill-height>
                 <v-layout align-center justify-center>
                     <v-img class="mt-3 mr-2" max-width="215px"
-                           :src="require('../assets/bluewhitelogo3.png')"></v-img>
+                           :src="require('../assets/blueWhiteLogo.png')"></v-img>
                     <div class="mr-3 logodiv" style="color: #1b6cc4;">Despre</div>
                     <div style="color: white" class="logodiv">noi</div>
                 </v-layout>
@@ -110,8 +110,8 @@
     }
 
     .comandabtn {
-        font-size: 35px;
-        height: 55px;
+        font-size: 30px;
+        height: 47px;
         font-family: sans-serif;
         border-radius: 5px;
     }

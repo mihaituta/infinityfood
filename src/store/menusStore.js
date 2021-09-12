@@ -33,7 +33,7 @@ const mutations = {
 
 const actions = {
     getMenus({commit}) {
-        axios.get('/staff/menus')
+        axios.get(process.env.VUE_APP_API_URL+'/staff/menus')
             .then(res => {
                 console.log(res);
                 let menus = [];
@@ -52,7 +52,6 @@ const actions = {
                 });
                 commit('getMenus', menus);
                 commit('getTypes', res.data.data.types);
-
                 // const distinct = (value, index, self) => {
                 //     return self.indexOf(value) === index;
                 // };
@@ -64,8 +63,9 @@ const actions = {
             })
             .catch(error => console.log(error));
     },
+
     addMenu({commit}, payload) {
-        return axios.post('/staff/menu/add', payload)
+        return axios.post(process.env.VUE_APP_API_URL+'/staff/menu/add', payload)
             .then(res => {
                 if (res.data.responseType === 'success')
                     this.dispatch('getMenus');
@@ -75,8 +75,9 @@ const actions = {
                 console.log(error);
             });
     },
+
     editMenu({commit}, payload) {
-        return axios.post('/staff/menu/' + payload.id, payload.data)
+        return axios.post(process.env.VUE_APP_API_URL+'/staff/menu/' + payload.id, payload.data)
             .then(res => {
                 if (res.data.responseType === 'success')
                     this.dispatch('getMenus');
@@ -87,7 +88,7 @@ const actions = {
             });
     },
     deleteMenu({commit}, id) {
-        return axios.delete('/staff/menu/' + id)
+        return axios.delete(process.env.VUE_APP_API_URL+'/staff/menu/' + id)
             .then(res => {
                 console.log(res);
                 commit('deleteMenu', id);

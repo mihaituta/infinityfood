@@ -3,11 +3,12 @@
             dark
             height="auto"
             class="footer"
+            width="100%"
     >
         <v-card
                 flat
                 tile
-                class="text-xs-center"
+                class="text-xs-center flex"
         >
             <v-card-text>
                 <v-layout
@@ -42,23 +43,11 @@
                         <v-icon class="pr-2">mail</v-icon>
                         Contact
                     </v-btn>
-                    <!--                    <v-flex-->
-                    <!--                            dark-->
-                    <!--                            py-3-->
-                    <!--                            text-xs-center-->
-                    <!--                            white&#45;&#45;text-->
-                    <!--                            xs12-->
-                    <!--                    >-->
-                    <!--                    </v-flex>-->
+
                 </v-layout>
             </v-card-text>
-            <v-card-text class="white--text pt-0">
-                Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris cursus commodo interdum.
-                Praesent ut risus eget metus luctus accumsan id ultrices nunc. Sed at orci sed massa consectetur
-                dignissim a sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada. Nulla
-                placerat augue vel ipsum ultrices, cursus iaculis dui sollicitudin. Vestibulum eu ipsum vel diam
-                elementum tempor vel ut orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur
-                ridiculus mus.
+            <v-card-text class="text pt-0">
+                Ce oferă InfinityFood? Posibilitatea de a savura preparate delicioase de la restaurantele din zona în care vă aflati. O gamă variata de bucătării văstau la dispoziție cu doar câteva click-uri.
             </v-card-text>
 
             <v-divider></v-divider>
@@ -88,5 +77,7 @@
 </script>
 
 <style scoped>
-
+.text{
+    font-size: 17px;
+}
 </style>

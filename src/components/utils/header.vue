@@ -31,20 +31,20 @@
         watch: {
             $route(to, from) {
                 if (this.$router.currentRoute.name === 'storeslist')
-                    this.logoImage = 'smallLogoWhiteBlue2.png';
+                    this.logoImage = 'smallLogoWhiteBlue.png';
                 else if (this.$router.currentRoute.name === 'login')
-                    this.logoImage = 'smallLogoWhiteRed4.png';
+                    this.logoImage = 'smallLogoWhiteRed.png';
                 else
-                    this.logoImage = 'smallLogoWhiteBlue2.png';
+                    this.logoImage = 'smallLogoWhiteBlue.png';
             }
         },
         created() {
             if (this.$router.currentRoute.name === 'storeslist') {
-                this.logoImage = 'smallLogoWhiteBlue2.png';
+                this.logoImage = 'smallLogoWhiteBlue.png';
             } else if (this.$router.currentRoute.name === 'login')
-                this.logoImage = 'smallLogoWhiteRed4.png';
+                this.logoImage = 'smallLogoWhiteRed.png';
             else
-                this.logoImage = 'smallLogoWhiteBlue2.png';
+                this.logoImage = 'smallLogoWhiteBlue.png';
         }
     }
 </script>

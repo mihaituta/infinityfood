@@ -29,7 +29,7 @@ const mutations = {
 
 const actions = {
     getUsers({commit}) {
-        axios.get('/admin/users')
+        axios.get(process.env.VUE_APP_API_URL+'/admin/users')
             .then(res => {
                 console.log(res);
                 let users = [];
@@ -47,8 +47,9 @@ const actions = {
             })
             .catch(error => console.log(error));
     },
+
     addUser({commit}, payload) {
-        return axios.post('/admin/user', payload)
+        return axios.post(process.env.VUE_APP_API_URL+'/admin/user', payload)
             .then(res => {
                 console.log(res);
                 let response = res.data.data;
@@ -67,8 +68,9 @@ const actions = {
                 console.log(error);
             });
     },
+
     editUser({commit}, payload) {
-        return axios.post('/admin/user/' + payload.id, payload.data)
+        return axios.post(process.env.VUE_APP_API_URL+'/admin/user/' + payload.id, payload.data)
             .then(res => {
                 if (res.data.responseType === 'success')
                      this.dispatch('getUsers');
@@ -78,8 +80,9 @@ const actions = {
                 console.log(error);
             });
     },
+
     deleteUser({commit}, id) {
-        return axios.delete('/admin/user/' + id)
+        return axios.delete(process.env.VUE_APP_API_URL+'/admin/user/' + id)
             .then(res => {
                 console.log(res);
                 if (res.data.responseType === 'success') {
