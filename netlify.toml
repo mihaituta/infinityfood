@@ -1,7 +1,7 @@
 [[redirects]]
   from = "/api/*"
   to = "http://api-food.com/:splat"
-  status = 200
+  status = 301
 
 # SPA router support.
 [[redirects]]
