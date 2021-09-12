@@ -1,1 +1,1 @@
-/api/* http://api-food.com/api/:splat 200!
+https://infinityfood.netlify.app/api/* http://api-food.com/api/:splat 200
