@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/api/*"
-  to = "http://api-food.com/:splat"
+  to = "http://api-food.com/api/:splat"
   status = 301
 
 # SPA router support.
