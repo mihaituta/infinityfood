@@ -2,7 +2,6 @@
   from = "/api/*"
   to = "http://api-food.com/api/:splat"
   status = 200
-  force = true
 
 # SPA router support.
 [[redirects]]
