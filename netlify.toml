@@ -1,5 +1,5 @@
 [[redirects]]
-  from = "/api/*"
+  from = "/api*"
   to = "http://api-food.com/api:splat"
   status = 200
 
