@@ -3,12 +3,12 @@
 #   to = "http://api-food.com/api/:splat"
 #   status = 200
 [[redirects]]
-  from = "/asd"
+  from = "/*"
   to = "https://www.google.ro/"
   status = 200
 
 # SPA router support.
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# [[redirects]]
+#   from = "/*"
+#   to = "/index.html"
+#   status = 200
