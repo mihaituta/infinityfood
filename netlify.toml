@@ -7,8 +7,8 @@
   to = "https://www.google.ro/"
   status = 200
 
-# SPA router support.
-# [[redirects]]
-#   from = "/*"
-#   to = "/index.html"
-#   status = 200
+SPA router support.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
