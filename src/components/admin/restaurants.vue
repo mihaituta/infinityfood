@@ -144,7 +144,7 @@
                     </template>
                     <template slot="no-data">
                         <v-alert :value="true" color="error" icon="warning">
-                            Nu există utilizatori.
+                            Nu există restaurante.
                         </v-alert>
                     </template>
                     <template v-slot:no-results>

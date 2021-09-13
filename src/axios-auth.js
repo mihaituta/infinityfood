@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    // baseURL: 'http://api-food.com'
+    baseURL: 'https://laravel-api-food.herokuapp.com'
 });
 
 const token = localStorage.getItem('token');
