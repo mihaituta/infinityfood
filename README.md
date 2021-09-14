@@ -5,6 +5,11 @@
 # Infinity Food
 **InfinityFood** is the project I made for my thesis when I graduated from college.
 
+This is the **front-end** part of the project
+<br>
+**API** github link can be found
+<a href="https://github.com/mihaituta/laravel-vue-api-food" rel="noreferrer" target="_blank">here.</a>
+
 <a href="https://infinityfood.netlify.app" rel="noreferrer" target="_blank">Live demo</a>
 
 Administration page can be accessed
@@ -15,22 +20,17 @@ Demo **admin** account(to create a restaurant): email: admin@gmail.com password:
 <br>
 Demo **staff** account(to manage a restaurant): email: staff@gmail.com password: 123123.
 
-**API** github link can be found
-<a href="https://github.com/mihaituta/laravel-vue-api-food" rel="noreferrer" target="_blank">here.</a>
+
 
 # Technologies
 - **HTML**
 - **CSS**
 - **JavaScript**
 - **Vue.js**
-- **PHP**
-- **Laravel**
-- **MySQL**
 - **Axios**
 - **Vuetify**
 - **Vuelidate**
-- Front-end is hosted on **Netlify**
-- Back-end <a href="https://github.com/mihaituta/laravel-vue-api-food" rel="noreferrer" target="_blank">**API**</a> is hosted on **Heroku** so requests may take a few seconds.
+- **Front-end** is hosted on **Netlify** and the **back-end API** is hosted on **Heroku** so request may take a few seconds
 
 # Functionalities
 **InfinityFood** is a website for presenting and managing restaurants.
