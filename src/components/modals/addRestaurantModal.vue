@@ -575,7 +575,7 @@
                 const formData = new FormData();
                 const restaurantData = this.restaurant;
 
-                if (!this.restaurant.logoImage || !this.restaurant.backgroundImage || !this.restaurant.previewImage){
+                if (!this.restaurant.backgroundImage || !this.restaurant.previewImage){
                     return;
                 }
 
@@ -600,7 +600,6 @@
                     } else if (res.responseType === 'error' && res.errorMessage === 'nameTaken') {
                         this.nameErrorNotification();
                     }
-                    ;
                 });
 
             }
