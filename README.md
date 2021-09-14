@@ -11,7 +11,7 @@ Administration page can be accessed
 <a href="https://infinityfood.netlify.app/login" rel="noreferrer" target="_blank">here</a>
 or by adding **/login** after the url.
 
-Demo **admin** account(to create a restaurant): email: admin@gmail.com password: 123123 .
+Demo **admin** account(to create a restaurant): email: admin@gmail.com password: 123123.
 <br>
 Demo **staff** account(to manage a restaurant): email: staff@gmail.com password: 123123.
 
