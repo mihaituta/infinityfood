@@ -1,26 +1,26 @@
 <template>
     <div class="wrapper">
         <v-container fluid style="width:95%">
-            <notification text="Restaurantul a fost șters cu succes!" color="rgb(255, 82, 82, 0.9)" :top=true
+            <notification text="Restaurant was deleted successfully!" color="rgb(255, 82, 82, 0.9)" :top=true
                           :right=true
                           :showNotification="restaurantDeletedNotif"></notification>
-            <notification text="Restaurantul a fost modificat cu succes!" color="rgb(76, 175, 80, 0.9)"
+            <notification text="Restaurant was updated successfully!" color="rgb(76, 175, 80, 0.9)"
                           :showNotification="restaurantUpdatedNotif" :top=true :right=true></notification>
-            <notification text="Există deja un restaurant cu acest nume!" color="rgb(255, 82, 82, 0.9)"
+            <notification text="A restaurant with this name already exists!" color="rgb(255, 82, 82, 0.9)"
                           :showNotification="nameNotification" :top=true></notification>
 
             <add-modal/>
             <edit-modal v-if="openEditModal" v-model="openEditModal" :id='restaurantId'/>
-            <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest restaurant?"
+            <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Confirm deletion of this restaurant?"
                           :id='restaurantId' action="deleteRestaurant"/>
             <v-card class="mt-4 mb-2">
                 <v-card-title class="headline">
-                    Restaurante
+                    Restaurants
                     <v-spacer></v-spacer>
                     <v-text-field
                             v-model="search"
                             append-icon="search"
-                            label="Caută"
+                            label="Search"
                             single-line
                             hide-details
                     ></v-text-field>
@@ -48,12 +48,12 @@
 
                                 <v-btn small dark color="success" @click.stop="editRestaurant(restaurant.item.id)">
                                     <v-icon class="pr-1" size="16">edit</v-icon>
-                                    Modifică
+                                    Edit
                                 </v-btn>
 
                                 <v-btn small @click.stop="deleteRestaurant(restaurant.item.id)" dark color="error">
                                     <v-icon class="pr-1" size="18">delete</v-icon>
-                                    Șterge
+                                    Delete
                                 </v-btn>
                             </td>
                         </tr>
@@ -62,13 +62,13 @@
                         <v-card style="text-align: justify;" flat>
                             <v-layout class="justify-space-around text-sm-center titleText mt-2">
                                 <v-flex xs2>
-                                    Descriere de prezentare
+                                    Preview description
                                 </v-flex>
                                 <v-flex xs4>
-                                    Descrierea restaurantului
+                                    Description
                                 </v-flex>
                                 <v-flex xs4>
-                                    Descrierea din secțiunea de contact
+                                    Contact description
                                 </v-flex>
                             </v-layout>
                             <v-layout class="justify-space-around  text-sm-center mt-3 mb-2">
@@ -86,13 +86,13 @@
 
                             <v-layout class="titleText justify-space-around text-sm-center mt-2">
                                 <v-flex xs2>
-                                    Logo-ul restaurantului
+                                    Restaurant logo image
                                 </v-flex>
                                 <v-flex xs4>
-                                    Imagine de fundal
+                                    Restaurant background image
                                 </v-flex>
                                 <v-flex xs4>
-                                    Imagine de prezentare
+                                    Restaurant preview image
                                 </v-flex>
                             </v-layout>
                             <v-layout class="justify-space-around align-center mt-3 mb-3">
@@ -144,12 +144,12 @@
                     </template>
                     <template slot="no-data">
                         <v-alert :value="true" color="error" icon="warning">
-                            Nu există restaurante.
+                            No restaurants found.
                         </v-alert>
                     </template>
                     <template v-slot:no-results>
                         <v-alert :value="true" color="error" icon="warning">
-                            Nu s-a găsit nimic pentru "{{ search }}" .
+                            Nothing was found for "{{ search }}" .
                         </v-alert>
                     </template>
                 </v-data-table>
@@ -169,15 +169,15 @@
                 path: process.env.VUE_APP_RESTAURANT_IMAGES,
                 headers: [
                     {text: 'ID', value: 'id'},
-                    {text: 'Nume', value: 'name'},
+                    {text: 'Name', value: 'name'},
                     {text: 'Slug', value: 'slug'},
                     {text: 'Staff', value: 'user_id'},
-                    {text: 'Oraș', value: 'city'},
-                    {text: 'Telefon 1', value: 'phone1'},
-                    {text: 'Telefon 2', value: 'phone2'},
+                    {text: 'City', value: 'city'},
+                    {text: 'Phone 1', value: 'phone1'},
+                    {text: 'Phone 2', value: 'phone2'},
                     {text: 'E-mail 1', value: 'mail1'},
                     {text: 'E-mail 2', value: 'mail2'},
-                    {text: 'Acțiuni', align: 'center', sortable: false}
+                    {text: 'Actions', align: 'center', sortable: false}
                 ],
                 search: '',
                 expand: false,

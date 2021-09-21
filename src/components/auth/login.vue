@@ -5,7 +5,7 @@
                 <v-flex xs10 sm7 md6 lg5 xl4>
                     <v-card class="elevation-6 mb-5">
                         <v-toolbar dark color="dark">
-                            <v-toolbar-title class="headline">Autentificare</v-toolbar-title>
+                            <v-toolbar-title class="headline">Authentication</v-toolbar-title>
                             <v-spacer></v-spacer>
                             <v-img  width="140" :src="require('../../assets/smallLogoWhiteRed.png')"/>
                         </v-toolbar>
@@ -23,7 +23,7 @@
                                         name="email"
                                         v-model="email"
                                         :error-messages="emailErrors"
-                                        label="Email"
+                                        label="E-mail"
                                         required
                                         @input="$v.email.$touch()"
                                         @blur="$v.email.$touch()"
@@ -35,7 +35,7 @@
                                         :type="show ? 'text' : 'password'"
                                         v-model="password"
                                         :error-messages="passwordErrors"
-                                        label="Parolă"
+                                        label="Password"
                                         required
                                         @input="$v.password.$touch()"
                                         @blur="$v.password.$touch()"
@@ -44,7 +44,7 @@
                             </v-form>
                         </v-card-text>
                         <v-card-actions class="justify-center pb-4">
-                            <v-btn dark color="red" @click.prevent="submit">Autentificare</v-btn>
+                            <v-btn dark color="red" @click.prevent="submit">Login</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-flex>
@@ -76,15 +76,15 @@
             emailErrors() {
                 const errors = [];
                 if (!this.$v.email.$dirty) return errors;
-                !this.$v.email.email && errors.push('Email-ul trebuie să fie valid');
-                !this.$v.email.required && errors.push('Email-ul este obligatoriu');
+                !this.$v.email.email && errors.push('The e-mail must be valid!');
+                !this.$v.email.required && errors.push('E-mail is required!');
                 return errors;
             },
             passwordErrors() {
                 const errors = [];
                 if (!this.$v.password.$dirty) return errors;
-                !this.$v.password.required && errors.push('Parola este obligatorie');
-                !this.$v.password.minLength && errors.push('Parola trebuie să aibă cel puțin 6 caractere');
+                !this.$v.password.required && errors.push('Password is required!');
+                !this.$v.password.minLength && errors.push('Password must have at least 6 characters!');
                 return errors;
             }
         },
@@ -99,9 +99,9 @@
                 };
                 this.$store.dispatch('login', formData).then((res) => {
                     if (res.responseType !== 'undefined' && res.responseType === 'error' && res.errorMessage === 'invalidEmail') {
-                        this.errorText = 'Utilizatorul nu există';
+                        this.errorText = 'User does not exist!';
                     } else if (res.responseType !== 'undefined' && res.responseType === 'error' && res.errorMessage === 'invalidPassword') {
-                        this.errorText = 'Parola este incorectă';
+                        this.errorText = 'Incorrect password!';
                     }
                 });
             }

@@ -1,8 +1,8 @@
 <template>
     <v-layout>
-        <notification text="Meniul a fost adăugat cu succes!" color="rgb(76, 175, 80, 0.9)"
+        <notification text="Menu was added successfully!" color="rgb(76, 175, 80, 0.9)"
                       :showNotification="addNotification" :top=true :right=true></notification>
-        <notification text="Există deja un meniu cu acest nume!" color="rgb(255, 82, 82, 0.9)"
+        <notification text="A menu with this name already exists!" color="rgb(255, 82, 82, 0.9)"
                       :showNotification="nameNotification" :top=true></notification>
         <v-btn
                 color="primary"
@@ -10,8 +10,7 @@
                 @click.stop="openModal = true"
         >
             <v-icon class="pr-2">library_add</v-icon>
-            Adaugă meniu
-
+            Add menu
         </v-btn>
 
         <v-dialog
@@ -28,7 +27,7 @@
                     <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
                         <div class="title">
                             <v-icon>fastfood</v-icon>
-                            Adaugă meniu
+                            Add menu
                         </div>
                     </v-flex>
                 </v-card-title>
@@ -42,7 +41,7 @@
                                     <v-text-field
                                             prepend-icon="create"
                                             v-model="menu.name"
-                                            label="Nume"
+                                            label="Name"
                                             :rules="nameRules"
                                     ></v-text-field>
                                 </v-flex>
@@ -50,7 +49,7 @@
                                     <v-textarea
                                             prepend-icon="description"
                                             v-model="menu.description"
-                                            label="Descriere"
+                                            label="Description"
                                             :rules="descriptionRules"
                                             rows="1"
                                             auto-grow
@@ -61,7 +60,7 @@
                                             prepend-icon="attach_money"
                                             v-model="menu.price"
                                             type="number"
-                                            label="Preț"
+                                            label="Price"
                                             min="0"
                                             :rules="priceRules"
                                     ></v-text-field>
@@ -70,7 +69,7 @@
                                     <v-select
                                             prepend-icon="restaurant_menu"
                                             :items=types
-                                            label="Tip mâncare"
+                                            label="Food type"
                                             v-model="menu.type"
                                             :rules="typeRules"
                                     ></v-select>
@@ -85,17 +84,16 @@
                                 <v-flex xs12
                                         class="text-xs-center text-sm-center text-md-center text-lg-center mt-2">
                                     <v-btn @click="pickFile" color="primary" class="ma-0">
-                                        Încarcă imagine
+                                        Upload image
                                         <v-icon right dark>cloud_upload</v-icon>
                                     </v-btn>
                                     <div v-if="imageTooBig" style="color:red;"
                                          class="subheading font-weight-light mt-3">
-                                        <!--                                        Image is too big, resolution must be 1920x1080 or lower.-->
-                                        Imaginea este prea mare, rezoluția trebuie să fie 1920x1080 sau mai mică.
+                                      Image is too big, resolution must be 1920x1080 or smaller.
                                     </div>
                                     <div v-else-if="imageError" style="color:red;"
                                          class="subheading font-weight-light mt-3">
-                                        Imaginea este obligatorie
+                                        Image is required!
                                     </div>
                                 </v-flex>
 
@@ -118,8 +116,8 @@
                         </v-container>
                         <v-card-actions class="pb-3">
                             <v-spacer></v-spacer>
-                            <v-btn color="error" @click="openModal = false">Închide</v-btn>
-                            <v-btn color="primary" :disabled="!valid" @click.prevent="onSubmit">Adaugă</v-btn>
+                            <v-btn color="error" @click="openModal = false">Close</v-btn>
+                            <v-btn color="primary" :disabled="!valid" @click.prevent="onSubmit">Add</v-btn>
                         </v-card-actions>
                     </v-card-text>
                 </v-form>
@@ -137,7 +135,7 @@
                 imageUrl: '',
                 imageName: '',
                 imageTooBig: false,
-                types: ['Felul întâi', 'Fel principal', 'Fastfood', 'Pizza', 'Desert', 'Băuturi'],
+                types: ['Starter', 'Main Course', 'Fastfood', 'Pizza', 'Dessert', 'Drinks'],
                 menu: {
                     name: '',
                     description: '',
@@ -146,17 +144,17 @@
                     image: ''
                 },
                 nameRules: [
-                    v => !!v || 'Numele este obligatoriu',
+                    v => !!v || 'Name is required!',
                 ],
                 descriptionRules: [
-                    v => !!v || 'Descrierea este obligatorie',
+                    v => !!v || 'Description is required!',
                 ],
                 priceRules: [
-                    v => !!v || 'Prețul este obligatoriu',
-                    v => /^(\d{0,6})(\.\d{0,2})?$/.test(v) || 'Prețul poate avea maxim 6 cifre și 2 zecimale, ex: 123456.12'
+                    v => !!v || 'Price is required!',
+                    v => /^(\d{0,6})(\.\d{0,2})?$/.test(v) || 'Price can have a maximum of 6 digits and 2 decimals, ex: 123456.12'
                 ],
                 typeRules: [
-                    v => !!v || 'Tipul mâncării este obligatoriu',
+                    v => !!v || 'Food type is required!',
                 ],
                 addNotification: false,
                 nameNotification: false,

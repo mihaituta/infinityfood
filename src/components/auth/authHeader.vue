@@ -1,18 +1,18 @@
 <template>
     <v-toolbar dark color="dark">
         <v-toolbar-title>
-            <div v-if="userRole === 'Admin'">Administrare</div>
+            <div v-if="userRole === 'Admin'">Administration</div>
             <div v-else-if="userRole === 'Staff'">Staff</div>
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
             <v-btn v-if="userRole === 'Admin'" flat to="/admin/restaurante">
                 <v-icon class="pr-2">restaurant</v-icon>
-                Restaurante
+                Restaurants
             </v-btn>
             <v-btn v-if="userRole === 'Admin'" flat to="/admin/utilizatori">
                 <v-icon class="pr-2">people</v-icon>
-                Utilizatori
+                Users
             </v-btn>
             <v-btn v-if="userRole === 'Staff'" flat to="/staff/restaurant">
                 <v-icon class="pr-2">restaurant</v-icon>
@@ -20,15 +20,15 @@
             </v-btn>
             <v-btn v-if="userRole === 'Staff'" flat to="/staff/meniuri">
                 <v-icon class="pr-2">fastfood</v-icon>
-                Meniuri
+                Menus
             </v-btn>
             <v-btn v-if="userRole === 'Staff'" flat to="/staff/comenzi">
                 <v-icon class="pr-2">assignment</v-icon>
-                Comenzi
+                Orders
             </v-btn>
             <v-btn flat v-if="userRole" @click="onLogout" class="logout">
                 <v-icon class="pr-2">exit_to_app</v-icon>
-                Deconectează-te
+                Logout
             </v-btn>
         </v-toolbar-items>
     </v-toolbar>

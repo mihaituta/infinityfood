@@ -1,8 +1,8 @@
 <template>
     <v-layout class="mt-2">
-        <notification text="Restaurantul a fost adăugat cu succes!" color="rgb(76, 175, 80, 0.9)"
+        <notification text="Restaurant was created successfully!" color="rgb(76, 175, 80, 0.9)"
                       :showNotification="addNotification" :top=true :right=true></notification>
-        <notification text="Există deja un restaurant cu acest nume!" color="rgb(255, 82, 82, 0.9)"
+        <notification text="A restaurant with this name already exists!" color="rgb(255, 82, 82, 0.9)"
                       :showNotification="nameNotification" :top=true></notification>
         <v-btn
                 color="primary"
@@ -10,7 +10,7 @@
                 @click.stop="openModal = true"
         >
             <v-icon class="pr-2">library_add</v-icon>
-            Adaugă restaurant
+            Add restaurant
 
         </v-btn>
 
@@ -30,7 +30,7 @@
                         <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
                             <div class="title">
                                 <v-icon>restaurant</v-icon>
-                                Adaugă Restaurant
+                                Add restaurant
                             </div>
                         </v-flex>
                     </v-card-title>
@@ -42,7 +42,7 @@
                                     <v-text-field
                                             prepend-icon="create"
                                             v-model="restaurant.name"
-                                            label="Numele restaurantului"
+                                            label="Restaurant name"
                                             :error-messages="nameErrors"
                                             @input="$v.restaurant.name.$touch()"
                                             @blur="$v.restaurant.name.$touch()"
@@ -54,7 +54,7 @@
                                             :items=users
                                             item-text="name"
                                             item-value="id"
-                                            label="Utilizator administrare restaurant"
+                                            label="Restaurant administrator"
                                             v-model="restaurant.user_id"
                                             :error-messages="staffErrors"
                                             @change="$v.restaurant.user_id.$touch()"
@@ -66,7 +66,7 @@
                                     <v-text-field
                                             prepend-icon="location_city"
                                             v-model="restaurant.city"
-                                            label="Oraș"
+                                            label="City"
                                             :error-messages="cityErrors"
                                             @input="$v.restaurant.city.$touch()"
                                             @blur="$v.restaurant.city.$touch()"
@@ -76,7 +76,7 @@
                                     <v-textarea
                                             prepend-icon="description"
                                             v-model="restaurant.previewDescription"
-                                            label="Descrierea de prezentare"
+                                            label="Preview description"
                                             rows="1"
                                             auto-grow
                                             :error-messages="previewDescriptionErrors"
@@ -89,7 +89,7 @@
                                     <v-textarea
                                             prepend-icon="description"
                                             v-model="restaurant.aboutText"
-                                            label="Descrierea restaurantului"
+                                            label="Description"
                                             rows="1"
                                             auto-grow
                                             :error-messages="aboutTextErrors"
@@ -102,7 +102,7 @@
                                     <v-textarea
                                             prepend-icon="description"
                                             v-model="restaurant.contactText"
-                                            label="Descrierea din secțiunea de contact"
+                                            label="Contact description"
                                             rows="1"
                                             auto-grow
                                             :error-messages="contactTextErrors"
@@ -117,7 +117,7 @@
                                             :error-messages="phone1Errors"
                                             @input="$v.restaurant.phone1.$touch()"
                                             @blur="$v.restaurant.phone1.$touch()"
-                                            label="Telefon 1"
+                                            label="Phone 1"
                                     ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12>
@@ -127,7 +127,7 @@
                                             :error-messages="phone2Errors"
                                             @input="$v.restaurant.phone2.$touch()"
                                             @blur="$v.restaurant.phone2.$touch()"
-                                            label="Telefon 2"
+                                            label="Phone 2"
                                     ></v-text-field>
                                 </v-flex>
                                 <v-flex xs12>
@@ -154,19 +154,18 @@
                                 <v-flex xs12
                                         class="mt-3">
                                     <v-icon class="pr-2">photo</v-icon>
-                                    <span class="subheading mr-3">Imagine de prezentare</span>
+                                    <span class="subheading mr-3">Preview Image</span>
                                     <v-btn @click="pickPreviewImage" color="primary" class="ma-0">
                                         <v-icon left dark>add_photo_alternate</v-icon>
-                                        Alege imagine
+                                        Choose Image
                                     </v-btn>
                                     <div v-if="previewImageTooBig" style="color:red;"
                                          class="subheading font-weight-light mt-3">
-                                        Imaginea este prea mare, rezoluția trebuie să fie 1920x1080 sau mai
-                                        mică.
+                                      Image is too big, resolution must be 1920x1080 or smaller.
                                     </div>
                                     <div v-else-if="previewImageError" style="color:red;"
                                          class="subheading font-weight-light mt-3">
-                                        Imaginea este obligatorie
+                                        Image is required!
                                     </div>
                                 </v-flex>
                                 <input
@@ -199,19 +198,18 @@
                                 <v-flex xs12
                                         class="mt-1">
                                     <v-icon class="pr-2">photo</v-icon>
-                                    <span class="subheading mr-3">Imagine de fundal</span>
+                                    <span class="subheading mr-3">Background Image</span>
                                     <v-btn @click="pickBgImage" color="primary" class="ma-0">
                                         <v-icon left dark>add_photo_alternate</v-icon>
-                                        Alege imagine
+                                      Choose Image
                                     </v-btn>
                                     <div v-if="bgImageTooBig" style="color:red;"
                                          class="subheading font-weight-light mt-3">
-                                        Imaginea este prea mare, rezoluția trebuie să fie 1920x1080 sau mai
-                                        mică.
+                                      Image is too big, resolution must be 1920x1080 or smaller.
                                     </div>
                                     <div v-else-if="bgImageError" style="color:red;"
                                          class="subheading font-weight-light mt-3">
-                                        Imaginea este obligatorie
+                                        Image is required!
                                     </div>
                                 </v-flex>
                                 <input
@@ -244,19 +242,18 @@
                                 <v-flex xs12
                                         class="mt-1">
                                     <v-icon class="pr-2">photo</v-icon>
-                                    <span class="subheading mr-3">Logo-ul restaurantului</span>
+                                    <span class="subheading mr-3">Restaurant logo</span>
                                     <v-btn @click="pickLogoImage" color="primary" class="ma-0">
                                         <v-icon left dark>add_photo_alternate</v-icon>
-                                        Alege imagine
+                                      Choose Image
                                     </v-btn>
                                     <div v-if="logoImageTooBig" style="color:red;"
                                          class="subheading font-weight-light mt-3">
-                                        Imaginea este prea mare, rezoluția trebuie să fie 1920x1080 sau mai
-                                        mică.
+                                        Image is too big, resolution must be 1920x1080 or smaller.
                                     </div>
                                     <div v-else-if="logoImageError" style="color:red;"
                                          class="subheading font-weight-light mt-3">
-                                        Imaginea este obligatorie
+                                        Image is required!
                                     </div>
                                 </v-flex>
                                 <input
@@ -291,8 +288,8 @@
                 <v-divider></v-divider>
                 <v-card-actions class="pb-2 pt-3">
                     <v-spacer></v-spacer>
-                    <v-btn color="error" @click="openModal = false">Închide</v-btn>
-                    <v-btn color="primary" @click.prevent="onSubmit">Adaugă</v-btn>
+                    <v-btn color="error" @click="openModal = false">Close</v-btn>
+                    <v-btn color="primary" @click.prevent="onSubmit">Add</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -406,66 +403,66 @@
             nameErrors() {
                 const errors = [];
                 if (!this.$v.restaurant.name.$dirty) return errors;
-                !this.$v.restaurant.name.required && errors.push('Numele este obligatoriu');
+                !this.$v.restaurant.name.required && errors.push('Name is required!');
                 return errors;
             },
             staffErrors() {
                 const errors = [];
                 if (!this.$v.restaurant.user_id.$dirty) return errors;
-                !this.$v.restaurant.user_id.required && errors.push('Administratorul este obligatoriu');
+                !this.$v.restaurant.user_id.required && errors.push('Administrator is required!');
                 return errors;
             },
             cityErrors() {
                 const errors = [];
                 if (!this.$v.restaurant.city.$dirty) return errors;
-                !this.$v.restaurant.city.required && errors.push('Orașul este obligatoriu');
+                !this.$v.restaurant.city.required && errors.push('City is required!');
                 return errors;
             },
             previewDescriptionErrors() {
                 const errors = [];
                 if (!this.$v.restaurant.previewDescription.$dirty) return errors;
-                !this.$v.restaurant.previewDescription.required && errors.push('Descrierea de prezentare este obligatorie');
+                !this.$v.restaurant.previewDescription.required && errors.push('Preview description is required!');
                 return errors;
             },
             aboutTextErrors() {
                 const errors = [];
                 if (!this.$v.restaurant.aboutText.$dirty) return errors;
-                !this.$v.restaurant.aboutText.required && errors.push('Descrierea restaurantului este obligatorie');
+                !this.$v.restaurant.aboutText.required && errors.push('Description is required!');
                 return errors;
             },
             contactTextErrors() {
                 const errors = [];
                 if (!this.$v.restaurant.contactText.$dirty) return errors;
-                !this.$v.restaurant.contactText.required && errors.push('Descrierea din secțiunea de contact este obligatorie');
+                !this.$v.restaurant.contactText.required && errors.push('Contact description is required!');
                 return errors;
             },
             phone1Errors() {
                 const errors = [];
                 if (!this.$v.restaurant.phone1.$dirty) return errors;
-                !this.$v.restaurant.phone1.integer && errors.push('Numărul trebuie să conțină doar cifre');
-                !this.$v.restaurant.phone1.required && errors.push('Numărul de telefon este obligatoriu');
+                !this.$v.restaurant.phone1.integer && errors.push('Phone number must only contain numbers!');
+                !this.$v.restaurant.phone1.required && errors.push('Phone number is required!');
                 return errors;
             },
             phone2Errors() {
                 const errors = [];
                 if (!this.$v.restaurant.phone2.$dirty) return errors;
-                !this.$v.restaurant.phone2.integer && errors.push('Numărul trebuie să conțină doar cifre');
-                !this.$v.restaurant.phone2.required && errors.push('Numărul de telefon este obligatoriu');
+                !this.$v.restaurant.phone2.integer && errors.push('Phone number must only contain numbers!');
+                !this.$v.restaurant.phone2.required && errors.push('Phone number is required!');
                 return errors;
             },
             mailErrors1() {
                 const errors = [];
                 if (!this.$v.restaurant.mail1.$dirty) return errors;
-                !this.$v.restaurant.mail1.email && errors.push('Email-ul trebuie să fie valid');
-                !this.$v.restaurant.mail1.required && errors.push('Email-ul este obligatoriu');
+                !this.$v.restaurant.mail1.email && errors.push('E-mail must be valid!');
+                !this.$v.restaurant.mail1.required && errors.push('E-mail is required!');
                 return errors;
             },
 
             mailErrors2() {
                 const errors = [];
                 if (!this.$v.restaurant.mail2.$dirty) return errors;
-                !this.$v.restaurant.mail2.email && errors.push('Email-ul trebuie să fie valid');
-                !this.$v.restaurant.mail2.required && errors.push('Email-ul este obligatoriu');
+                !this.$v.restaurant.mail2.email && errors.push('E-mail must be valid!');
+                !this.$v.restaurant.mail2.required && errors.push('E-mail is required!');
                 return errors;
             },
 

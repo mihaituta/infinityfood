@@ -1,22 +1,22 @@
 <template>
     <div class="wrapper">
         <v-container fluid style="width:80%">
-            <notification text="Meniul a fost șters cu succes!" color="rgb(255, 82, 82, 0.9)"
+            <notification text="Menu was deleted successfully!" color="rgb(255, 82, 82, 0.9)"
                           :showNotification="menuDeletedNotif" :top=true :right=true></notification>
-            <notification text="Meniul a fost modificat cu succes!" color="rgb(76, 175, 80, 0.9)"
+            <notification text="Menu was updated successfully!" color="rgb(76, 175, 80, 0.9)"
                           :showNotification="menuUpdatedNotif" :top=true :right=true></notification>
-            <notification text="Există deja un meniu cu acest nume!" color="rgb(255, 82, 82, 0.9)"
+            <notification text="A menu with this name already exists!" color="rgb(255, 82, 82, 0.9)"
                           :showNotification="nameNotification" :top=true></notification>
             <add-modal/>
             <edit-modal v-if="openEditModal" v-model="openEditModal" :id='menuId'/>
-            <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest meniu?"
+            <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Confirm deletion of this menu?"
                           :id='menuId' action="deleteMenu"/>
             <v-alert
                     :value="!menus.length"
                     type="error"
                     class="mt-4"
             >
-                Nu există meniuri.
+                No menus found.
             </v-alert>
             <v-tabs class="mt-2" fixed-tabs color="transparent" centered>
                 <v-tab v-for="type in types" :key="type.id">
@@ -27,22 +27,22 @@
                     <v-container fluid grid-list-sm class="pa-2 mt-2">
                         <v-layout class="text-xs-center">
                             <v-flex xs1>
-                                <div>Imagine</div>
+                                <div>Image</div>
                             </v-flex>
                             <v-flex xs2>
-                                <div>Nume</div>
+                                <div>Name</div>
                             </v-flex>
                             <v-flex xs4>
-                                <div>Descriere</div>
+                                <div>Description</div>
                             </v-flex>
                             <v-flex xs1>
-                                <div>Preț</div>
+                                <div>Price</div>
                             </v-flex>
                             <v-flex xs1>
-                                <div>Tip</div>
+                                <div>Type</div>
                             </v-flex>
                             <v-flex xs3>
-                                <div>Acțiuni</div>
+                                <div>Actions</div>
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -69,7 +69,7 @@
                                         <div>{{ menu.name}}</div>
                                     </v-flex>
                                     <v-flex xs4>
-                                        <div>{{menu.description}}</div>
+                                        <div>{{ menu.description}}</div>
                                     </v-flex>
                                     <v-flex xs1>
                                         <div>{{ menu.price}} ron</div>
@@ -84,13 +84,13 @@
                                             <v-btn style="border-radius: 5px;" color="success"
                                                    @click.stop="editMenu(menu.id)">
                                                 <v-icon class="pr-2" size="20">edit</v-icon>
-                                                Modifică
+                                                Edit
                                             </v-btn>
 
                                             <v-btn style="border-radius: 5px;" color="error"
                                                    @click.stop="deleteMenu(menu.id)">
                                                 <v-icon class="pr-1" size="21">delete</v-icon>
-                                                Șterge
+                                                Delete
                                             </v-btn>
                                         </v-layout>
                                     </v-flex>
@@ -128,12 +128,12 @@
                 easings: Object.keys(easings),
                 icons:
                     {
-                        'Felul întâi': 'restaurant',
-                        'Fel principal': 'room_service',
+                        'Starter': 'restaurant',
+                        'Main Course': 'room_service',
                         'Fastfood': 'fastfood',
                         'Pizza': 'local_pizza',
-                        'Desert': 'cake',
-                        'Băuturi': 'local_bar',
+                        'Dessert': 'cake',
+                        'Drinks': 'local_bar',
                     }
             };
         },

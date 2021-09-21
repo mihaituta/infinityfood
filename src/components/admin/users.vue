@@ -1,27 +1,27 @@
 <template>
     <div class="wrapper">
         <v-container fluid style="width:80%">
-            <notification text="Utilizatorul a fost șters cu succes!" color="rgb(255, 82, 82, 0.9)" :top=true
+            <notification text="User was deleted successfully!" color="rgb(255, 82, 82, 0.9)" :top=true
                           :right=true
                           :showNotification="userDeletedNotif"></notification>
-            <notification text="Utilizatorul a fost modificat cu succes!" color="rgb(76, 175, 80, 0.9)"
+            <notification text="User was updated successfully!" color="rgb(76, 175, 80, 0.9)"
                           :showNotification="userUpdatedNotif" :top=true :right=true></notification>
-            <notification text="Există deja un utilizatorul cu acest nume!" color="rgb(255, 82, 82, 0.9)"
+            <notification text="A user with this name already exists!" color="rgb(255, 82, 82, 0.9)"
                           :showNotification="nameNotification" :top=true></notification>
-            <notification text="Există deja un utilizatorul cu acest email!" color="rgb(255, 82, 82, 0.9)"
+            <notification text="A user with this e-mail already exists!" color="rgb(255, 82, 82, 0.9)"
                           :showNotification="emailNotification" :top=true></notification>
             <add-modal/>
             <edit-modal v-if="openEditModal" v-model="openEditModal" :id='userId'/>
-            <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți acest utilizator?"
+            <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Confirm deletion of this user?"
                           :id='userId' action="deleteUser"/>
             <v-card class="mt-4 mb-3">
                 <v-card-title class="headline">
-                    Utilizatori
+                    Users
                     <v-spacer></v-spacer>
                     <v-text-field
                             v-model="search"
                             append-icon="search"
-                            label="Caută"
+                            label="Search"
                             single-line
                             hide-details
                     ></v-text-field>
@@ -42,24 +42,24 @@
 
                             <v-btn small dark color="success" @click.stop="editUser(user.item.id)">
                                 <v-icon class="pr-2" size="18">edit</v-icon>
-                                Modifică
+                                Edit
                             </v-btn>
 
                             <v-btn small @click.stop="deleteUser(user.item.id)" dark color="error">
                                 <v-icon class="pr-1" size="20">delete</v-icon>
-                                Șterge
+                                Delete
                             </v-btn>
 
                         </td>
                     </template>
                     <template v-slot:no-data>
                         <v-alert :value="true" color="error" icon="warning">
-                            Nu există utilizatori.
+                            No users found.
                         </v-alert>
                     </template>
                     <template v-slot:no-results>
                         <v-alert :value="true" color="error" icon="warning">
-                            Nu s-a găsit nimic pentru "{{ search }}" .
+                          Nothing was found for "{{ search }}" .
                         </v-alert>
                     </template>
                 </v-data-table>
@@ -78,10 +78,10 @@
             return {
                 headers: [
                     {text: 'ID', value: 'id'},
-                    {text: 'Nume', value: 'name'},
-                    {text: 'Email', value: 'email'},
-                    {text: 'Rol', value: 'role_id'},
-                    {text: 'Acțiuni', align: 'center', sortable: false}
+                    {text: 'Name', value: 'name'},
+                    {text: 'E-mail', value: 'email'},
+                    {text: 'Role', value: 'role_id'},
+                    {text: 'Actions', align: 'center', sortable: false}
                 ],
                 search: '',
                 openEditModal: false,
