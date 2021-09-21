@@ -7,14 +7,14 @@
         <v-toolbar-items class="hidden-sm-and-down">
             <v-btn color="" flat to="/">
                 <v-icon class="pr-2">restaurant</v-icon>
-                Restaurante
+                Restaurants
             </v-btn>
             <v-btn color="" flat  @click="$vuetify.goTo('.t2', options)">
                 <v-icon class="pr-2">fastfood</v-icon>
-                Comandă
+                Order
             </v-btn> <v-btn color="" flat  @click="$vuetify.goTo('.t1', options)">
                 <v-icon class="pr-2">people</v-icon>
-                Despre noi
+                About us
             </v-btn>
             <v-btn color="" flat  @click="$vuetify.goTo('.t3', options)">
                 <v-icon class="pr-2">mail</v-icon>

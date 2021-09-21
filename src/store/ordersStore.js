@@ -10,13 +10,11 @@ const state = {
             city: null,
             name: null,
             phone: null,
-            adresa: null,
-            bloc: null,
-            scara: null,
-            etaj: null,
-            apartament: null,
-            interfon: null,
-            informations: null
+            address: null,
+            houseNr: null,
+            floor: null,
+            apartment: null,
+            information: null
         }
     ],
 
@@ -47,13 +45,11 @@ const actions = {
                         city: order.city,
                         name: order.name,
                         phone: order.phone,
-                        adresa: order.adresa,
-                        bloc: order.bloc,
-                        scara: order.scara,
-                        etaj: order.etaj,
-                        apartament: order.apartament,
-                        interfon: order.interfon,
-                        informations: order.informations,
+                        address: order.address,
+                        houseNr: order.houseNr,
+                        floor: order.floor,
+                        apartment: order.apartment,
+                        information: order.information,
                     };
                     orders.push(temp);
                 });

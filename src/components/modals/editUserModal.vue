@@ -15,7 +15,7 @@
                     <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
                         <div class="title">
                             <v-icon>person_add</v-icon>
-                            Modifică utilizator
+                           Update user
                         </div>
                     </v-flex>
                 </v-card-title>
@@ -28,7 +28,7 @@
                                     <v-text-field
                                             prepend-icon="person"
                                             v-model="userList.name"
-                                            label="Nume"
+                                            label="Name"
                                             :rules="nameRules"
                                     ></v-text-field>
                                 </v-flex>
@@ -36,7 +36,7 @@
                                     <v-text-field
                                             prepend-icon="email"
                                             v-model="userList.email"
-                                            label="Email"
+                                            label="E-mail"
                                             :rules="mailRules"
                                     ></v-text-field>
                                 </v-flex>
@@ -47,7 +47,7 @@
                                             :type="show ? 'text' : 'password'"
                                             v-model="userList.password"
                                             :error-messages="passwordErrors"
-                                            label="Parolă"
+                                            label="Password"
                                             @input="$v.userList.password.$touch()"
                                             @blur="$v.userList.password.$touch()"
                                             @click:append="show = !show"
@@ -66,8 +66,8 @@
                         </v-container>
                         <v-card-actions class="pb-3">
                             <v-spacer></v-spacer>
-                            <v-btn color="error" @click.stop="openModal=false">Închide</v-btn>
-                            <v-btn color="primary" :disabled="!valid" @click.prevent="onSubmit">Modifică</v-btn>
+                            <v-btn color="error" @click.stop="openModal=false">Close</v-btn>
+                            <v-btn color="primary" :disabled="!valid" @click.prevent="onSubmit">Update</v-btn>
                         </v-card-actions>
                     </v-card-text>
                 </v-form>
@@ -96,14 +96,14 @@
                 user: {},
                 userList: [],
                 nameRules: [
-                    v => !!v || 'Numele este obligatoriu',
+                    v => !!v || 'Name is required!',
                 ],
                 mailRules: [
-                    v => !!v || 'E-mail-ul este obligatoriu',
-                    v => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail-ul trebuie să fie valid'
+                    v => !!v || 'E-mail is required!',
+                    v => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid!'
                 ],
                 role_idRules: [
-                    v => !!v || 'Rolul este obligatoriu',
+                    v => !!v || 'Role is required!',
                 ],
             };
         },
@@ -140,7 +140,7 @@
             passwordErrors() {
                 const errors = [];
                 if (!this.$v.userList.password.$dirty) return errors;
-                !this.$v.userList.password.minLength && errors.push('Parola trebuie să conțină cel puțin 6 caractere');
+                !this.$v.userList.password.minLength && errors.push('Password must have at least 6 characters!');
                 return errors;
             }
         },

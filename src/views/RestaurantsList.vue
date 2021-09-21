@@ -5,9 +5,8 @@
                 <v-container class="mb-4">
                     <v-layout align-center justify-space-between row>
                         <v-flex xs7>
-                            <div v-if="cityModel" class="logoText">Livrare de mancare de la cele mai bune restaurante
-                                din orasul <b>{{cityModel}}</b></div>
-                            <div v-else class="logoText">Livrare de mancare de la cele mai bune restaurante pe <b>InfinityFood</b>
+                            <div v-if="cityModel" class="logoText">Food delivery from the best restaurants in <b>{{cityModel}}</b></div>
+                            <div v-else class="logoText">Food delivery from the best restaurants on <b>InfinityFood</b>
                             </div>
                         </v-flex>
                         <v-img contain max-width="430"
@@ -18,7 +17,7 @@
                             <v-text-field
                                     prepend-inner-icon="search"
                                     v-model="search"
-                                    label="Caută un restaurant.."
+                                    label="Search a restaurant.."
                                     class="headline"
                                     height="60"
                                     solo
@@ -30,7 +29,7 @@
                                     prepend-inner-icon="location_city"
                                     v-model="cityModel"
                                     :items=cities
-                                    label="Alege un Oraș"
+                                    label="Choose a city"
                                     height="60"
                                     solo
                                     clearable
@@ -75,9 +74,7 @@
                         <transition name="notFound">
                             <div v-if="!filteredList.length && filteredList">
 
-                                <div class="notFound">Ne pare rău, se pare că restaurantul <b>{{search}}</b> nu există
-                                    sau
-                                    nu este înregistrat pe site-ul nostru.
+                                <div class="notFound">Sorry, it looks like the restaurant <b> {{search}} </b> does not exist or it is not registered on our website.
                                 </div>
 
                                 <v-icon size="255">restaurant_menu</v-icon>

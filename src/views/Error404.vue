@@ -2,11 +2,11 @@
     <div id="notfound">
         <div class="notfound">
             <div class="notfound-404 text-sm-center">
-                <h3>Ceva nu a functionat!</h3>
+                <h3>Something went wrong!</h3>
                 <h1><span>4</span><span>0</span><span>4</span></h1>
             </div>
-            <h2>Pagina pe care încercați să o accesați nu există.</h2>
-            <v-btn color="error" to="/">Înapoi la pagina principală</v-btn>
+            <h2>The page you are trying to access does not exist or is unavailable.</h2>
+            <v-btn color="error" to="/">Back to InfinityFood</v-btn>
         </div>
     </div>
 </template>

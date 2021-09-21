@@ -1,23 +1,23 @@
 <template>
     <div class="wrapper">
         <v-container fluid style="width:90%">
-            <notification text="Comanda a fost ștearsă cu succes!" color="rgb(255, 82, 82, 0.9)" :top=true
+            <notification text="Order was deleted successfully!" color="rgb(255, 82, 82, 0.9)" :top=true
                           :right=true
                           :showNotification="orderDeletedNotif"></notification>
-            <notification text="Statusul comenzii a fost actualizat!" color="rgb(76, 175, 80, 0.9)"
+            <notification text="Order status was updated!" color="rgb(76, 175, 80, 0.9)"
                           :showNotification="orderUpdatedNotif" :top=true :right=true></notification>
 
             <edit-modal v-if="openEditModal" v-model="openEditModal" :id='orderId'/>
-            <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Doriți să ștergeți această comandă?"
+            <delete-modal v-if="openDeleteModal" v-model="openDeleteModal" text="Confirm deletion of this order?"
                           :id='orderId' action="deleteOrder"/>
             <v-card class="mt-4 mb-5">
                 <v-card-title class="headline">
-                    Comenzi
+                    Orders
                     <v-spacer></v-spacer>
                     <v-text-field
                             v-model="search"
                             append-icon="search"
-                            label="Caută"
+                            label="Search"
                             single-line
                             hide-details
                     ></v-text-field>
@@ -53,19 +53,17 @@
                             <td>{{ order.item.phone }}</td>
 
                             <td>
-                                <span> Strada {{ order.item.adresa }}</span>
-                                <span v-if="order.item.bloc">, Bloc {{ order.item.bloc }}</span>
-                                <span v-if="order.item.scara">, Scara {{ order.item.scara }}</span>
-                                <span v-if="order.item.etaj">, Etaj {{ order.item.etaj }}</span>
-                                <span v-if="order.item.apartament">, Apartament {{ order.item.apartament }}</span>
-                                <span v-if="order.item.interfon">, Interfon {{order.item.interfon }}</span>
+                                <span> Street {{ order.item.address }}</span>
+                                <span v-if="order.item.houseNr">, Flat/House Nr. {{ order.item.houseNr }}</span>
+                                <span v-if="order.item.floor">, Floor {{ order.item.floor }}</span>
+                                <span v-if="order.item.apartment">, Apartment {{ order.item.apartment }}</span>
                             </td>
 
                             <td class="pa-0">
                                 <v-btn style="border-radius: 50px; height: 32px;"
                                        @click.stop="deleteOrder(order.item.id)" dark color="error">
                                     <v-icon class="pr-1" size="20">delete</v-icon>
-                                    Șterge
+                                    Delete
                                 </v-btn>
                             </td>
                         </tr>
@@ -75,14 +73,14 @@
                         <v-card style="text-align: justify;" flat>
                             <v-layout class="titleText mt-2 mr-4 ml-4 mb-3">
                                 <v-flex xs12 class="titleText">
-                                    <div>Meniuri</div>
+                                    <div>Menus</div>
                                     <div class="contentText">{{order.item.menus}}.</div>
                                 </v-flex>
                             </v-layout>
-                            <v-layout v-if="order.item.informations" class="titleText mt-2 mr-4 ml-4 mb-3">
+                            <v-layout v-if="order.item.information" class="titleText mt-2 mr-4 ml-4 mb-3">
                                 <v-flex xs12 class="titleText">
-                                    <div>Informații suplimentare</div>
-                                    <div class="contentText">{{order.item.informations}}.</div>
+                                    <div>Info</div>
+                                    <div class="contentText">{{order.item.information}}.</div>
                                 </v-flex>
                             </v-layout>
                             <v-divider></v-divider>
@@ -91,12 +89,12 @@
 
                     <template v-slot:no-data>
                         <v-alert :value="true" color="error" icon="warning">
-                            Nu există comenzi.
+                            No orders found.
                         </v-alert>
                     </template>
                     <template v-slot:no-results>
                         <v-alert :value="true" color="error" icon="warning">
-                            Nu s-a găsit nimic pentru "{{ search }}" .
+                          Nothing was found for "{{ search }}" .
                         </v-alert>
                     </template>
                 </v-data-table>
@@ -115,12 +113,12 @@
                 headers: [
                     {text: 'ID', value: 'id'},
                     {text: 'Status', value: 'status'},
-                    {text: 'Preț', value: 'totalPrice'},
-                    {text: 'Oraș', value: 'city'},
-                    {text: 'Nume', value: 'name'},
-                    {text: 'Telefon', value: 'phone'},
-                    {text: 'Adresă', value: 'adresa'},
-                    {text: 'Acțiuni', align: 'center', sortable: false}
+                    {text: 'Price', value: 'totalPrice'},
+                    {text: 'City', value: 'city'},
+                    {text: 'Name', value: 'name'},
+                    {text: 'Phone', value: 'phone'},
+                    {text: 'Address', value: 'address'},
+                    {text: 'Actions', align: 'center', sortable: false}
                 ],
                 search: '',
                 expand: false,
@@ -131,8 +129,8 @@
                 orderUpdatedNotif: false,
                 status:
                     {
-                        0: 'În progres',
-                        1: 'Livrat',
+                        0: 'In progress',
+                        1: 'Delivered',
                     },
             };
         },

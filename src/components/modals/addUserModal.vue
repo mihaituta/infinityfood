@@ -1,8 +1,8 @@
 <template>
     <v-layout class="mt-2">
-        <notification text="Utilizatorul a fost adăugat cu succes!" color="rgb(76, 175, 80, 0.9)"
+        <notification text="User added successfully!" color="rgb(76, 175, 80, 0.9)"
                       :showNotification="addNotification" :top=true :right=true></notification>
-        <notification :text="'Există deja un utilizator cu acest '+errorText" color="rgb(255, 82, 82, 0.9)"
+        <notification :text='`A user with this ${errorText} already exists!`' color="rgb(255, 82, 82, 0.9)"
                       :showNotification="errorNotification" :top=true></notification>
         <v-btn
                 color="primary"
@@ -10,7 +10,7 @@
                 @click.stop="openModal = true"
         >
             <v-icon class="pr-2">person_add</v-icon>
-            Adaugă utilizator
+            Add user
         </v-btn>
 
         <v-dialog
@@ -27,7 +27,7 @@
                     <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
                         <div class="title">
                             <v-icon>person_add</v-icon>
-                            Adaugă utilizator
+                            Add user
                         </div>
                     </v-flex>
                 </v-card-title>
@@ -41,7 +41,7 @@
                                     <v-text-field
                                             prepend-icon="person"
                                             v-model="user.name"
-                                            label="Nume"
+                                            label="Name"
                                             :error-messages="nameErrors"
                                             required
                                             @input="$v.user.name.$touch()"
@@ -54,7 +54,7 @@
                                             name="email"
                                             v-model="user.email"
                                             :error-messages="emailErrors"
-                                            label="Email"
+                                            label="E-mail"
                                             required
                                             @input="$v.user.email.$touch()"
                                             @blur="$v.user.email.$touch()"
@@ -67,7 +67,7 @@
                                         :type="show ? 'text' : 'password'"
                                         v-model="user.password"
                                         :error-messages="passwordErrors"
-                                        label="Parolă"
+                                        label="Password"
                                         required
                                         @input="$v.user.password.$touch()"
                                         @blur="$v.user.password.$touch()"
@@ -77,7 +77,7 @@
                                     <v-select
                                             prepend-icon="security"
                                             :items=roles
-                                            label="Rol"
+                                            label="Role"
                                             v-model="user.role_id"
                                             :error-messages="role_idErrors"
                                             required
@@ -89,8 +89,8 @@
                         </v-container>
                         <v-card-actions class="pb-3">
                             <v-spacer></v-spacer>
-                            <v-btn color="error" @click="openModal = false">Închide</v-btn>
-                            <v-btn color="primary" :disabled="!valid" @click.prevent="onSubmit">Adaugă</v-btn>
+                            <v-btn color="error" @click="openModal = false">Close</v-btn>
+                            <v-btn color="primary" :disabled="!valid" @click.prevent="onSubmit">Add</v-btn>
                         </v-card-actions>
                     </v-card-text>
                 </v-form>
@@ -145,27 +145,27 @@
             nameErrors() {
                 const errors = [];
                 if (!this.$v.user.name.$dirty) return errors;
-                !this.$v.user.name.required && errors.push('Numele este obligatoriu');
+                !this.$v.user.name.required && errors.push('Name is required!');
                 return errors;
             },
             emailErrors() {
                 const errors = [];
                 if (!this.$v.user.email.$dirty) return errors;
-                !this.$v.user.email.email && errors.push('Email-ul trebuie să fie valid');
-                !this.$v.user.email.required && errors.push('Email-ul este obligatoriu');
+                !this.$v.user.email.email && errors.push('E-mail must be valid!');
+                !this.$v.user.email.required && errors.push('E-mail is required!');
                 return errors;
             },
             passwordErrors() {
                 const errors = [];
                 if (!this.$v.user.password.$dirty) return errors;
-                !this.$v.user.password.required && errors.push('Parola este obligatorie');
-                !this.$v.user.password.minLength && errors.push('Parola trebuie să aibă cel puțin 6 caractere');
+                !this.$v.user.password.required && errors.push('Password is required!');
+                !this.$v.user.password.minLength && errors.push('Password must have at least 6 characters!');
                 return errors;
             },
             role_idErrors() {
                 const errors = [];
                 if (!this.$v.user.role_id.$dirty) return errors;
-                !this.$v.user.role_id.required && errors.push('Rolul este obligatoriu');
+                !this.$v.user.role_id.required && errors.push('Role is required!');
                 return errors;
             }
         },
@@ -192,10 +192,10 @@
                         this.openModal = false;
                         this.userAddedNotification();
                     } else if (res.responseType === 'error' && res.errorMessage === 'uniqueName') {
-                        this.errorText = 'nume';
+                        this.errorText = 'name';
                         this.userExistsNotification();
                     } else if (res.responseType === 'error' && res.errorMessage === 'uniqueEmail') {
-                        this.errorText = 'email';
+                        this.errorText = 'e-mail';
                         this.userExistsNotification();
                     }
                 });

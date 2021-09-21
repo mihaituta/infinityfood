@@ -7,11 +7,11 @@
         <v-toolbar-items class="hidden-sm-and-down">
             <v-btn color="" flat to="/">
                 <v-icon class="pr-2">restaurant</v-icon>
-                Restaurante
+                Restaurants
             </v-btn>
             <v-btn color="" flat to="/despre-noi">
                 <v-icon class="pr-2">people</v-icon>
-                Despre noi
+                About us
             </v-btn>
             <v-btn color="" flat to="/contact">
                 <v-icon class="pr-2">mail</v-icon>

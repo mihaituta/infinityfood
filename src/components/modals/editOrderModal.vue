@@ -35,8 +35,8 @@
                     </v-card-text>
                     <v-card-actions class="pb-3 pt-0 mt-0 justify-center">
 
-                        <v-btn color="error" @click.stop="openModal=false">Închide</v-btn>
-                        <v-btn color="primary" @click.prevent="onSubmit">Modifică</v-btn>
+                        <v-btn color="error" @click.stop="openModal=false">Close</v-btn>
+                        <v-btn color="primary" @click.prevent="onSubmit">Update</v-btn>
                     </v-card-actions>
                 </v-form>
             </v-card>
@@ -59,12 +59,12 @@
                     [
                         {
                             icon: 'schedule',
-                            text: 'În progres',
+                            text: 'In progress',
                             value: 0
                         },
                         {
                             icon: 'check_circle',
-                            text: 'Livrat',
+                            text: 'Delivered',
                             value: 1
                         }
                     ],
