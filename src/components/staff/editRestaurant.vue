@@ -238,7 +238,7 @@
                             </v-container>
                             <v-card-actions class="pb-3">
                                 <v-spacer></v-spacer>
-                                <v-btn large class="editBtn pr-3 pl-3" color="primary" @click.prevent="onSubmit">Modifică</v-btn>
+                                <v-btn large class="editBtn pr-3 pl-3" color="primary" @click.prevent="onSubmit">Update</v-btn>
                             </v-card-actions>
                         </v-card-text>
                     </v-form>
