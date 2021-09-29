@@ -87,6 +87,7 @@ const actions = {
                 console.log(error);
             });
     },
+
     deleteMenu({commit}, id) {
         return axios.delete(process.env.VUE_APP_API_URL+'/staff/menu/' + id)
             .then(res => {

@@ -176,7 +176,7 @@
     .wrapper {
         margin: 0;
         padding: 0;
-        background-image: url('../assets/restaurantsListBg.png');
+        background-image: url('../assets/restaurantsListBg.jpg');
         background-attachment: fixed;
         background-size: cover;
     }

@@ -80,7 +80,7 @@ export default {
   color: white;
   text-shadow: 3px 3px black;
   width: 100%;
-  background-image: url('../assets/aboutbgdark.png');
+  background-image: url('../assets/aboutbgdark.jpg');
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;

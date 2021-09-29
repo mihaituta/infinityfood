@@ -542,7 +542,7 @@
 
 <style scoped>
     .wrapper {
-        background-image: url('../../assets/editRestaurantBg.png');
+        background-image: url('../../assets/editRestaurantBg.jpg');
         background-attachment: fixed;
         background-size: cover;
     }

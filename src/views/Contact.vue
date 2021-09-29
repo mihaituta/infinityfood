@@ -93,7 +93,7 @@ export default {
   color: white;
   text-shadow: 3px 3px black;
   width: 100%;
-  background-image: url('../assets/contactbgdark.png');
+  background-image: url('../assets/contactbgdark.jpg');
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;

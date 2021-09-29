@@ -230,7 +230,7 @@
     }
 
     .wrapper {
-        background-image: url('../../assets/loggedPagesBg.png');
+        background-image: url('../../assets/loggedPagesBg.jpg');
         background-attachment: fixed;
         background-size: cover;
         height: 100%;
