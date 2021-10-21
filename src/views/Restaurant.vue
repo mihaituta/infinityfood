@@ -532,7 +532,6 @@ export default {
     });
 
     window.addEventListener('scroll', this.handleScroll);
-
   },
 
   destroyed() {
