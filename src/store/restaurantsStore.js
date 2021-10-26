@@ -1,6 +1,7 @@
 import axios from '../axios-auth';
 
 const state = {
+    loading: true,
     restaurants: [
         {
             id: null,
@@ -59,6 +60,9 @@ const state = {
 };
 
 const mutations = {
+    setLoading(state,payload){
+      state.loading = payload
+    },
     getRestaurantMenus(state, payload) {
         state.menus = payload;
     },
@@ -106,6 +110,7 @@ const actions = {
                 });
                 commit('getRestaurants', restaurants);
                 commit('getRestaurantCities', res.data.data.cities);
+                commit('setLoading', false)
             })
             .catch(error => console.log(error));
     },
@@ -255,6 +260,7 @@ const actions = {
 };
 
 const getters = {
+    loading: (state) => state.loading,
     restaurants(state) {
         return state.restaurants;
     },
