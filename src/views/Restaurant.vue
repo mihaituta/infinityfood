@@ -396,8 +396,7 @@ export default {
       setTimeout(() => {
         this.addNotification = true;
       }, 100);
-    }
-    ,
+    },
     onSubmit() {
 
       if (!this.$refs.form.validate()) {
@@ -434,15 +433,13 @@ export default {
           this.items = [];
         }
       });
-    }
-    ,
+    },
 
     order() {
       this.orderNow = true;
       if (this.orderNow)
         this.$vuetify.goTo('.orderSection', this.options);
     },
-
 
     scrollToEnd() {
       document.querySelector('.orderItems').scrollTop = document.querySelector('.orderItems').scrollHeight;
@@ -459,24 +456,24 @@ export default {
         this.totalPrice += menu.price;
         this.itemsLengthChanged = true;
       }
-    }
-    ,
+    },
+
     addMore(item) {
       item.nr++;
       this.totalPrice += item.price;
-    }
-    ,
+    },
+
     removeItem(item) {
       item.nr--;
       this.totalPrice -= item.price;
       if (item.nr === 0)
         this.items.splice(this.items.indexOf(item), 1);
-    }
-    ,
+    },
+
     getIcon(type) {
       return this.icons[type];
-    }
-    ,
+    },
+
     handleScroll() {
       let scrolled = window.pageYOffset;
       let background = document.querySelector(".wrap");
@@ -522,6 +519,7 @@ export default {
       this.itemsLengthChanged = false;
     }
   },
+
   created() {
     window.scrollTo(0, 0);
 
@@ -535,6 +533,7 @@ export default {
   },
 
   destroyed() {
+    this.$store.commit('clearRestaurant');
     window.removeEventListener('scroll', this.handleScroll);
   },
 
