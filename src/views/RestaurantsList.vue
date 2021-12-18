@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" style="height: 100%">
     <v-layout justify-center row>
       <v-flex xs12 sm10 md10 lg12 xl8>
         <v-container class="mb-4">
@@ -60,9 +60,9 @@
                         </div>
                       </v-flex>
                       <v-flex>
-                                            <span class="body-1 pt-1 font-weight-light text-truncate">
-                                                {{ restaurant.previewDescription }}
-                                             </span>
+                        <span class="body-1 pt-1 font-weight-light text-truncate">
+                          {{ restaurant.previewDescription }}
+                        </span>
                       </v-flex>
                     </v-layout>
                   </v-card-title>
@@ -73,9 +73,8 @@
 
           <v-container style="width: 85%" class="text-xs-center pb-0 pt-0">
             <transition name="notFound">
-              <div v-if="loading" class="data-fetch">
-                <div class="notFound">Loading restaurants. Please wait...
-                </div>
+              <div v-if="loading" class="loading-data-container">
+                <div class="notFound">Loading restaurants. Please wait...</div>
                 <v-progress-circular
                     class="loading"
                     :size="80"
@@ -172,14 +171,16 @@ export default {
 </script>
 
 <style scoped>
-.data-fetch{
+.loading-data-container {
   margin-top: 1.5rem;
 }
-.loading{
+
+.loading {
   margin-top: 2rem;
 }
 
 .notFound {
+  margin-top: 2rem;
   font-size: 30px;
   color: #5f6762;
 }
@@ -200,6 +201,7 @@ export default {
   background-image: url('../assets/restaurantsListBg.jpg');
   background-attachment: fixed;
   background-size: cover;
+  height: 100%;
 }
 
 .v-text-field .v-label {

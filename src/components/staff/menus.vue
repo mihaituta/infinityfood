@@ -110,7 +110,6 @@
     import deleteModal from '../modals/deleteModal';
     import * as easings from 'vuetify/es5/util/easing-patterns'
 
-
     export default {
         data() {
             return {

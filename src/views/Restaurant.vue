@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100%">
     <restaurant-header/>
     <v-snackbar
         v-model="addNotification"
@@ -37,7 +37,6 @@
           <div style="color: #434543">
             <div class="contentText mb-4">{{ restaurant.aboutText }}</div>
           </div>
-
         </v-flex>
       </v-layout>
     </v-container>

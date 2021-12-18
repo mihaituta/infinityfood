@@ -27,7 +27,7 @@ const router = new Router({
             component: RestaurantsList
         },
         {
-            path: '/despre-noi',
+            path: '/about',
             name: 'about',
             component: About
         },
@@ -42,19 +42,19 @@ const router = new Router({
             component: Restaurant
         },
         {
-            path: '/admin/utilizatori',
+            path: '/admin/users',
             name: 'users',
             component: Users,
             meta: {requiresAuth: true, adminAuth: true, staffAuth: false}
         },
         {
-            path: '/admin/restaurante',
+            path: '/admin/restaurants',
             name: 'restaurants',
             component: Restaurants,
             meta: {requiresAuth: true, adminAuth: true, staffAuth: false}
         },
         {
-            path: '/staff/meniuri',
+            path: '/staff/menus',
             name: 'menus',
             component: Menus,
             meta: {requiresAuth: true, adminAuth: false, staffAuth: true}
@@ -66,7 +66,7 @@ const router = new Router({
             meta: {requiresAuth: true, adminAuth: false, staffAuth: true}
         },
         {
-            path: '/staff/comenzi',
+            path: '/staff/orders',
             name: 'orders',
             component: Orders,
             meta: {requiresAuth: true, adminAuth: false, staffAuth: true}

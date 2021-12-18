@@ -30,7 +30,7 @@
               flat
               round
               @click.native="scrollToTop"
-              to="/despre-noi">
+              to="/about">
             <v-icon class="pr-2">people</v-icon>
             About us
           </v-btn>
@@ -62,13 +62,6 @@
 
 <script>
 export default {
-  data: () => ({
-    links: [
-      'Acasă',
-      'Despre noi',
-      'Contact',
-    ]
-  }),
   methods: {
     scrollToTop() {
       window.scrollTo(0, 0);
@@ -80,5 +73,10 @@ export default {
 <style scoped>
 .text {
   font-size: 17px;
+}
+
+.footer{
+  bottom: 0;
+  width: 100%;
 }
 </style>

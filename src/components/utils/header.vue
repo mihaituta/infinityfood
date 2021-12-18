@@ -9,7 +9,7 @@
         <v-icon class="pr-2">restaurant</v-icon>
         Restaurants
       </v-btn>
-      <v-btn color="" flat to="/despre-noi">
+      <v-btn color="" flat to="/about">
         <v-icon class="pr-2">people</v-icon>
         About us
       </v-btn>
