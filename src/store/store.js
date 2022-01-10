@@ -49,7 +49,7 @@ export default new Vuex.Store({
                         role_id: res.data.data.role_id
                     });
                     if (state.user.role_id === 'Admin')
-                        router.replace('/admin/utilizatori');
+                        router.replace('/admin/users');
 
                     if (state.user.role_id === 'Staff')
                         router.replace('/staff/restaurant');
